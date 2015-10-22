@@ -1,6 +1,6 @@
 var elixir = require('laravel-elixir'),
     liveReload = require('gulp-livereload'),
-    clean = require('gulp-clean'),
+    clean = require('rimraf'),
     gulp = require('gulp');
 
 
@@ -14,7 +14,7 @@ config.bower_path = config.assets_path + '/../bower_components';
 //CAMINHO DOS ARQUIVOS DE JAVASCRIPT E JAVASCRIPT DE TERCEIROS QUE VAO FICAR NA PASTA PUBLIC
 config.build_path_js = config.build_path + '/js';
 config.build_vendor_path_js = config.build_path_js + '/vendor';
-config.build_path_js = [
+config.vendor_path_js = [
     config.bower_path + '/jquery/dist/jquery.min.js',
     config.bower_path + '/bootstrap/dist/js/bootstrap.min.js',
     config.bower_path + '/angular/angular.min.js',
@@ -23,28 +23,71 @@ config.build_path_js = [
     config.bower_path + '/angular-animate/angular-animate.min.js',
     config.bower_path + '/angular-messages/angular-messages.min.js',
     config.bower_path + '/angular-bootstrap/ui-bootstrap.min.js',
-    config.bower_path + '/angular-strap/modules/navbar.min.js',
+    config.bower_path + '/angular-strap/dist/modules/navbar.min.js'
 ];
 
 //CAMINHO DOS ARQUIVOS DE CSS E CSS DE TERCEIROS QUE VAO FICAR NA PASTA PUBLIC
 config.build_path_css = config.build_path + '/css';
 config.build_vendor_path_css = config.build_path_css + '/vendor';
-config.build_path_css = [
+config.vendor_path_css = [
     config.bower_path + '/bootstrap/dist/css/bootstrap.min.css',
-    config.bower_path + '/bootstrap/dist/css/bootstrap-theme.min.css',
+    config.bower_path + '/bootstrap/dist/css/bootstrap-theme.min.css'
 ];
 
-/*
- |--------------------------------------------------------------------------
- | Elixir Asset Management
- |--------------------------------------------------------------------------
- |
- | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Sass
- | file for our application, as well as publishing vendor resources.
- |
- */
+//CAMINHO DOS ARQUIVOS DE HTML E HTML DE TERCEIROS QUE VAO FICAR NA PASTA PUBLIC
+config.build_path_html = config.build_path + '/views';
 
-elixir(function(mix) {
-    mix.sass('app.scss');
+gulp.task('copy-html', function () {
+    gulp.src([
+        config.assets_path + '/js/views/**/*.html'
+    ])
+        .pipe(gulp.dest(config.build_path_html))
+        .pipe(liveReload());
+});
+
+gulp.task('copy-styles', function(){
+    gulp.src([
+        config.assets_path + '/css/**/*.css'
+    ])
+        .pipe(gulp.dest(config.build_path_css))
+        .pipe(liveReload());
+
+    //TERCEIROS
+    gulp.src(config.vendor_path_css)
+        .pipe(gulp.dest(config.build_vendor_path_css))
+        .pipe(liveReload());
+});
+
+gulp.task('copy-scripts', function(){
+    gulp.src([
+     config.assets_path + '/js/**/*.js'
+    ])
+        .pipe(gulp.dest(config.build_path_js))
+        .pipe(liveReload());
+
+    //TERCEIROS
+    gulp.src(config.vendor_path_js)
+        .pipe(gulp.dest(config.build_vendor_path_js))
+        .pipe(liveReload());
+});
+
+gulp.task('clear-build-folder', function(){
+    clean.sync(config.build_path);
+});
+
+gulp.task('default', ['clear-build-folder'], function(){
+    gulp.start('copy-html')
+    elixir(function(mix){
+        mix.styles(config.vendor_path_css.concat([config.assets_path + '/css/**/*.css']),
+        'public/css/all.css', config.assets_path);
+        mix.scripts(config.vendor_path_js.concat([config.assets_path + '/js/**/*.js']),
+            'public/js/all.js', config.assets_path);
+        mix.version(['js/all.js', 'css/all.css']);
+    });
+});
+
+gulp.task('watch-dev', ['clear-build-folder'], function(){
+    liveReload.listen();
+    gulp.start('copy-styles', 'copy-scripts');
+    gulp.watch(config.assets_path + '/**', ['copy-styles', 'copy-scripts', 'copy-html']);
 });

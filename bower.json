@@ -1,0 +1,31 @@
+{
+  "name": "lince",
+  "description": "",
+  "main": "",
+  "authors": [
+    "JhonnyHRocha <jonathan@jhrdesenvolvimentos.com>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "resources/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.7",
+    "angular-route": "~1.4.7",
+    "angular-resource": "~1.4.7",
+    "angular-animate": "~1.4.7",
+    "angular-messages": "~1.4.7",
+    "angular-bootstrap": "~0.14.2",
+    "angular-strap": "~2.3.3",
+    "bootstrap": "~3.3.5",
+    "angular-translate": "~2.8.1",
+    "angular-ui-router": "ui-route#~0.2.15"
+  }
+}

@@ -29,6 +29,10 @@ app.config(['$routeProvider','OAuthProvider','OAuthTokenProvider' ,'appConfigPro
         .when('/clientes',{
             templateUrl: 'build/views/cliente/lista.html',
             controller: 'ClienteListaController'
+        })
+        .when('/clientes/novo',{
+            templateUrl: 'build/views/cliente/novo.html',
+            controller: 'ClienteNovoController'
         });
 
     OAuthProvider.configure({

@@ -84,6 +84,7 @@
 		<script src="{{asset('build/js/controllers/home.js')}}"></script>
 		<script src="{{asset('build/js/controllers/login.js')}}"></script>
 		<script src="{{asset('build/js/controllers/cliente/clienteLista.js')}}"></script>
+		<script src="{{asset('build/js/controllers/cliente/clienteNovo.js')}}"></script>
 
 		<!-- SERVICES -->
 		<script src="{{asset('build/js/services/cliente.js')}}"></script>

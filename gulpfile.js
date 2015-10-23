@@ -55,7 +55,7 @@ gulp.task('copy-font', function () {
 
 gulp.task('copy-image', function () {
     gulp.src([
-        config.assets_path + '/img/**/*'
+        config.assets_path + '/images/**/*'
     ])
         .pipe(gulp.dest(config.build_path_images))
         .pipe(liveReload());

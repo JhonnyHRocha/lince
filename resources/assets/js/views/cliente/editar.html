@@ -8,7 +8,7 @@
                     <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="save()">
 
                         <div class="form-group" ng-class="{'has-error': !form.nome.$valid && form.nome.$touched}">
-                            <label class="col-md-4 control-label">Nome do cliente</label>
+                            <label class="col-md-4 control-label">Editar Cliente</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="nome" ng-model="clientes.nome" required>
                                 <div ng-messages="form.nome.$error" class="help-block" ng-show="form.nome.$touched">
@@ -120,7 +120,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                                <button type="submit" class="btn btn-primary">Atualizar</button>
 
                             </div>
                         </div>

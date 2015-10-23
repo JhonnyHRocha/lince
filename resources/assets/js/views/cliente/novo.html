@@ -50,7 +50,7 @@
                         <div class="form-group" ng-class="{'has-error': !form.email.$valid && form.email.$touched}">
                             <label class="col-md-4 control-label">E-Mail</label>
                             <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" ng-model="clientes.email" required>
+                                <input type="email" class="form-control" name="email" ng-model="clientes.email_cobranca" required>
                                 <div ng-messages="form.email.$error" class="help-block" ng-show="form.email.$touched">
                                     <div ng-message="required">Campo Obrigatório</div>
                                     <div ng-message="email">E-Mail Inválido</div>

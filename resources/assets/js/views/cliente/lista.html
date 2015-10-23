@@ -11,6 +11,7 @@
                             <th>CPF / CNPJ</th>
                             <th>Tipo de Cliente</th>
                             <th>Telefone</th>
+                            <th>Ação</th>
                         </tr>
                         </thead>
 
@@ -20,6 +21,10 @@
                                 <td>{{cliente.cpf_cnpj}}</td>
                                 <td>{{cliente.tipo_pessoa}}</td>
                                 <td>{{cliente.telefone_1}}</td>
+                                <td>
+                                    <a ng-href="#/clientes/{{cliente.id}}/editar">Editar</a>
+                                    <a ng-href="#/clientes/{{cliente.id}}/excluir">| Excluir</a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

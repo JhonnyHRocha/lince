@@ -33,6 +33,14 @@ app.config(['$routeProvider','OAuthProvider','OAuthTokenProvider' ,'appConfigPro
         .when('/clientes/novo',{
             templateUrl: 'build/views/cliente/novo.html',
             controller: 'ClienteNovoController'
+        })
+        .when('/clientes/:id/editar',{
+            templateUrl: 'build/views/cliente/editar.html',
+            controller: 'ClienteEditarController'
+        })
+        .when('/clientes/:id/excluir',{
+            templateUrl: 'build/views/cliente/excluir.html',
+            controller: 'ClienteExcluirController'
         });
 
     OAuthProvider.configure({

@@ -16,46 +16,61 @@ app.provider('appConfig', function(){
     }
 });
 
-app.config(['$routeProvider','OAuthProvider','OAuthTokenProvider' ,'appConfigProvider', function ($routeProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider) {
-    $routeProvider
-        .when('/login',{
-            templateUrl: 'build/views/login.html',
-            controller: 'LoginController'
-        })
-        .when('/home',{
-            templateUrl: 'build/views/home.html',
-            controller: 'HomeController'
-        })
-        .when('/clientes',{
-            templateUrl: 'build/views/cliente/lista.html',
-            controller: 'ClienteListaController'
-        })
-        .when('/clientes/novo',{
-            templateUrl: 'build/views/cliente/novo.html',
-            controller: 'ClienteNovoController'
-        })
-        .when('/clientes/:id/editar',{
-            templateUrl: 'build/views/cliente/editar.html',
-            controller: 'ClienteEditarController'
-        })
-        .when('/clientes/:id/excluir',{
-            templateUrl: 'build/views/cliente/excluir.html',
-            controller: 'ClienteExcluirController'
+app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvider' ,'appConfigProvider',
+    function ($routeProvider, $httpProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider) {
+
+        $httpProvider.defaults.transformResponse = function(data,headers){
+            var headersGetter = headers();
+
+            if(headersGetter['content-type'] == 'application/json' || headersGetter['content-type'] == 'text/json') {
+                var dataJson = JSON.parse(data);
+                if(dataJson.hasOwnProperty('data')){
+                    dataJson = dataJson.data;
+                }
+                return dataJson;
+            }
+            return data;
+        };
+
+        $routeProvider
+            .when('/login',{
+                templateUrl: 'build/views/login.html',
+                controller: 'LoginController'
+            })
+            .when('/home',{
+                templateUrl: 'build/views/home.html',
+                controller: 'HomeController'
+            })
+            .when('/clientes',{
+                templateUrl: 'build/views/cliente/lista.html',
+                controller: 'ClienteListaController'
+            })
+            .when('/clientes/novo',{
+                templateUrl: 'build/views/cliente/novo.html',
+                controller: 'ClienteNovoController'
+            })
+            .when('/clientes/:id/editar',{
+                templateUrl: 'build/views/cliente/editar.html',
+                controller: 'ClienteEditarController'
+            })
+            .when('/clientes/:id/excluir',{
+                templateUrl: 'build/views/cliente/excluir.html',
+                controller: 'ClienteExcluirController'
+            });
+
+        OAuthProvider.configure({
+            baseUrl: appConfigProvider.config.baseUrl,
+            clientId: 'appid1',
+            clientSecret: 'secret', //opcional
+            grantPath: 'oauth/access_token'
         });
 
-    OAuthProvider.configure({
-        baseUrl: appConfigProvider.config.baseUrl,
-        clientId: 'appid1',
-        clientSecret: 'secret', //opcional
-        grantPath: 'oauth/access_token'
-    });
-
-    OAuthTokenProvider.configure({
-        name: 'token',
-        options: {
-            secure: false
-        }
-    });
+        OAuthTokenProvider.configure({
+            name: 'token',
+            options: {
+                secure: false
+            }
+        });
 
 }]);
 

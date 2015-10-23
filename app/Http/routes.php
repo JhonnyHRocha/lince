@@ -30,7 +30,7 @@ Route::group(['middleware'=>'oauth'], function(){
     Route::resource('revendedor', 'RevendedoresController', ['except'=> ['create', 'edit']]);
     Route::resource('venda', 'VendasController', ['except'=> ['create', 'edit']]);
 
-
+    Route::get('user/authenticated', 'UserController@authenticated');
     //EXEMPLO DE CHECAGEM PELO middleware
     /*Route::group(['middleware' => 'CheckVendaOwner'], function(){
         Route::resource('venda', 'VendasController', ['except'=> ['create', 'edit']]);

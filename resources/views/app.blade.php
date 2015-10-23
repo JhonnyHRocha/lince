@@ -7,8 +7,10 @@
 	<title>Laravel</title>
 
 	@if(Config::get('app.debug'))
-		<link href="{{ asset('build/css/vendor/bootstrap.min.css') }}" rel="stylesheet"/>
-		<link href="{{ asset('build/css/vendor/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/animate.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/bootstrap.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/animate.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/style.css') }}" rel="stylesheet"/>
 	@else
 		<link href="{{ elixir('css/all.css') }}" rel="stylesheet"/>
 	@endif
@@ -90,6 +92,7 @@
 
 		<!-- SERVICES -->
 		<script src="{{asset('build/js/services/cliente.js')}}"></script>
+		<script src="{{asset('build/js/services/user.js')}}"></script>
 	@else
 		<script src="{{elixir('js/all.js')}}"></script>
 	@endif

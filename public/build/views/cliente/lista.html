@@ -22,7 +22,8 @@
                                 <td>{{cliente.tipo_pessoa}}</td>
                                 <td>{{cliente.telefone_1}}</td>
                                 <td>
-                                    <a ng-href="#/clientes/{{cliente.id}}/editar">Editar</a>
+                                    <button ng-click="editCliente()">Editar</button>
+                                    <a ng-href="#/clientes/{{cliente.id}}/editar" >Editar</a>
                                     <a ng-href="#/clientes/{{cliente.id}}/excluir">| Excluir</a>
                                 </td>
                             </tr>

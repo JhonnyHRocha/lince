@@ -35,7 +35,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Laravel</a>
+				<a class="navbar-brand" href="#">Lince</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="navbar">
@@ -89,9 +89,17 @@
 		<script src="{{asset('build/js/controllers/cliente/clienteNovo.js')}}"></script>
 		<script src="{{asset('build/js/controllers/cliente/clienteEditar.js')}}"></script>
 		<script src="{{asset('build/js/controllers/cliente/clienteExcluir.js')}}"></script>
+		<script src="{{asset('build/js/controllers/revendedor/revendedorLista.js')}}"></script>
+		<script src="{{asset('build/js/controllers/revendedor/revendedorNovo.js')}}"></script>
+		<script src="{{asset('build/js/controllers/revendedor/revendedorEditar.js')}}"></script>
+		<script src="{{asset('build/js/controllers/revendedor/revendedorExcluir.js')}}"></script>
+
+		<!-- FILTROS -->
+		<script src="{{asset('build/js/filters/date-br.js')}}"></script>
 
 		<!-- SERVICES -->
 		<script src="{{asset('build/js/services/cliente.js')}}"></script>
+		<script src="{{asset('build/js/services/revendedor.js')}}"></script>
 		<script src="{{asset('build/js/services/user.js')}}"></script>
 	@else
 		<script src="{{elixir('js/all.js')}}"></script>

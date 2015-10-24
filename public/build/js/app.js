@@ -1,6 +1,7 @@
-var app = angular.module('app',['ngRoute','angular-oauth2','app.controllers', 'app.services']);
+var app = angular.module('app',['ngRoute','angular-oauth2','app.controllers', 'app.services', 'app.filters']);
 
 angular.module('app.controllers',['ngMessages','angular-oauth2']);
+angular.module('app.filters',[]);
 angular.module('app.services',['ngResource']);
 
 app.provider('appConfig', function(){
@@ -33,14 +34,19 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
         };
 
         $routeProvider
+            //LOGIN
             .when('/login',{
                 templateUrl: 'build/views/login.html',
                 controller: 'LoginController'
             })
+
+            //HOME
             .when('/home',{
                 templateUrl: 'build/views/home.html',
                 controller: 'HomeController'
             })
+
+            //CLIENTES
             .when('/clientes',{
                 templateUrl: 'build/views/cliente/lista.html',
                 controller: 'ClienteListaController'
@@ -56,6 +62,24 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
             .when('/clientes/:id/excluir',{
                 templateUrl: 'build/views/cliente/excluir.html',
                 controller: 'ClienteExcluirController'
+            })
+
+            //REVENDEDORES
+            .when('/revendedores',{
+                templateUrl: 'build/views/revendedor/lista.html',
+                controller: 'RevendedoresListaController'
+            })
+            .when('/revendedores/novo',{
+                templateUrl: 'build/views/revendedor/novo.html',
+                controller: 'RevendedoresNovoController'
+            })
+            .when('/revendedores/:id/editar',{
+                templateUrl: 'build/views/revendedor/editar.html',
+                controller: 'RevendedoresEditarController'
+            })
+            .when('/revendedores/:id/excluir',{
+                templateUrl: 'build/views/revendedor/excluir.html',
+                controller: 'RevendedoresExcluirController'
             });
 
         OAuthProvider.configure({

@@ -2,6 +2,7 @@
 
 namespace Lince\Repositories;
 
+use Lince\Presenters\RevendedoresPresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Lince\Repositories\RevendedoresRepository;
@@ -21,6 +22,10 @@ class RevendedoresRepositoryEloquent extends BaseRepository implements Revendedo
     public function model()
     {
         return Revendedores::class;
+    }
+
+    public function presenter(){
+        return RevendedoresPresenter::class;
     }
 
     /**

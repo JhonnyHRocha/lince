@@ -14,11 +14,11 @@ class CreateRevendedoresTable extends Migration
     {
         Schema::create('revendedores', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('id_usuario');
+            $table->bigInteger('id_usuario')->nullable();;
             $table->string('nome', 50);
             $table->string('email', 50);
             $table->integer('consultas_disponiveis');
-            $table->integer('status');
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

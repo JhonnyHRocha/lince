@@ -1,4 +1,9 @@
 angular.module('app.controllers')
     .controller('ClienteListaController', ['$scope','Cliente',function($scope,Cliente){
         $scope.clientes = Cliente.query();
+
+        $scope.editCustomer = function () {
+            $scope.customer = $scope.currentCustomer;
+            $scope.open('lg');
+        }
     }]);

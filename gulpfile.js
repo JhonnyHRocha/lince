@@ -28,6 +28,12 @@ config.vendor_path_js = [
     config.bower_path + '/query-string/query-string.js',
     config.bower_path + '/angular-oauth2/dist/angular-oauth2.min.js',
 
+    config.bower_path + '/bootstrap/dist/js/bootstrap.min.js',
+    config.bower_path + '/metisMenu/dist/metisMenu.min.js',
+    config.bower_path + '/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js',
+    config.bower_path + '/raphael/raphael-min.js',
+    config.bower_path + '/morrisjs/morris.min.js',
+    config.bower_path + '/morrisjs/morris-data.js',
 ];
 
 //CAMINHO DOS ARQUIVOS DE CSS E CSS DE TERCEIROS QUE VAO FICAR NA PASTA PUBLIC
@@ -35,7 +41,14 @@ config.build_path_css = config.build_path + '/css';
 config.build_vendor_path_css = config.build_path_css + '/vendor';
 config.vendor_path_css = [
     config.bower_path + '/bootstrap/dist/css/bootstrap.min.css',
-    config.bower_path + '/bootstrap/dist/css/bootstrap-theme.min.css'
+    config.bower_path + '/bootstrap/dist/css/bootstrap-theme.min.css',
+
+    config.bower_path + '/metisMenu/dist/metisMenu.min.css',
+    config.bower_path + '/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css',
+    config.bower_path + '/startbootstrap-sb-admin-2/dist/css/timeline.css',
+    config.bower_path + '/morrisjs/morris.css',
+    config.bower_path + '/font-awesome/css/font-awesome.min.css',
+    config.bower_path + '/bootstrap-social/bootstrap-social.css',
 ];
 
 //CAMINHO DOS ARQUIVOS DE HTML E HTML DE TERCEIROS QUE VAO FICAR NA PASTA PUBLIC

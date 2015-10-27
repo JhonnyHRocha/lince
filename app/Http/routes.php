@@ -20,8 +20,8 @@ Route::post('oauth/access_token', function() {
     return Response::json(Authorizer::issueAccessToken());
 });
 
-Route::get('admin', function () {
-    return view('admin_template');
+Route::get('login', function () {
+    return view('login');
 });
 
 Route::group(['middleware'=>'oauth'], function(){

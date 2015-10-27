@@ -2746,7 +2746,7 @@ h3,
   .header-global .brand {
     color: #95BBBB; }
   .header-global .top {
-    background: #313540;
+    background: #000000;
     color: #ABAEB3; }
   .header-global .bottom {
     padding: 7px 0;
@@ -2767,7 +2767,7 @@ h3,
       .header-global .menu li a {
         display: block;
         padding: 10px 10px;
-        border-bottom: 2px solid #313540;
+        border-bottom: 2px solid #000000;
         color: #ABAEB3;
         -webkit-transition: all 0.6s ease;
         -o-transition: all 0.6s ease;
@@ -2816,7 +2816,7 @@ h3,
       background: #030303;
       color: #FFFFFD; }
   .header-global .userinfo {
-    display: block;
+    display: inline;
     margin: 4px;
     padding: 0 10px;
     color: #D9D7D8;

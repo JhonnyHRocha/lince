@@ -27,6 +27,8 @@ config.vendor_path_js = [
     config.bower_path + '/angular-cookies/angular-cookies.min.js',
     config.bower_path + '/query-string/query-string.js',
     config.bower_path + '/angular-oauth2/dist/angular-oauth2.min.js',
+    config.bower_path + '/angular-http-auth/src/http-auth-interceptor.js',
+    config.bower_path + '/angularUtils-pagination/dirPagination.js',
 
     config.bower_path + '/bootstrap/dist/js/bootstrap.min.js',
     config.bower_path + '/metisMenu/dist/metisMenu.min.js',

@@ -22,4 +22,11 @@ class ClienteRepositoryEloquent extends BaseRepository implements ClienteReposit
     public function presenter(){
         return ClientePresenter::class;
     }
+
+    //BUSCA O CLIENTE JUNTO AO ID DO USUARIO E APLICA A PAGINAÇÃO
+    public function findOwner($userId, $limit = null, $columns = array()){
+        return $this->scopeQuery(function($query) use ($userId){
+            return $query->select('clientes.*')->where('id_revendedor', '=', $userId);
+        })->paginate($limit,$columns);
+    }
 }

@@ -3,9 +3,12 @@
 namespace Lince\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
 
-class Cliente extends Model
+class Cliente extends Model implements Transformable
 {
+    use TransformableTrait;
     protected $fillable = [
         'nome',
         'cpf_cnpj',
@@ -35,5 +38,4 @@ class Cliente extends Model
     public function users(){
         return $this->belongsToMany(User::class, 'clientes_usuario', 'id_cliente', 'id');
     }
-
 }

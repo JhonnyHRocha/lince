@@ -7,10 +7,10 @@
 	<title>Lince</title>
 
 	@if(Config::get('app.debug'))
-		<link href="{{ asset('build/css/app.css') }}" rel="stylesheet"/>
-		<link href="{{ asset('build/css/components.css') }}" rel="stylesheet"/>
-		<link href="{{ asset('build/css/flaticon.css') }}" rel="stylesheet"/>
 		<link href="{{ asset('build/css/font-awesome.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/flaticon.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/components.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/app.css') }}" rel="stylesheet"/>
 
 		<!--<link href="{{ asset('build/css/vendor/bootstrap.min.css') }}" rel="stylesheet"/>
 		<link href="{{ asset('build/css/vendor/metisMenu.min.css') }}" rel="stylesheet"/>
@@ -110,6 +110,7 @@
 		<script src="{{asset('build/js/controllers/home.js')}}"></script>
 		<script src="{{asset('build/js/controllers/login.js')}}"></script>
 		<script src="{{asset('build/js/controllers/loginModal.js')}}"></script>
+		<script src="{{asset('build/js/controllers/cliente/clienteDashboard.js')}}"></script>
 		<script src="{{asset('build/js/controllers/cliente/clienteLista.js')}}"></script>
 		<script src="{{asset('build/js/controllers/cliente/clienteNovo.js')}}"></script>
 		<script src="{{asset('build/js/controllers/cliente/clienteEditar.js')}}"></script>

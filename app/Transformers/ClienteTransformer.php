@@ -29,6 +29,15 @@ class ClienteTransformer extends TransformerAbstract
             'telefone_2'        => $cliente->telefone_2,
             'email'             => $cliente->email_cobranca,
             'skype'             => $cliente->skype,
+            'numero_usuarios'   => $cliente->numero_usuarios,
+            'valor_mensal'      => $cliente->valor_mensal,
+            'data_contratacao'  => $cliente->data_contratacao,
+            'data_expiracao'    => $cliente->data_exiparacao,
+            'observacao'        => $cliente->observacao,
+            'status'            => $cliente->status,
+            'id_revendedor'     => $cliente->id_revendedor,
+            'consultas_contratado'  => $cliente->consultas_contratado,
+            'consultas_disponiveis' => $cliente->consultas_disponiveis,
         ];
     }
 }

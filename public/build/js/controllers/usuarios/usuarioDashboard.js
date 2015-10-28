@@ -1,11 +1,10 @@
 angular.module('app.controllers')
-    .controller('ClienteDashboardController', ['$scope', '$location', '$routeParams', 'Cliente',function($scope,$location,$routeParams,Cliente){
-        $scope.cliente = [];
-        $scope.totalClientes = 0;
-        $scope.clientesPerPage = 15
+    .controller('usuariosDashboardController', ['$scope', '$location', '$routeParams', 'User',function($scope,$location,$routeParams,User){
+        $scope.usuario = [];
+        $scope.totalUsuarios = 0;
+        $scope.usuariosPerPage = 15
 
         $scope.maxSize = 5;
-        $scope.bigTotalItems = 175;
 
         $scope.pagination = {
             current: 1
@@ -16,19 +15,19 @@ angular.module('app.controllers')
         }
 
 
-        $scope.exibirCliente = function (cliente) {
-            $scope.cliente = cliente;
+        $scope.exibirCliente = function (usuario) {
+            $scope.usuario = usuario;
         };
 
         function getResultsPage(pageNumber){
             Cliente.query({
                 page: pageNumber,
-                orderBy: 'nome',
+                orderBy: 'name',
                 sortedBy: 'desc',
                 limit: $scope.clientesPerPage
             }, function (response) {
-                $scope.clientes = response.data;
-                $scope.totalClientes = response.meta.pagination.total;
+                $scope.usuarios = response.data;
+                $scope.totalUsuarios = response.meta.pagination.total;
             });
         }
 

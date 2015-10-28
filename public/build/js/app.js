@@ -41,7 +41,6 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
 
         $httpProvider.interceptors.push('oauthFixInterceptor');
 
-
         $routeProvider
             //INICIO
             .when('/',{
@@ -112,7 +111,9 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
             .when('/revendedores/:id/excluir',{
                 templateUrl: 'build/views/revendedor/excluir.html',
                 controller: 'RevendedoresExcluirController'
-            });
+            })
+            .otherwise({ redirectTo: '/public' });
+
 
         OAuthProvider.configure({
             baseUrl: appConfigProvider.config.baseUrl,
@@ -127,7 +128,6 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
                 secure: false
             }
         });
-
 }]);
 
 app.run(['$rootScope', '$location', '$http', 'OAuth', function($rootScope, $location, $http, OAuth) {

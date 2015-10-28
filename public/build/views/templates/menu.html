@@ -20,24 +20,24 @@
                                 <i class="flaticon-data-analytics1"></i> Consultas
                             </a>
                         </li>
-                        <li data-match-route="/clientes">
+                        <li data-match-route="/clientes" ng-show="isAdmin() || isDealer()">
                             <a href="#/clientes">
                                 <i class="flaticon-office-worker2"></i> Clientes
                             </a>
                         </li>
 
-                        <li data-match-route="/usuarios">
+                        <li data-match-route="/usuarios" ng-show="isAdmin() || isDealer() || isClient()">
                             <a href="#/usuarios">
                                 <i class="flaticon-office-worker2"></i> Usuários
                             </a>
                         </li>
 
-                        <li data-match-route="/relatorios">
+                        <li data-match-route="/relatorios" ng-show="isAdmin() || isDealer() || isClient()">
                             <a href="#/relatorios">
                                 <i class="flaticon-file94"></i> Relatórios
                             </a>
                         </li>
-                        <li data-match-route="/financeiro">
+                        <li data-match-route="/financeiro" ng-show="isAdmin() || isDealer() || isClient()">
                             <a href="#/financeiro">
                                 <i class="flaticon-checkmark10"></i> Financeiro
                             </a>
@@ -53,7 +53,7 @@
                         </button>
                     </form> <!-- /form-search -->
                 <!--</div>-->
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <a href="" class="userinfo">
                         <i class="avatar flaticon-user7"></i>
                         Olá, {{user.name}}

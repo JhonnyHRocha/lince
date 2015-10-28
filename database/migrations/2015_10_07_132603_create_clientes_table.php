@@ -29,7 +29,7 @@ class CreateClientesTable extends Migration
             $table->string('email_cobranca', 50)->nullable();
             $table->string('skype', 40)->nullable();
             $table->smallInteger('numero_usuarios')->default(0);
-            $table->decimal('valor_mensal',8,2)->default('0,00');
+            $table->decimal('valor_mensal',8,2)->default('0.00');
             $table->date('data_contratacao')->nullable();
             $table->date('data_expiracao')->nullable();
             $table->text('observacao')->nullable();

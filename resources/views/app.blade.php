@@ -11,14 +11,6 @@
 		<link href="{{ asset('build/css/flaticon.css') }}" rel="stylesheet"/>
 		<link href="{{ asset('build/css/components.css') }}" rel="stylesheet"/>
 		<link href="{{ asset('build/css/app.css') }}" rel="stylesheet"/>
-
-		<!--<link href="{{ asset('build/css/vendor/bootstrap.min.css') }}" rel="stylesheet"/>
-		<link href="{{ asset('build/css/vendor/metisMenu.min.css') }}" rel="stylesheet"/>
-		<link href="{{ asset('build/css/vendor/timeline.css') }}" rel="stylesheet"/>
-		<link href="{{ asset('build/css/vendor/sb-admin-2.css') }}" rel="stylesheet"/>
-		<link href="{{ asset('build/css/vendor/morris.css') }}" rel="stylesheet"/>
-		<link href="{{ asset('build/css/vendor/font-awesome.min.css') }}" rel="stylesheet"/>
-		<link href="{{ asset('build/css/vendor/bootstrap-social.css') }}" rel="stylesheet"/>-->
 	@else
 		<link href="{{ elixir('css/all.css') }}" rel="stylesheet"/>
 	@endif
@@ -96,10 +88,6 @@
 		<script src="{{asset('build/js/vendor/angular-oauth2.min.js')}}"></script>
 
 		<script src="{{asset('build/js/vendor/bootstrap.min.js')}}"></script>
-		<script src="{{asset('build/js/vendor/metisMenu.min.js')}}"></script>
-		<script src="{{asset('build/js/vendor/sb-admin-2.js')}}"></script>
-		<script src="{{asset('build/js/vendor/raphael-min.js')}}"></script>
-		<script src="{{asset('build/js/vendor/morris.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/http-auth-interceptor.js')}}"></script>
 		<script src="{{asset('build/js/vendor/dirPagination.js')}}"></script>
 

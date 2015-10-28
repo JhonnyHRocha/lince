@@ -1,8 +1,8 @@
 angular.module('app.controllers')
-    .controller('usuariosDashboardController', ['$scope', '$location', '$routeParams', 'User',function($scope,$location,$routeParams,User){
+    .controller('usuarioDashboardController', ['$scope', '$location', '$routeParams', 'User',function($scope,$location,$routeParams,User){
         $scope.usuario = [];
         $scope.totalUsuarios = 0;
-        $scope.usuariosPerPage = 15
+        $scope.usuariosPerPage = 15;
 
         $scope.maxSize = 5;
 
@@ -12,8 +12,7 @@ angular.module('app.controllers')
 
         $scope.pageChanged = function(newPage){
             getResultsPage(newPage);
-        }
-
+        };
 
         $scope.exibirCliente = function (usuario) {
             $scope.usuario = usuario;

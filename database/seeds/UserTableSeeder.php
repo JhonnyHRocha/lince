@@ -14,10 +14,11 @@ class UserTableSeeder extends Seeder
     public function run(){
         factory(\Lince\Entities\User::class,10)->create([
             'name' => 'Administrador',
-            'email' => 'jonathan',
-            'password' => bcrypt(123456),
+            'email' => 'admin',
+            'password' => bcrypt('admin'),
             'id_cliente' => '0',
             'tipo_usuario' => '1',
+            'status' => '1',
             'remember_token' => str_random(10),
         ]);
 

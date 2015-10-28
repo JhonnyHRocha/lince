@@ -34,6 +34,8 @@ class User extends Model implements AuthenticatableContract,
         'id_cliente',
         'tipo_usuario',
         'password',
+        'status',
+        'data_validade',
     ];
 
     /**

@@ -2763,7 +2763,7 @@ h3,
   .header-global .brand {
     color: #95BBBB; }
   .header-global .top {
-    background: #000000;
+    background: #077A3B;
     /*color: #ABAEB3;*/
     color: #ABAEB3; }
   .header-global .bottom {
@@ -2785,7 +2785,7 @@ h3,
       .header-global .menu li a {
         display: block;
         padding: 10px 10px;
-        border-bottom: 2px solid #000000;
+        border-bottom: 2px solid #077A3B;
         color: #FFFFFD;
         -webkit-transition: all 0.6s ease;
         -o-transition: all 0.6s ease;

@@ -1,0 +1,199 @@
+<section class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-13">
+                <div class="boxed-manager">
+                    <div class="boxed-manager-menu">
+                        <ul class="boxed-manager-menu-nav">
+                            <li class="boxed-manager-menu-nav-header">
+                                <h3 class="h4">
+                                    Clientes
+
+                                    <div class="btn-group pull-right">
+                                        <label class="select-styled select-styled-default select-styled-sm">
+                                            <select>
+                                                <option selected="selected">A</option>
+                                                <option>B</option>
+                                                <option>C</option>
+                                                <option>D</option>
+                                                <option>E</option>
+                                                <option>F</option>
+                                            </select>
+                                        </label>
+
+                                        <a href="#/clientes/novo" class="btn btn-default btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+                                </h3>
+                            </li>
+                                <li class="boxed-manager-menu-nav-item" dir-paginate="cliente in clientes | itemsPerPage: clientesPerPage" total-items="totalClientes" current-page="pagination.current">
+                                <a href="javascript:void(0)" ng-click="exibirCliente(cliente)">
+                                    <header>
+                                        <h4 class="h4 text-boulder">{{ cliente.nome }}</h4>
+                                        <small class="text-upper text-silver">{{ cliente.email}}</small>
+                                    </header>
+                                </a>
+                            </li>
+                            <dir-pagination-controls max-size="maxSize" on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+                        </ul>
+                    </div>
+                    <div class="boxed-manager-main boxed-manager-main-xlg">
+                        <div class="boxed-manager-main-header">
+                            <h4 class="h4">
+                                Dados do cliente
+
+                                <div class="btn-group pull-right">
+                                    <a href="#/clientes/{{cliente.id}}/editar" class="btn btn-default btn-xs" title="Editar">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <a href="#/clientes/{{cliente.id}}/excluir" class="btn btn-danger btn-xs" title="Apagar">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </h4>
+                        </div>
+
+
+                        <div class="boxed-manager-main-body">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <p>
+                                        <strong>Nome:  </strong> {{ cliente.nome }}
+                                    </p>
+                                    <p>
+                                        <strong>Tipo de pessoa:  </strong> {{ cliente.tipo_pessoa }}
+                                    </p>
+                                    <p>
+                                        <strong>Celular:  </strong> {{ cliente.telefone_1 }}
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-envelope-o"></i> {{ cliente.email }}
+                                    </p>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p>
+                                        <strong>CPF / CNPJ:  </strong> {{ cliente.cpf_cnpj }}
+                                    </p>
+                                    <p>
+                                        <strong>Contato:  </strong> {{ cliente.contato }}
+                                    </p>
+                                    <p>
+                                        <strong>Telefone Fixo:  </strong>{{ cliente.telefone_2 }}
+                                    </p>
+                                    <p>
+                                        <i class="fa fa-skype"></i> {{ cliente.skype }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <br/>
+
+                            <div class="boxed-manager-main-body-fluid">
+                                <ul class="list-styled list-styled-alt">
+                                    <li class="list-styled-header list-styled-header-lg text-upper text-center">
+                                        <h4 class="h4">Endereço</h4>
+                                    </li>
+                                </ul>
+                                <div class="boxed-manager-main-body2">
+
+                                    <div class="col-xs-6">
+                                        <p>
+                                            <strong>Logradouro:  </strong> {{ cliente.logradouro }}
+                                        </p>
+                                        <p>
+                                            <strong>Bairro:  </strong> {{ cliente.bairro }}
+                                        </p>
+                                        <p>
+                                            <strong>UF:  </strong> {{ cliente.uf }}
+                                        </p>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <p>
+                                            <strong>Complemento:  </strong> {{ cliente.complemento }}
+                                        </p>
+                                        <p>
+                                            <strong>Cidade:  </strong> {{ cliente.cidade }}
+                                        </p>
+                                        <p>
+                                            <strong>CEP:  </strong>{{ cliente.cep }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="boxed-manager-main-body-fluid">
+                                <ul class="list-styled list-styled-alt">
+                                    <li class="list-styled-header list-styled-header-lg text-upper text-center">
+                                        <h4 class="h4">Sistema</h4>
+                                    </li>
+                                </ul>
+                                <div class="boxed-manager-main-body3">
+
+                                    <div class="col-xs-6">
+                                        <p>
+                                            <strong>Numero de Usuários:  </strong> {{ cliente.numero_usuarios }}
+                                        </p>
+                                        <p>
+                                            <strong>Data de Contratação:  </strong> {{ cliente.data_contratacao }}
+                                        </p>
+                                        <p>
+                                            <strong>Status do Usuário:  </strong> {{ cliente.status }}
+                                        </p>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <p>
+                                            <strong>Valor Mensal:  </strong> {{ cliente.valor_mensal }}
+                                        </p>
+                                        <p>
+                                            <strong>Data de Expiração:  </strong> {{ cliente.data_expiracao }}
+                                        </p>
+                                        <p>
+                                            <strong>Vendedor:  </strong>{{ cliente.id_revendedor }}
+                                        </p>
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <p>
+                                            <strong>Observações:  </strong> {{ cliente.uf }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="boxed-manager-main-body-fluid">
+                                <ul class="list-styled list-styled-alt">
+                                    <li class="list-styled-header list-styled-header-lg text-upper text-center">
+                                        <h4 class="h4">Usuários</h4>
+                                    </li>
+                                </ul>
+
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Data de entrega</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>jonathan01</td>
+                                            <td>23/07/2015</td>
+                                            <td>Ativo</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>jonathan02</td>
+                                            <td>23/07/2015</td>
+                                            <td>Inativo</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

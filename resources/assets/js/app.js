@@ -95,6 +95,33 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
                 title: 'Clientes'
             })
 
+            //USUARIOS
+            .when('/usuarios',{
+                templateUrl: 'build/views/usuario/dashboard.html',
+                controller: 'UsuarioDashboardController',
+                title: 'Usuários'
+            })
+            .when('/usuarios/dashboard',{
+                templateUrl: 'build/views/usuario/lista.html',
+                controller: 'UsuarioListaController',
+                title: 'Usuários'
+            })
+            .when('/usuarios/novo',{
+                templateUrl: 'build/views/usuario/novo.html',
+                controller: 'UsuarioNovoController',
+                title: 'Usuários'
+            })
+            .when('/usuarios/:id/editar',{
+                templateUrl: 'build/views/usuario/editar.html',
+                controller: 'UsuarioEditarController',
+                title: 'Usuários'
+            })
+            .when('/usuarios/:id/excluir',{
+                templateUrl: 'build/views/usuario/excluir.html',
+                controller: 'UsuarioExcluirController',
+                title: 'Usuários'
+            })
+
             //REVENDEDORES
             .when('/revendedores',{
                 templateUrl: 'build/views/revendedor/lista.html',

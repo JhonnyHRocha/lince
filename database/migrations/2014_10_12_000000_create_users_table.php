@@ -20,6 +20,8 @@ class CreateUsersTable extends Migration
             $table->smallInteger('id_cliente')->default('0');
             $table->smallInteger('tipo_usuario')->default('4');
             $table->string('password', 60);
+            $table->smallInteger('status')->default('0');
+            $table->date('data_validade')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

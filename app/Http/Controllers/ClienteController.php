@@ -78,6 +78,41 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        return $this->repository->delete($id);
+        try{
+            $this->repository->delete($id);
+        }catch (Exception $e){
+            return ['error' => $e->errorInfo];
+        }
     }
+
+    public function clienteUsuarios($id){
+        return $this->service->isUsuario($id);
+    }
+
+    public function addClienteUsuario(Request $request){
+        $this->service->addUsuario($request->all());
+    }
+
+    public function deletaClienteUsuario($clienteID, $usuarioID){
+        $this->service->removeUsuario($clienteID, $usuarioID);
+    }
+
+    public function exibeClienteUsuario($clienteID, $usuarioID){
+        return \Lince\Entities\Usuarios::where('id_cliente', $clienteID)->where('id',$usuarioID)->first();
+    }
+
+    public function atualizaClienteUsuario(Request $request, $idUsuario){
+        return $this->service->atualizaUsuario($request->all(), $idUsuario);
+    }
+
+    public function exibeTodosUsuarios(){
+        return $this->service->exibeTodosUsuarios();
+    }
+
+
+/*
+Route::get('{id}/usuarios', 'ClienteController@clienteUsuarios');
+Route::post('{id}/usuarios', 'ClienteController@addClienteUsuario');
+Route::get('{id}/usuario/{usuarioID}', 'ClienteController@exibeClienteUsuario');
+Route::delete('{id}/usuario/{usuarioID}', 'ClienteController@deletaClienteUsuario');*/
 }

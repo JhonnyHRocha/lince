@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Jonathan
- * Date: 07/10/15
- * Time: 13:10
- */
 
 namespace Lince\Repositories;
 
@@ -29,4 +23,6 @@ class ClienteRepositoryEloquent extends BaseRepository implements ClienteReposit
             return $query->select('clientes.*')->where('id_revendedor', '=', $userId);
         })->paginate($limit,$columns);
     }
+
+
 }

@@ -1,7 +1,7 @@
 var app = angular.module('app',
-    ['ngRoute','angular-oauth2','app.controllers', 'app.services', 'app.filters', 'app.directives',
+    ['ngRoute','angular-oauth2','app.controllers', 'app.services', 'app.filters', 'app.directives', 'ngAnimate',
     'ui.bootstrap.modal',
-    'http-auth-interceptor', 'angularUtils.directives.dirPagination','ui.bootstrap.dropdown'
+    'http-auth-interceptor', 'angularUtils.directives.dirPagination','ui.bootstrap.dropdown', 'ui.router'
 ]);
 
 angular.module('app.controllers',['ngMessages','angular-oauth2']);
@@ -9,9 +9,30 @@ angular.module('app.filters',[]);
 angular.module('app.directives',[]);
 angular.module('app.services',['ngResource']);
 
-app.provider('appConfig', function(){
+app.provider('appConfig', ['$httpParamSerializerProvider', function($httpParamSerializerProvider){
     var config = {
-        baseUrl: 'http://localhost:8000'
+        baseUrl: 'http://localhost:8000',
+        utils:{
+            transformRequest: function(data){
+                if(angular.isObject(data)){
+                    return $httpParamSerializerProvider.$get()(data);
+                }
+                return data;
+            },
+            transformResponse: function(data,headers){
+                var headersGetter = headers();
+
+                if(headersGetter['content-type'] == 'application/json' ||
+                    headersGetter['content-type'] == 'text/json') {
+                    var dataJson = JSON.parse(data);
+                    if(dataJson.hasOwnProperty('data') && Object.keys(dataJson).length == 1){
+                        dataJson = dataJson.data;
+                    }
+                    return dataJson;
+                }
+                return data;
+            }
+        }
     };
 
     return {
@@ -20,24 +41,16 @@ app.provider('appConfig', function(){
             return config;
         }
     }
-});
+}]);
 
 app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvider' ,'appConfigProvider',
     function ($routeProvider, $httpProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider) {
 
-        $httpProvider.defaults.transformResponse = function(data,headers){
-            var headersGetter = headers();
+        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+        $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
-            if(headersGetter['content-type'] == 'application/json' ||
-                headersGetter['content-type'] == 'text/json') {
-                var dataJson = JSON.parse(data);
-                if(dataJson.hasOwnProperty('data') && Object.keys(dataJson).length == 1){
-                    dataJson = dataJson.data;
-                }
-                return dataJson;
-            }
-            return data;
-        };
+        $httpProvider.defaults.transformRequest = appConfigProvider.config.utils.transformRequest;
+        $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
 
         $httpProvider.interceptors.push('oauthFixInterceptor');
 
@@ -65,7 +78,8 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
             //HOME
             .when('/home',{
                 templateUrl: 'build/views/home.html',
-                controller: 'HomeController'
+                controller: 'HomeController',
+                title: 'Dashboard'
             })
 
             //CLIENTES
@@ -94,8 +108,18 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
                 controller: 'ClienteExcluirController',
                 title: 'Clientes'
             })
-
-            //USUARIOS
+            //USUARIOS DOS CLIENTES
+            .when('/clientes/:id/usuario/:idUsuario',{
+                templateUrl: 'build/views/usuario/editar.html',
+                controller: 'UsuarioEditarController',
+                title: 'Usuários'
+            })
+            .when('/usuarios/novo',{
+                templateUrl: 'build/views/usuario/novo.html',
+                controller: 'UsuarioNovoController',
+                title: 'Usuários'
+            })
+            /*
             .when('/usuarios',{
                 templateUrl: 'build/views/usuario/dashboard.html',
                 controller: 'UsuarioDashboardController',
@@ -111,16 +135,12 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
                 controller: 'UsuarioNovoController',
                 title: 'Usuários'
             })
-            .when('/usuarios/:id/editar',{
-                templateUrl: 'build/views/usuario/editar.html',
-                controller: 'UsuarioEditarController',
-                title: 'Usuários'
-            })
+
             .when('/usuarios/:id/excluir',{
                 templateUrl: 'build/views/usuario/excluir.html',
                 controller: 'UsuarioExcluirController',
                 title: 'Usuários'
-            })
+            })*/
 
             //REVENDEDORES
             .when('/revendedores',{

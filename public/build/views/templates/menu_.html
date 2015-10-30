@@ -1,0 +1,69 @@
+<nav class="navbar-default navbar-static-side" role="navigation" ng-controller="MenuController" ng-app="app">
+    <div class="sidebar-collapse">
+        <ul side-navigation class="nav metismenu" id="side-menu">
+            <img src="build/images/logo2.png" alt=""/>
+            <li class="nav-header">
+                <div class="uib-dropdown profile-element" uib-dropdown>
+                    <a class="uib-dropdown-toggle" uib-dropdown-toggle href>
+                            <span class="clear">
+                                <span class="block m-t-xs">
+                                    <strong class="font-bold">{{user.name}}</strong>
+                             </span>
+                                <span class="text-muted text-xs block">Configurações<b class="caret"></b></span>
+                            </span>
+                    </a>
+                    <ul class="uib-dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="#/logout">Logout</a></li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    IN+
+                </div>
+
+            </li>
+
+            <li ng-class="{active: $location.path() == '/home'}">
+                <a href="#/home">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+            </li>
+
+            <li ng-class="{active: $location.path() == '/consultas'}">
+                <a  href="#/consultas">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">Consultas</span>
+                </a>
+            </li>
+
+            <li ng-class="{active: $location.path() == '/clientes'}" ng-show="isAdmin() || isDealer()">
+                <a href="#/clientes">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">Clientes</span>
+                </a>
+            </li>
+
+            <li ng-class="{active: $location.path() == '/usuarios'}" ng-show="isAdmin() || isDealer() || isClient()">
+                <a ng-click="changeClass()" href="#/usuarios">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">Usuários</span>
+                </a>
+            </li>
+
+            <li ng-class="{active: $location.path() == '/relatorios'}" ng-show="isAdmin() || isDealer() || isClient()">
+                <a ng-click="changeClass()" href="#/relatorios">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">Relatórios</span>
+                </a>
+            </li>
+
+            <li ng-class="{active: $location.path() == '/financeiro'}" ng-show="isAdmin() || isDealer() || isClient()">
+                <a ng-click="changeClass()" href="#/financeiro">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">Financeiro</span>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+</nav>

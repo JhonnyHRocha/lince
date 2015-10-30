@@ -37,5 +37,10 @@ class LinceRepositoryProvider extends ServiceProvider
             \Lince\Repositories\VendasRepository::class,
             \Lince\Repositories\VendasRepositoryEloquent::class
         );
+
+        $this->app->bind(
+            \Lince\Repositories\UsuariosRepository::class,
+            \Lince\Repositories\UsuariosRepositoryEloquent::class
+        );
     }
 }

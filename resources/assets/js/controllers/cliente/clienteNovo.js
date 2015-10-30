@@ -1,5 +1,6 @@
 angular.module('app.controllers')
-    .controller('ClienteNovoController', ['$scope', '$location', 'Cliente',function($scope,$location,Cliente){
+    .controller('ClienteNovoController', ['$scope', '$cookies', '$location', 'Cliente',function($scope,$cookies,$location,Cliente){
+        $scope.user = $cookies.getObject('user');
         $scope.clientes = new Cliente();
 
         $scope.save = function(){
@@ -8,6 +9,10 @@ angular.module('app.controllers')
                     $location.path('/clientes');
                 });
             }
+        }
+
+        $scope.cancel = function(){
+            $location.path('/clientes');
         }
 
     }]);

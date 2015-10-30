@@ -9,6 +9,9 @@ use Prettus\Repository\Traits\TransformableTrait;
 class Cliente extends Model implements Transformable
 {
     use TransformableTrait;
+
+    protected $table = 'clientes';
+
     protected $fillable = [
         'nome',
         'cpf_cnpj',

@@ -1,6 +1,7 @@
 angular.module('app.controllers')
-    .controller('MenuController', ['$scope','$cookies',function($scope,$cookies){
+    .controller('MenuController', ['$scope','$cookies', '$location',function($scope,$cookies,$location){
         $scope.user = $cookies.getObject('user');
+        $scope.$location = $location;
 
         $scope.isAdmin = function isAdmin(){
             if($scope.user.tipo_usuario == 1)

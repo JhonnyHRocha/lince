@@ -10,20 +10,46 @@ namespace Lince\Services;
 
 
 use Lince\Repositories\ClienteRepository;
+use Lince\Repositories\UsuariosRepository;
 use Lince\Validators\ClienteValidator;
+use Lince\Validators\UsuariosValidator;
+use Mockery\CountValidator\Exception;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class ClienteService
 {
+    /**
+     * @var ClienteRepository
+     */
     protected $repository;
     /**
      * @var ClienteValidator
      */
-    private $validator;
+    private $clienteValidator;
+    /**
+     * @var UsuariosRepository
+     */
+    private $usuarioRepository;
+    /**
+     * @var UsuariosValidator
+     */
+    private $usuarioValidator;
 
-    public function __construct(ClienteRepository $repository, ClienteValidator $validator){
+
+    /**
+     * @param ClienteRepository $repository
+     * @param ClienteValidator $clienteValidator
+     * @param UsuariosRepository $usuarioRepository
+     * @param UsuariosValidator $usuarioValidator
+     */
+    public function __construct(ClienteRepository $repository,
+                                ClienteValidator $clienteValidator,
+                                UsuariosRepository $usuarioRepository,
+                                UsuariosValidator $usuarioValidator){
         $this->repository = $repository;
-        $this->validator = $validator;
+        $this->clienteValidator = $clienteValidator;
+        $this->usuarioRepository = $usuarioRepository;
+        $this->usuarioValidator = $usuarioValidator;
     }
 
     public function create(array $data){
@@ -34,7 +60,7 @@ class ClienteService
         //alem de inserir no banco de dados, pode fazer algumas outras funcoes em cima da acao de criar
 
         try{
-            $this->validator->with($data)->passesOrFail();
+            $this->clienteValidator->with($data)->passesOrFail();
             return $this->repository->create($data);
         } catch(ValidatorException $e){
             return[
@@ -46,8 +72,67 @@ class ClienteService
 
     public function update(array $data, $id){
         try{
-            $this->validator->with($data)->passesOrFail();
+            $this->clienteValidator->with($data)->passesOrFail();
             return $this->repository->update($data,$id);
+        } catch(ValidatorException $e){
+            return[
+                'error' => true,
+                'message' => $e->getMessageBag()
+            ];
+        }
+    }
+
+    public function addUsuario(array $data){
+        try{
+            $this->usuarioValidator->with($data)->passesOrFail();
+            return $this->usuarioRepository->create($data);
+        } catch(ValidatorException $e) {
+            return[
+                'error' => true,
+                'message' => $e->getMessageBag()
+            ];
+        }
+    }
+
+    public function removeUsuario($clienteID, $usuarioID){
+        try{
+            $usuario = $this->usuarioRepository->findWhere(['id_cliente' => $clienteID, 'id' => $usuarioID])->first();
+            return $usuario->delete();
+        } catch(Exception $e){
+            return[
+                'error' => $e->errorInfo
+            ];
+        }
+    }
+
+    public function exibeTodosUsuarios(){
+        try{
+            return $this->usuarioRepository->all();
+        } catch(Exception $e){
+            return[
+                'error' => $e->errorInfo
+            ];
+        }
+    }
+
+    public function isUsuario($clienteID){
+        try{
+            return $this->usuarioRepository->findWhere(['id_cliente' => $clienteID]);
+            //$usuario = $cliente = $this->usuarioRepository->skipPresenter()->find($clienteID);
+            //return $cliente;
+            //return response()->json(['data' => $usuario->usuarios]);
+        } catch(Exception $e){
+            return[
+                'error' => $e->errorInfo
+            ];
+        }
+        //return response()->json(['data' => $usuario->usuarios]);
+    }
+
+    public function atualizaUsuario(array $data, $usuarioID){
+        try{
+            $this->usuarioValidator->with($data)->passesOrFail();
+            return $this->usuarioRepository->skipPresenter()->update($data,$usuarioID);
         } catch(ValidatorException $e){
             return[
                 'error' => true,

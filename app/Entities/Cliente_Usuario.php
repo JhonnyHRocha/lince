@@ -14,6 +14,4 @@ class Cliente_Usuario extends Model implements Transformable
         'id_cliente',
         'id_usuario',
     ];
-
-
 }

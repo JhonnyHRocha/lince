@@ -29,6 +29,21 @@ config.vendor_path_js = [
     config.bower_path + '/angular-oauth2/dist/angular-oauth2.min.js',
     config.bower_path + '/angular-http-auth/src/http-auth-interceptor.js',
     config.bower_path + '/angularUtils-pagination/dirPagination.js',
+
+
+    //INSPINIA
+    config.bower_path + '/inspinia/js/jquery-ui-1.10.4.min.js',
+    config.bower_path + '/inspinia/js/plugins/metisMenu/jquery.metisMenu.js',
+    config.bower_path + '/inspinia/js/plugins/slimscroll/jquery.slimscroll.min.js',
+    config.bower_path + '/inspinia/js/plugins/pace/pace.min.js',
+    config.bower_path + '/inspinia/js/inspinia.js',
+    config.bower_path + '/inspinia/js/plugins/jasny/jasny-bootstrap.min.js',
+    config.bower_path + '/inspinia/js/plugins/sweetalert/sweetalert.min.js',
+    config.bower_path + '/inspinia/js/plugins/datapicker/bootstrap-datepicker.js',
+    config.bower_path + '/inspinia/js/plugins/select2/select2.full.min.js',
+    config.bower_path + '/inspinia/js/plugins/chosen/chosen.jquery.js',
+    config.bower_path + '/angular-translate/angular-translate.min.js',
+    config.bower_path + '/angular-ui-router/release/angular-ui-router.min.js',
 ];
 
 //CAMINHO DOS ARQUIVOS DE CSS E CSS DE TERCEIROS QUE VAO FICAR NA PASTA PUBLIC
@@ -37,11 +52,17 @@ config.build_vendor_path_css = config.build_path_css + '/vendor';
 config.vendor_path_css = [
     config.bower_path + '/bootstrap/dist/css/bootstrap.min.css',
     config.bower_path + '/bootstrap/dist/css/bootstrap-theme.min.css',
+    config.bower_path + '/inspinia/css/sweetalert.css',
+    config.bower_path + '/inspinia/css/datepicker3.css',
+    config.bower_path + '/inspinia/css/select2.min.css',
+    config.bower_path + '/inspinia/css/chosen/chosen.css',
+        config.bower_path + '/inspinia/css/chosen/chosen-sprite@2x.png',
+
+
 ];
 
 //CAMINHO DOS ARQUIVOS DE HTML E HTML DE TERCEIROS QUE VAO FICAR NA PASTA PUBLIC
 config.build_path_html = config.build_path + '/views';
-
 config.build_path_font = config.build_path + '/fonts';
 config.build_path_images = config.build_path + '/images';
 

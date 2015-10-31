@@ -15,7 +15,7 @@
 		<link href="{{ asset('build/css/vendor/datepicker3.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/vendor/select2.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/vendor/chosen.css') }}" rel="stylesheet">
-
+		<link href="{{ asset('build/css/vendor/toastr.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/flaticon.css') }}" rel="stylesheet"/>
 
 	@else
@@ -101,7 +101,7 @@
 		<script src="{{asset('build/js/vendor/angular-resource.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular-animate.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular-messages.min.js')}}"></script>
-		<script src="{{asset('build/js/vendor/ui-bootstrap.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/ui-bootstrap-tpls.js')}}"></script>
 		<script src="{{asset('build/js/vendor/navbar.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular-cookies.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/query-string.js')}}"></script>
@@ -122,6 +122,7 @@
 		<script src="{{asset('build/js/vendor/bootstrap-datepicker.js')}}"></script>
 		<script src="{{asset('build/js/vendor/select2.full.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/chosen.jquery.js')}}"></script>
+		<script src="{{asset('build/js/vendor/toastr.min.js')}}"></script>
 
 		<script src="{{asset('build/js/app.js')}}"></script>
 
@@ -136,7 +137,6 @@
 		<script src="{{asset('build/js/controllers/cliente/clienteNovo.js')}}"></script>
 		<script src="{{asset('build/js/controllers/cliente/clienteEditar.js')}}"></script>
 		<script src="{{asset('build/js/controllers/cliente/clienteExcluir.js')}}"></script>
-
 
 		<script src="{{asset('build/js/controllers/usuario/usuarioDashboard.js')}}"></script>
 		<script src="{{asset('build/js/controllers/usuario/usuarioLista.js')}}"></script>
@@ -164,6 +164,7 @@
 		<script src="{{asset('build/js/services/revendedor.js')}}"></script>
 		<script src="{{asset('build/js/services/user.js')}}"></script>
 		<script src="{{asset('build/js/services/usuarioService.js')}}"></script>
+
 
 		<script>
 			function login(){

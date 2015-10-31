@@ -14,6 +14,6 @@ use Prettus\Validator\LaravelValidator;
 class UsuariosValidator extends LaravelValidator
 {
     protected $rules = [
-        'password' => 'required|min:6'
+        'password' => 'min:6'
     ];
 }

@@ -2,9 +2,14 @@ angular.module('app.services')
 .service('Usuario', ['$resource','$filter','$httpParamSerializer', 'appConfig', function ($resource,$filter,$httpParamSerializer,appConfig) {
 
         function transformData(data){
-            if(angular.isObject(data) && data.hasOwnProperty('data_validade')){
+            if(angular.isObject(data) && data.hasOwnProperty('password')){
                 var o = angular.copy(data);
-                o.data_validade = $filter('date')(o.data_validade, 'yyyy-MM-dd');
+
+                if(angular.isObject(data) && data.hasOwnProperty('data_validade')){
+                    o.data_validade = $filter('date')(o.data_validade, 'yyyy-MM-dd');
+                    return appConfig.utils.transformRequest(o);
+                }
+
                 return appConfig.utils.transformRequest(o);
             }
             return data;
@@ -20,7 +25,7 @@ angular.module('app.services')
             },
             get: {
                 method: 'GET',
-                isArray: true
+                isArray: false
             }
         });
     }]);

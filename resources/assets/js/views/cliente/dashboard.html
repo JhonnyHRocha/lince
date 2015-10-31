@@ -51,7 +51,7 @@
                                 <a href="javascript:void(0)" ng-click="exibirCliente(cliente)">
                                     <header>
                                         <h4 class="h4 text-boulder">{{ cliente.nome }}</h4>
-                                        <small class="text-upper text-silver">{{ cliente.email}}</small>
+                                        <small class="text-upper text-silver">Contato: <strong>{{ cliente.contato}}</strong></small>
                                     </header>
                                 </a>
                             </li>
@@ -188,13 +188,13 @@
 
                                 <table class="table">
                                     <thead>
-                                        <tr>
-                                            <th>Nome</th>
-                                            <th>Quantidade de Consultas</th>
-                                            <th>Data de validade</th>
-                                            <th>Status</th>
-                                            <th>Ações</th>
-                                        </tr>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Quantidade de Consultas</th>
+                                        <th>Data de validade</th>
+                                        <th>Status</th>
+                                        <th>Ações</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     <tr dir-paginate="usuario in usuarios | itemsPerPage: clientesPerPage" total-items="totalClientes" current-page="pagination.current">
@@ -203,103 +203,20 @@
                                         <td>{{usuario.data_validade | dateBr}}</td>
                                         <td>{{usuario.status}}</td>
                                         <td>
-                                            <button ng-click="editItem(usuario)" data-toggle="modal" data-target="#modal" class="btn btn-primary btn-xs">Editar</button>
-                                            <a ng-href="#/clientes/{{cliente.id}}/usuario/{{usuario.id}}"><button ng-click="editCliente()" class="btn btn-danger btn-xs">Excluir</button></a>
+                                            <div class="btn-group pull-right">
+                                                <button ng-click="editUser(usuario.id)" class="btn btn-outline btn-default btn-xs"><i class="fa fa-edit"></i></button>
+                                                <button ng-click="excluirUsu(usuario.id)" class="btn btn-danger btn-xs excluir"><i class="fa fa-trash"></i></button>
+                                                <button ng-click="updatePass(usuario.id)" data-toggle="modal" data-target="#modal" class="btn btn-default btn-xs"><i class="fa fa-key"></i></button>
+                                            </div>
+
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
 
-
-                            <div class="modal inmodal fade" id="modal" tabindex="-1" role="dialog"  aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-
-                                        <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="save()">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <h4 class="modal-title">Edição de Usuário</h4>
-                                        </div>
-                                        <div class="modal-body">
-
-                                                <div class="form-group" ng-class="{'has-error': !form.name.$valid && form.name.$touched}">
-                                                    <label class="col-md-4 control-label">Nome do Usuário</label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control" name="name" ng-model="usuarioEditar.name" required>
-                                                        <div ng-messages="form.name.$error" class="help-block" ng-show="form.name.$touched">
-                                                            <div ng-message="required">Campo Obrigatório</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group" ng-class="{'has-error': !form.login.$valid && form.login.$touched}">
-                                                    <label class="col-md-4 control-label">Login</label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control" name="login" ng-model="usuarioEditar.email" required>
-                                                        <div ng-messages="form.login.$error" class="help-block" ng-show="form.login.$touched">
-                                                            <div ng-message="required">Campo Obrigatório</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group" ng-class="{'has-error': !form.password.$valid && form.password.$touched}">
-                                                    <label class="col-md-4 control-label">Senha</label>
-                                                    <div class="col-md-6">
-                                                        <input type="password" class="form-control" name="password" ng-model="usuarioEditar.password" required>
-                                                        <div ng-messages="form.password.$error" class="help-block" ng-show="form.password.$touched">
-                                                            <div ng-message="required">Campo Obrigatório</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group" ng-class="{'has-error': !form.status.$valid && form.status.$touched}">
-                                                    <label class="col-md-4 control-label">Status</label>
-                                                    <div class="col-md-6">
-                                                        <select class="form-control" name="status" ng-model="usuarioEditar.status">
-                                                            <option value="1">Ativo</option>
-                                                            <option value="2">Inativo</option>
-                                                            <option value="3">Bloqueado</option>
-                                                        </select>
-                                                        <div ng-messages="form.status.$error" class="help-block" ng-show="form.status.$touched">
-                                                            <div ng-message="required">Campo Obrigatório</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group" ng-class="{'has-error': !form.data_validade.$valid && form.data_validade.$touched}" id="data_1">
-                                                    <label class="col-md-4 control-label">Data de Validade</label>
-                                                    <div class="col-md-6">
-                                                        <div class="input-group date">
-                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                            <input type="text" class="form-control" name="data_validade" ng-model="usuarioEditar.data_validade">
-                                                        </div>
-                                                        <div ng-messages="form.data_validade.$error" class="help-block" ng-show="form.data_validade.$touched">
-                                                            <div ng-message="required">Campo Obrigatório</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group" ng-class="{'has-error': !form.login.$valid && form.login.$touched}">
-                                                    <label class="col-md-4 control-label">Quantidade de Consultas</label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="form-control" name="quantidade_consultas" required>
-                                                        <div ng-messages="form.login.$error" class="help-block" ng-show="form.login.$touched">
-                                                            <div ng-message="required">Campo Obrigatório</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-white" data-dismiss="modal" ng-click="cancelEdit()">Cancelar</button>
-                                            <button type="submit" class="btn btn-primary">Atualizar</button>
-                                        </div>
-
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                            <form class="form-horizontal" type="hide" name="form" role="form" method="" ng-submit="">
+                            </form>
 
                         </div>
                     </div>

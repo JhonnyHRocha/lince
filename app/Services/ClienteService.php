@@ -9,6 +9,7 @@
 namespace Lince\Services;
 
 
+use Illuminate\Support\Facades\Hash;
 use Lince\Repositories\ClienteRepository;
 use Lince\Repositories\UsuariosRepository;
 use Lince\Validators\ClienteValidator;
@@ -96,8 +97,9 @@ class ClienteService
 
     public function removeUsuario($clienteID, $usuarioID){
         try{
-            $usuario = $this->usuarioRepository->findWhere(['id_cliente' => $clienteID, 'id' => $usuarioID])->first();
-            return $usuario->delete();
+            //$usuario = $this->usuarioRepository->skipPresenter()->findWhere(['id' => $usuarioID]);
+            //return $usuario->delete();
+            return $this->usuarioRepository->delete($usuarioID);
         } catch(Exception $e){
             return[
                 'error' => $e->errorInfo
@@ -132,7 +134,10 @@ class ClienteService
     public function atualizaUsuario(array $data, $usuarioID){
         try{
             $this->usuarioValidator->with($data)->passesOrFail();
-            return $this->usuarioRepository->skipPresenter()->update($data,$usuarioID);
+            if(array_fetch($data, 'password')){
+                $data['password'] = Hash::make($data['password']);
+            }
+            return $this->usuarioRepository->update($data,$usuarioID);
         } catch(ValidatorException $e){
             return[
                 'error' => true,

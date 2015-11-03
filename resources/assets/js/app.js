@@ -74,6 +74,15 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
                     }]
                 }
             })
+            .when('/cadastro',{
+                templateUrl: 'build/views/cadastro/cadastro.html',
+                controller: 'CadastroController'
+            })
+            .when('/cadastro_concluir',{
+                templateUrl: 'build/views/cadastro/cadastro_concluir.html',
+                controller: 'CadastroController'
+            })
+
 
             //HOME
             .when('/home',{
@@ -180,7 +189,6 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
 app.run(['$rootScope', '$location', '$http', 'OAuth', function($rootScope, $location, $http, OAuth) {
 
     $rootScope.isLoggedIn = function() {
-
         $http.get('/checklogin')
             .success(function(data) {
                 console.log(data);
@@ -200,8 +208,10 @@ app.run(['$rootScope', '$location', '$http', 'OAuth', function($rootScope, $loca
 
 
     $rootScope.$on('$routeChangeStart', function(event,next,current){
-        if(next.$$route.originalPath != '/login'){
+        if(next.$$route.originalPath != '/login' && next.$$route.originalPath != '/cadastro' && next.$$route.originalPath != '/cadastro_concluir'){
             if(!OAuth.isAuthenticated()){
+
+                console.log("teste");
                 $location.path('login');
             }
         }
@@ -229,6 +239,7 @@ app.run(['$rootScope', '$location', '$http', 'OAuth', function($rootScope, $loca
                 });
             }
         }
+
         // Redirect to `/login` with the `error_reason`.
         return $location.path('login');
     });

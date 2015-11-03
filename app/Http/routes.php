@@ -25,6 +25,18 @@ Route::get('login', function () {
 });
 
 
+
+//FUNCOES DE REGISTRO DO CLIENTE / USUARIO SEM SER PRECISO ESTAR LOGADO NO SISTEMA
+Route::group(['prefix' => 'cliente'], function() {
+    Route::get('cnpj/{cnpj}', 'ClienteController@verificaClienteExiste');
+    Route::get('usuario/{login}', 'ClienteController@verificaUsuarioExiste');
+    Route::post('novo', 'ClienteController@store'); //ADICIONA NOVO CLIENTE
+    Route::post('{id}/novo_usuario', 'ClienteController@addClienteUsuario'); //ADICIONA NOVO USUARIO AO CLIENTE
+});
+
+
+
+
 Route::group(['middleware'=>'oauth'], function(){
 
     Route::get('user/authenticated', 'UserController@authenticated');

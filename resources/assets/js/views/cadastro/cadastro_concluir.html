@@ -1,0 +1,67 @@
+<div class="middle-box animated fadeInDown">
+    <p>
+    <div>
+        <h2>
+            Dados cadastrais do CNPJ
+        </h2>
+        <p>
+            Para concluir seu cadastro, informe os dados que não estão foram preenchidos automáticamente e caso haja alguma informação divergente, entre em contato conosco!
+        </p>
+        <form role="form" id="form" name="form"  method="POST" ng-submit="save()">
+            <div class="form-group">
+                <label>CNPJ</label> <input type="text" placeholder="CNPJ - Automático" value="{{cnpj}}" ng-model="clientes.cpf_cnpj" class="form-control" id="cnpj" >
+            </div>
+            <div class="form-group">
+                <label>Razão Social</label> <input type="text" placeholder="Razão Social - Automático" value="{{resultadoPesquisa.razao_social}}" ng-model="clientes.nome" class="form-control" id="razao_social" >
+            </div>
+            <div class="form-group">
+                <label>Nome Fantasia</label> <input type="text" placeholder="Nome Fantasia - Automático" value="{{resultadoPesquisa.nome_fantasia}}" class="form-control" name="nome_fantasia" readonly="true">
+            </div>
+            <div class="form-group">
+                <label>Contato</label> <input type="text" placeholder="Nome" class="form-control" ng-model="clientes.contato" name="nome" id="nome" >
+            </div>
+            <div class="form-group">
+                <label>E-Mail</label> <input type="text" placeholder="E-Mail" class="form-control" ng-model="clientes.email_cobranca" name="email" id="email" >
+            </div>
+            <div class="form-group">
+                <label>Numero de Telefone Celular</label> <input type="text" placeholder="DDD + Numero" class="form-control" name="numero_telefone_celular" id="numero_telefone_celular" ng-model="clientes.telefone_1" data-mask="(99)9999?9-9999" >
+            </div>
+            <div class="form-group">
+                <label>Numero de Telefone Fixo</label> <input type="text" placeholder="DDD + Numero" class="form-control" name="numero_telefone_fixo" id="numero_telefone_fixo" ng-model="clientes.telefone_2" data-mask="(99)9999-9999" >
+            </div>
+            <div class="form-group">
+                <label>Endereço</label> <input type="text" placeholder="Endereço - Automático" value="{{resultadoPesquisa.logradouro}}, {{resultadoPesquisa.numero}}" ng-model="clientes.logradouro" class="form-control" name="endereco" readonly="true">
+            </div>
+            <div class="form-group">
+                <label>CEP</label> <input type="text" placeholder="CEP - Automático" value="{{resultadoPesquisa.cep}}" class="form-control" name="cep" ng-model="clientes.cep" readonly="true">
+            </div>
+            <div class="form-group">
+                <label>Bairro</label> <input type="text" placeholder="Bairro - Automático" value="{{resultadoPesquisa.bairro}}" class="form-control" name="bairro" ng-model="clientes.bairro" readonly="true">
+            </div>
+            <div class="form-group">
+                <label>Município</label> <input type="text" placeholder="Município - Automático" value="{{resultadoPesquisa.cidade}}" class="form-control" name="municipio" ng-model="clientes.cidade"readonly="true">
+            </div>
+            <div class="form-group">
+                <label>UF</label> <input type="text" placeholder="UF - Automático" value="{{resultadoPesquisa.UF}}" class="form-control" name="uf" ng-model="clientes.uf" readonly="true">
+            </div>
+            <div class="form-group">
+                <label>Usuário</label> <input type="text" placeholder="Insira um nome de usuário" class="form-control" name="usuario" id="usuario" ng-model="usuarios.email" >
+            </div>
+            <div class="form-group">
+                <label>Senha</label> <input type="password" placeholder="Insira uma senha" class="form-control" name="senha" id="senha" ng-model="usuarios.password" >
+            </div>
+            <div>
+                <button class="btn btn-primary block full-width m-b" type="submit" name="insere_cadastro"><i class="fa fa-check"></i>&nbsp;Concluir Cadastro</button>
+            </div>
+            <div>
+                <br />
+                <div class="middle-box text-center loginscreen animated fadeInDown">
+                </div>
+                <br />
+                <br />
+            </div>
+
+        </form>
+    </div>
+    </p>
+</div>

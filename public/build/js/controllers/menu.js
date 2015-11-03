@@ -22,4 +22,11 @@ angular.module('app.controllers')
             if($scope.user.tipo_usuario == 4)
                 return true;
         };
+
+        $scope.isLogged = function(){
+            if($scope.$location.$$path == "/login" || $scope.$location.$$path == "/cadastro" || $scope.$location.$$path == "/cadastro_concluir" )
+                return false;
+            else
+                return true;
+        }
     }]);

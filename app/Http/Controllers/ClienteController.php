@@ -85,6 +85,22 @@ class ClienteController extends Controller
         }
     }
 
+    public function verificaClienteExiste($id){
+        $cliente = \Lince\Entities\Cliente::where('cpf_cnpj', $id)->first();
+        if($cliente !== null)
+            return $cliente;
+        else
+            return response()->json(['cnpj' => '']);
+    }
+
+    public function verificaUsuarioExiste($id){
+        $usuario = \Lince\Entities\Usuarios::where('email', $id)->first();
+        if($usuario !== null)
+            return response()->json(['id' => 'true']);
+        else
+            return response()->json(['id' => 'false']);
+    }
+
     public function clienteUsuarios($id){
         return $this->service->isUsuario($id);
     }
@@ -101,7 +117,7 @@ class ClienteController extends Controller
         return \Lince\Entities\Usuarios::where('id_cliente', $clienteID)->where('id',$usuarioID)->first();
     }
 
-    public function atualizaClienteUsuario(Request $request, $idUsuario){
+    public function atualizaClienteUsuario(Request $request, $clienteID, $idUsuario){
         return $this->service->atualizaUsuario($request->all(), $idUsuario);
     }
 

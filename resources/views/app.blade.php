@@ -72,6 +72,7 @@
 		</div>
 	</nav>-->
 
+		<load-template url="build/views/templates/menu_.html"></load-template>
 	<!--	<load-template url="build/views/templates/menu.html"></load-template>-->
 		<load-template url="build/views/templates/menu_.html"></load-template>
 
@@ -129,6 +130,7 @@
 		<!-- CONTROLLERS -->
 		<script src="{{asset('build/js/controllers/menu.js')}}"></script>
 		<script src="{{asset('build/js/controllers/home.js')}}"></script>
+		<script src="{{asset('build/js/controllers/cadastro.js')}}"></script>
 		<script src="{{asset('build/js/controllers/login.js')}}"></script>
 		<script src="{{asset('build/js/controllers/loginModal.js')}}"></script>
 
@@ -164,6 +166,7 @@
 		<script src="{{asset('build/js/services/revendedor.js')}}"></script>
 		<script src="{{asset('build/js/services/user.js')}}"></script>
 		<script src="{{asset('build/js/services/usuarioService.js')}}"></script>
+		<script src="{{asset('build/js/services/cadastro.js')}}"></script>
 
 
 		<script>

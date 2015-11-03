@@ -16,6 +16,7 @@ use Lince\Validators\ClienteValidator;
 use Lince\Validators\UsuariosValidator;
 use Mockery\CountValidator\Exception;
 use Prettus\Validator\Exceptions\ValidatorException;
+use JansenFelipe\CnpjGratis\CnpjGratis;
 
 class ClienteService
 {
@@ -86,6 +87,7 @@ class ClienteService
     public function addUsuario(array $data){
         try{
             $this->usuarioValidator->with($data)->passesOrFail();
+            $data['password'] = Hash::make($data['password']);
             return $this->usuarioRepository->create($data);
         } catch(ValidatorException $e) {
             return[
@@ -134,9 +136,11 @@ class ClienteService
     public function atualizaUsuario(array $data, $usuarioID){
         try{
             $this->usuarioValidator->with($data)->passesOrFail();
-            if(array_fetch($data, 'password')){
-                $data['password'] = Hash::make($data['password']);
-            }
+            //if(str_contains(array_get($data, 'password'), '$2y$10$')){
+            //    $data['password'] = Hash::make($data['password']);
+            //}
+            //REMOVE O CAMPO DE SENHA DESTA ROTA
+            $data = array_except($data, ['password']);
             return $this->usuarioRepository->update($data,$usuarioID);
         } catch(ValidatorException $e){
             return[

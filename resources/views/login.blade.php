@@ -1,72 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Lince - Sistema de consultas">
-    <meta name="author" content="Cerberus">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Lince - Consultas</title>
+    <title>Lince | Login</title>
 
     <link href="{{ asset('build/css/vendor/bootstrap.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('build/css/vendor/metisMenu.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('build/css/vendor/timeline.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('build/css/vendor/sb-admin-2.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('build/css/vendor/morris.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('build/css/vendor/font-awesome.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('build/css/vendor/bootstrap-social.css') }}" rel="stylesheet"/>
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <link href="{{ asset('build/css/font-awesome.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('build/css/animate.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('build/css/style.css') }}" rel="stylesheet"/>
 
 </head>
 
-<body>
+<body class="gray-bg">
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <div class="login-panel panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Please Sign In</h3>
-                </div>
-                <div class="panel-body">
-                    <form role="form">
-                        <fieldset>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Password" name="password" type="password" value="">
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                </label>
-                            </div>
-                            <!-- Change this to a button or input when using this as a form -->
-                            <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
+<div class="middle-box text-center loginscreen animated fadeInDown">
+    <div>
+        <div>
+
+            <h1 class="logo-name">IN+</h1>
+
         </div>
+        <h3>Bem vindo ao sistema Lince</h3>
+        <form class="m-t" role="form" action="./#/home">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Usuário" required="">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Senha" required="">
+            </div>
+            <button type="submit" class="btn btn-primary block full-width m-b">Entrar</button>
+
+            <a href="#"><small>Esqueceu a senha?</small></a>
+            <p class="text-muted text-center"><small>Ainda não possui uma conta?</small></p>
+            <a class="btn btn-sm btn-white btn-block" href="register.html">Criar uma conta</a>
+        </form>
     </div>
 </div>
 
-
+<!-- Mainly scripts -->
 <script src="{{asset('build/js/vendor/jquery.min.js')}}"></script>
 <script src="{{asset('build/js/vendor/bootstrap.min.js')}}"></script>
-<script src="{{asset('build/js/vendor/metisMenu.min.js')}}"></script>
-<script src="{{asset('build/js/vendor/sb-admin-2.js')}}"></script>
-
 
 </body>
 

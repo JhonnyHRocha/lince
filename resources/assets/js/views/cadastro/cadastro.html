@@ -22,7 +22,6 @@
 </div>
 
 
-
 <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" method="post" ng-controller="CadastroController" >
     <div class="modal-dialog">
         <div class="modal-content animated bounceInRight">
@@ -42,12 +41,31 @@
                     <input name="cnpj" id="cnpj" type="text" maxlength="14" value="{{cnpj}}" required readonly="true"/><br />
                     <label>Captcha</label><br />
 
+
+                    <div id="spinner" class="spiner-example" style="display:none;">
+                        <div class="sk-spinner sk-spinner-circle">
+                            <div class="sk-circle1 sk-circle"></div>
+                            <div class="sk-circle2 sk-circle"></div>
+                            <div class="sk-circle3 sk-circle"></div>
+                            <div class="sk-circle4 sk-circle"></div>
+                            <div class="sk-circle5 sk-circle"></div>
+                            <div class="sk-circle6 sk-circle"></div>
+                            <div class="sk-circle7 sk-circle"></div>
+                            <div class="sk-circle8 sk-circle"></div>
+                            <div class="sk-circle9 sk-circle"></div>
+                            <div class="sk-circle10 sk-circle"></div>
+                            <div class="sk-circle11 sk-circle"></div>
+                            <div class="sk-circle12 sk-circle"></div>
+                        </div>
+                    </div>
+
+
                     <img data-ng-src="{{imagem}}"><br />
-                    <a ng-click="atualizaCaptcha()"><i class="fa fa-refresh"></i></a>
-                    <br />Informe os caracteres da imagem no campo abaixo<br />
-                    <input name="captcha_cnpj" id="captcha_cnpj" type="text" maxlength="6" required />
-                    <br />
-                </p>
+                        <a ng-click="atualizaCaptcha()"><i class="fa fa-refresh"></i></a>
+                        <br />Informe os caracteres da imagem no campo abaixo<br />
+                        <input name="captcha_cnpj" id="captcha_cnpj" type="text" maxlength="6" required />
+                        <br />
+                    </p>
                 <p>
                     <!--<input class="btn btn-white" id="enviar" name="enviar" type="submit" value="Consultar"/>-->
                 </p>

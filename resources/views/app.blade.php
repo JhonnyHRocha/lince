@@ -9,14 +9,15 @@
 	@if(Config::get('app.debug'))
 		<link href="{{ asset('build/css/bootstrap.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/font-awesome.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/vendor/toastr.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/animate.css') }}" rel="stylesheet">
 		<link id="loadBefore" href="{{ asset('build/css/style.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/vendor/sweetalert.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/vendor/datepicker3.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/vendor/select2.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/vendor/chosen.css') }}" rel="stylesheet">
-		<link href="{{ asset('build/css/vendor/toastr.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/flaticon.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/vendor/jquery.jspanel.css') }}" rel="stylesheet"/>
 
 	@else
 		<link href="{{ elixir('css/all.css') }}" rel="stylesheet"/>
@@ -94,6 +95,7 @@
 
 	<!-- Scripts -->
 	@if(Config::get('app.debug'))
+
 		<script src="{{asset('build/js/vendor/jquery.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular-route.min.js')}}"></script>
@@ -115,8 +117,8 @@
 		<script src="{{asset('build/js/vendor/jquery-ui-1.10.4.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/jquery.metisMenu.js')}}"></script>
 		<script src="{{asset('build/js/vendor/jquery.slimscroll.min.js')}}"></script>
-		<script src="{{asset('build/js/vendor/pace.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/inspinia.js')}}"></script>
+		<script src="{{asset('build/js/vendor/pace.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular-translate.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/jasny-bootstrap.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/sweetalert.min.js')}}"></script>
@@ -124,7 +126,9 @@
 		<script src="{{asset('build/js/vendor/select2.full.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/chosen.jquery.js')}}"></script>
 		<script src="{{asset('build/js/vendor/toastr.min.js')}}"></script>
-
+		<script src="{{asset('build/js/vendor/jquery.validate.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/jquery.jspanel.js')}}"></script>
+		<script src="{{asset('build/js/vendor/ngMask.min.js')}}"></script>
 		<script src="{{asset('build/js/app.js')}}"></script>
 
 		<!-- CONTROLLERS -->

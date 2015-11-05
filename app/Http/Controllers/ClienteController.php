@@ -3,6 +3,8 @@
 namespace Lince\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Lince\Entities\Cliente;
 use Lince\Repositories\ClienteRepository;
 use Lince\Services\ClienteService;
 
@@ -125,6 +127,10 @@ class ClienteController extends Controller
         return $this->service->exibeTodosUsuarios();
     }
 
+    //VERIFICA O TIPO DE USUARIO E RETORNA O SELECT DE ACORDO COM O TIPO DE USUARIO DELE
+    public function selecionaClientesDashboard($idUsuario, Request $request){
+        return $this->repository->skipPresenter()->clienteDashboard($idUsuario,$request->query->get('limit'));
+    }
 
 /*
 Route::get('{id}/usuarios', 'ClienteController@clienteUsuarios');

@@ -13,6 +13,8 @@
                             </span>
                     </a>
                     <ul class="uib-dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="#/logout">Alterar Senha</a></li>
+                        <li><a href="#/logout">Cadastro</a></li>
                         <li><a href="#/logout">Logout</a></li>
                     </ul>
                 </div>
@@ -24,26 +26,26 @@
 
             <li ng-class="{active: $location.path() == '/home'}">
                 <a href="#/home">
-                    <i class="fa fa-home"></i>
+                    <i class="fa fa-windows"></i>
                     <span class="nav-label">Dashboard</span>
                 </a>
             </li>
 
             <li ng-class="{active: $location.path() == '/consultas'}">
                 <a  href="#/consultas">
-                    <i class="fa fa-home"></i>
+                    <i class="fa fa-desktop"></i>
                     <span class="nav-label">Consultas</span>
                 </a>
             </li>
 
             <li ng-class="{active: $location.path() == '/clientes'}" ng-show="isAdmin() || isDealer()">
                 <a href="#/clientes">
-                    <i class="fa fa-home"></i>
+                    <i class="fa fa-edit"></i>
                     <span class="nav-label">Clientes</span>
                 </a>
             </li>
 
-            <li ng-class="{active: $location.path() == '/usuarios'}" ng-show="isAdmin() || isDealer() || isClient()">
+            <li ng-class="{active: $location.path() == '/usuarios'}" ng-show="isClient()">
                 <a ng-click="changeClass()" href="#/usuarios">
                     <i class="fa fa-home"></i>
                     <span class="nav-label">Usuários</span>
@@ -52,14 +54,14 @@
 
             <li ng-class="{active: $location.path() == '/relatorios'}" ng-show="isAdmin() || isDealer() || isClient()">
                 <a ng-click="changeClass()" href="#/relatorios">
-                    <i class="fa fa-home"></i>
+                    <i class="fa fa-file-pdf-o"></i>
                     <span class="nav-label">Relatórios</span>
                 </a>
             </li>
 
             <li ng-class="{active: $location.path() == '/financeiro'}" ng-show="isAdmin() || isDealer() || isClient()">
                 <a ng-click="changeClass()" href="#/financeiro">
-                    <i class="fa fa-home"></i>
+                    <i class="fa fa-money"></i>
                     <span class="nav-label">Financeiro</span>
                 </a>
             </li>

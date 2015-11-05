@@ -13,3 +13,19 @@ angular.module('app.services')
 
         });
     }]);
+
+angular.module('app.services')
+    .service('ClienteDashboard', ['$resource', '$filter', '$httpParamSerializer', 'appConfig', function ($resource,$filter,$httpParamSerializer,appConfig) {
+        return $resource(appConfig.baseUrl + '/cliente/dashboard/:id', {id: '@id'},{
+            query:{
+                isArray: false
+            },
+            update: {
+                method: 'PUT'
+            },
+            save:{
+                method: 'POST'
+            }
+
+        });
+    }]);

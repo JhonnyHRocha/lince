@@ -208,11 +208,16 @@
                                                 <button ng-click="excluirUsu(usuario.id)" class="btn btn-danger btn-xs excluir"><i class="fa fa-trash"></i></button>
                                                 <button ng-click="updatePass(usuario.id)" data-toggle="modal" data-target="#modal" class="btn btn-default btn-xs"><i class="fa fa-key"></i></button>
                                             </div>
-
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
+
+                                <div ng-show="!usuarios.length">
+                                    <li class="text-center">
+                                        <h4>Não existem usuários para este cliente</h4>
+                                    </li>
+                                </div>
                             </div>
 
                             <form class="form-horizontal" type="hide" name="form" role="form" method="" ng-submit="">

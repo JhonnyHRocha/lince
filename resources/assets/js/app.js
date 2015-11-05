@@ -1,5 +1,5 @@
 var app = angular.module('app',
-    ['ngRoute','angular-oauth2','app.controllers', 'app.services', 'app.filters', 'app.directives', 'ngAnimate',
+    ['ngRoute','ngMask','angular-oauth2','app.controllers', 'app.services', 'app.filters', 'app.directives', 'ngAnimate',
     'ui.bootstrap.modal',
     'http-auth-interceptor', 'angularUtils.directives.dirPagination','ui.bootstrap.dropdown', 'ui.router'
 ]);
@@ -93,7 +93,7 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
 
             //CLIENTES
             .when('/clientes',{
-                templateUrl: 'build/views/cliente/dashboard.html',
+                templateUrl: 'build/views/cliente/dashboard2.html',
                 controller: 'ClienteDashboardController',
                 title: 'Clientes'
             })
@@ -208,10 +208,20 @@ app.run(['$rootScope', '$location', '$http', 'OAuth', function($rootScope, $loca
 
 
     $rootScope.$on('$routeChangeStart', function(event,next,current){
+        //ESTA FUNCAO IRA VERIFICAR SE O A TELA DE CONCLUIR O CADASTRO DO CLIENTE FOI ACESSADA ATRAVÉS DA TELA DE CADASTRO
+        //EM CASO NEGATIVO, O USUÁRIO SERÁ LEVADO PARA A TELA DE LOGIN NOVAMENTE, INIBINDO ASSIM O ACESSO DIRETO A PAGINA
+        /*try{
+            if(next.$$route.originalPath === '/cadastro_concluir' && current.$$route.originalPath != '/cadastro'){
+                if(!OAuth.isAuthenticated()){
+                    $location.path('login');
+                }
+            }
+        } catch(Exception) {
+            $location.path('login');
+        }*/
+
         if(next.$$route.originalPath != '/login' && next.$$route.originalPath != '/cadastro' && next.$$route.originalPath != '/cadastro_concluir'){
             if(!OAuth.isAuthenticated()){
-
-                console.log("teste");
                 $location.path('login');
             }
         }

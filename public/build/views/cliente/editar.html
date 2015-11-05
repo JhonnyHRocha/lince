@@ -1,140 +1,65 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-5 col-md-offset-4">
-            <div class="panel panel-success">
-                <div class="panel-heading">Cadastro de Clientes</div>
-                <div class="panel-body">
+<form class="form-horizontal" name="form" role="form" method="POST" ng-submit="saveCliente()">
+    <div class="modal-header">
+        <h4 class="modal-title">Edição do Cliente: {{clienteEditar.nome}}</h4>
+    </div>
+    <div class="modal-body">
 
-                    <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="save()">
+        <div class="form-group">
+            <label>CNPJ</label>
+            <input type="text" placeholder="CNPJ - Automático" ng-model="clienteEditar.cpf_cnpj" class="form-control" id="cnpj" mask="99.999.999/9999-99" readonly="true">
+        </div>
+        <div class="form-group">
+            <label>Razão Social</label>
+            <input type="text" placeholder="Razão Social - Automático" ng-model="clienteEditar.nome" class="form-control" id="razao_social" name="razao_social" readonly="true">
+        </div>
+        <div class="form-group">
+            <label>Contato</label>
+            <input type="text" placeholder="Nome" class="form-control" name="contato" id="contato" ng-model="clienteEditar.contato" required>
+        </div>
+        <div class="form-group">
+            <label>E-Mail</label>
+            <input type="text" placeholder="E-Mail" class="form-control" name="email" id="email" ng-model="clienteEditar.email" required>
+        </div>
+        <div class="form-group">
+            <label>Skype</label>
+            <input type="text" placeholder="Usuário do skype" class="form-control" name="skype" id="skype" ng-model="clienteEditar.skype">
+        </div>
+        <div class="form-group">
+            <label>Numero de Telefone Celular</label>
+            <input type="text" placeholder="DDD + Numero" class="form-control" name="numero_telefone_celular" ng-model="clienteEditar.telefone_1" id="numero_telefone_celular" mask="(99)9999?9-9999" required>
+        </div>
+        <div class="form-group">
+            <label>Numero de Telefone Fixo</label>
+            <input type="text" placeholder="DDD + Numero" class="form-control" name="numero_telefone_fixo" id="numero_telefone_fixo" mask="(99)9999-9999" ng-model="clienteEditar.telefone_2" required>
+        </div>
+        <div class="form-group">
+            <label>Endereço</label>
+            <input type="text" placeholder="Endereço - Automático" ng-model="clienteEditar.logradouro" class="form-control" name="endereco" id="endereco" readonly="true">
+        </div>
+        <div class="form-group">
+            <label>CEP</label>
+            <input type="text" placeholder="CEP - Automático" ng-model="clienteEditar.cep" class="form-control" name="cep" id="cep" mask="99999-999" readonly="true">
+        </div>
+        <div class="form-group">
+            <label>Bairro</label>
+            <input type="text" placeholder="Bairro - Automático" ng-model="clienteEditar.bairro" class="form-control" name="bairro" id="bairro" readonly="true">
+        </div>
+        <div class="form-group">
+            <label>Município</label>
+            <input type="text" placeholder="Município - Automático" ng-model="clienteEditar.cidade" class="form-control" name="municipio" id="municipio" readonly="true">
+        </div>
+        <div class="form-group">
+            <label>UF</label>
+            <input type="text" placeholder="UF - Automático" ng-model="clienteEditar.uf" class="form-control" name="uf" id="uf" readonly="true">
+        </div>
 
-                        <div class="form-group" ng-class="{'has-error': !form.nome.$valid && form.nome.$touched}">
-                            <label class="col-md-4 control-label">Editar Cliente</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="nome" ng-model="clientes.nome" required>
-                                <div ng-messages="form.nome.$error" class="help-block" ng-show="form.nome.$touched">
-                                    <div ng-message="required">Campo Obrigatório</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" ng-class="{'has-error': !form.cpf_cnpj.$valid && form.cpf_cnpj.$touched}">
-                            <label class="col-md-4 control-label">CPF / CNPJ</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="cpf_cnpj" ng-model="clientes.cpf_cnpj" required>
-                                <div ng-messages="form.cpf_cnpj.$error" class="help-block" ng-show="form.cpf_cnpj.$touched">
-                                    <div ng-message="required">Campo Obrigatório</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" ng-class="{'has-error': !form.tipo_pessoa.$valid && form.tipo_pessoa.$touched}">
-                            <label class="col-md-4 control-label">Tipo de cliente</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="tipo_pessoa" ng-model="clientes.tipo_pessoa" required>
-                                <div ng-messages="form.tipo_pessoa.$error" class="help-block" ng-show="form.tipo_pessoa.$touched">
-                                    <div ng-message="required">Campo Obrigatório</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" ng-class="{'has-error': !form.tipo_pessoa.$valid && form.tipo_pessoa.$touched}">
-                            <label class="col-md-4 control-label">Tipo de Cliente</label>
-                            <div class="col-xs-5 selectContainer">
-                                <select class="form-control" name="tipo_pessoa">
-                                    <option value="">PF - Pessoa Física</option>
-                                    <option value="s">PJ - Pessoa Jurídica</option>
-                                </select>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group" ng-class="{'has-error': !form.contato.$valid && form.contato.$touched}">
-                            <label class="col-md-4 control-label">Contato</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="contato" ng-model="clientes.contato" required>
-                                <div ng-messages="form.contato.$error" class="help-block" ng-show="form.contato.$touched">
-                                    <div ng-message="required">Campo Obrigatório</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" ng-class="{'has-error': !form.email.$valid && form.email.$touched}">
-                            <label class="col-md-4 control-label">E-Mail</label>
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" ng-model="clientes.email" required>
-                                <div ng-messages="form.email.$error" class="help-block" ng-show="form.email.$touched">
-                                    <div ng-message="required">Campo Obrigatório</div>
-                                    <div ng-message="email">E-Mail Inválido</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" ng-class="{'has-error': !form.logradouro.$valid && form.logradouro.$touched}">
-                            <label class="col-md-4 control-label">Logradouro</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="logradouro" ng-model="clientes.logradouro" required>
-                                <div ng-messages="form.logradouro.$error" class="help-block" ng-show="form.logradouro.$touched">
-                                    <div ng-message="required">Campo Obrigatório</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" ng-class="{'has-error': !form.complemento.$valid && form.complemento.$touched}">
-                            <label class="col-md-4 control-label">Complemento</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="complemento" ng-model="clientes.complemento">
-                            </div>
-                        </div>
-
-                        <div class="form-group" ng-class="{'has-error': !form.bairro.$valid && form.bairro.$touched}">
-                            <label class="col-md-4 control-label">Bairro</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="bairro" ng-model="clientes.bairro" required>
-                                <div ng-messages="form.bairro.$error" class="help-block" ng-show="form.bairro.$touched">
-                                    <div ng-message="required">Campo Obrigatório</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" ng-class="{'has-error': !form.cidade.$valid && form.cidade.$touched}">
-                            <label class="col-md-4 control-label">Cidade</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="cidade" ng-model="clientes.cidade" required>
-                                <div ng-messages="form.cidade.$error" class="help-block" ng-show="form.cidade.$touched">
-                                    <div ng-message="required">Campo Obrigatório</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" ng-class="{'has-error': !form.uf.$valid && form.uf.$touched}">
-                            <label class="col-md-4 control-label">UF</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="uf" ng-model="clientes.uf" required>
-                                <div ng-messages="form.uf.$error" class="help-block" ng-show="form.uf.$touched">
-                                    <div ng-message="required">Campo Obrigatório</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" ng-class="{'has-error': !form.cep.$valid && form.cep.$touched}">
-                            <label class="col-md-4 control-label">CEP</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="cep" ng-model="clientes.cep" required>
-                                <div ng-messages="form.cep.$error" class="help-block" ng-show="form.cep.$touched">
-                                    <div ng-message="required">Campo Obrigatório</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">Atualizar</button>
-
-                            </div>
-                        </div>
-                    </form>
-                </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-6">
+                <a class="btn btn-outline btn-default" ng-click="cancel()">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Atualizar</button>
             </div>
         </div>
     </div>
-</div>
+</form>

@@ -46,6 +46,7 @@ Route::group(['middleware'=>'oauth'], function(){
     Route::resource('usuario', 'UsuariosController', ['except'=> ['create', 'edit']]);
 
     Route::group(['prefix' => 'cliente'], function() {
+        Route::get('dashboard/{idUsuario}', 'ClienteController@selecionaClientesDashboard');
         Route::get('{id}/usuario', 'ClienteController@clienteUsuarios');
         Route::post('{id}/usuario', 'ClienteController@addClienteUsuario');
         Route::get('{id}/usuario/{usuarioID}', 'ClienteController@exibeClienteUsuario');

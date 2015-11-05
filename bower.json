@@ -30,6 +30,7 @@
     "angular-oauth2": "~3.0.1",
     "angular-http-auth": "~1.2.2",
     "angularUtils-pagination": "angular-utils-pagination#~0.9.1",
-    "angular-permission": "~1.1.0"
+    "angular-permission": "~1.1.0",
+    "ngMask": "angular-mask#~3.0.16"
   }
 }

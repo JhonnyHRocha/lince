@@ -1,43 +1,20 @@
 angular.module('app.controllers')
-    .controller('ClienteDashboardController', ['$scope','$uibModal','$cookies','$route', '$location', '$routeParams', 'Cliente', 'Usuario','ClienteDashboard'
-        ,function($scope,$uibModal,$cookies,$route,$location,$routeParams,Cliente,Usuario,ClienteDashboard){
-
-        //DECLARACAO DA VARIAVEL QUE IRA GUARDAR A INSTANCIA DO MODAL DE EXIBICAO
-        var modalInstance = [];
-
+    .controller('ClienteDashboardController', ['$scope','$uibModal', '$route', '$location', '$routeParams', 'Cliente', 'Usuario',function($scope,$uibModal,$route,$location,$routeParams,Cliente,Usuario){
         //DADOS DE USUÁRIO
         $scope.usuarios = [];
-
-        //DADOS E CONFIGURACOES PARA EXIBICAO DO CLIENTE
+        //DADOS DE CLIENTE
         $scope.cliente = [];
         $scope.totalClientes = 0;
         $scope.clientesPerPage = 13;
+
         $scope.maxSize = 5;
         $scope.bigTotalItems = 100000;
 
-        //INICIA A VIEW COM A PAGINA 1 SENDO A PRINCIPAL
         $scope.pagination = {
             current: 1
         };
+        var modalInstance = [];
 
-        //PEGO O USUARIO QUE ESTA CONECTADO NO SISTEMA E PASSO COMO PARAMETRO O ID PARA IDENTIFICAR O TIPO DE USUARIO E TRAZER A QUERY
-        //DE ACORDO COM O SEU TIPO
-        function getResultsPage(pageNumber){
-            $scope.tipo_usuario = $cookies.getObject('user');
-            ClienteDashboard.query({
-                id: $scope.tipo_usuario.id,
-                page: pageNumber,
-                orderBy: 'nome',
-                sortedBy: 'desc',
-                limit: $scope.clientesPerPage
-            }, function (response) {
-                $scope.clientes = response.data;
-                $scope.totalClientes = response.total;
-            });
-        }
-        getResultsPage(1);
-
-        //SE HOUVER ALTERACAO NA PAGINA, EXIBE OS RESULTADOS DA MESMA
         $scope.pageChanged = function(newPage){
             getResultsPage(newPage);
         };
@@ -52,7 +29,6 @@ angular.module('app.controllers')
             });
         };
 
-        //MODAL COM A OPCAO DE CONFIRMAR A EXCLUSAO DO CLIENTE OU CANCELAR A MESMA
         $scope.excluirCliente = function(cliente){
             swal({
                     title: "Exclusão de Clientes",
@@ -62,8 +38,7 @@ angular.module('app.controllers')
                     confirmButtonColor: "#DD6B55",confirmButtonText: "Sim, deletar!",
                     cancelButtonText: "Não, cancelar!",
                     closeOnConfirm: false,
-                    closeOnCancel: false
-                },
+                    closeOnCancel: false },
                 function(isConfirm){
                     if (isConfirm) {
                         swal("Deletado!", "O Cliente foi deletado com sucesso!", "success");
@@ -74,10 +49,22 @@ angular.module('app.controllers')
                     } else {
                         swal("Cancelado", "O Cliente continua em sua base de dados ", "error");
                     }
-                }
-            );
+                });
         };
 
+        function getResultsPage(pageNumber){
+            Cliente.query({
+                page: pageNumber,
+                orderBy: 'nome',
+                sortedBy: 'desc',
+                limit: $scope.clientesPerPage
+            }, function (response) {
+                $scope.clientes = response.data;
+                $scope.totalClientes = response.meta.pagination.total;
+            });
+        }
+
+        getResultsPage(1);
 
         // SESSÃO REFERENTE AOS USUARIOS
         //MODAL
@@ -173,22 +160,6 @@ angular.module('app.controllers')
                 atualizarUsuarios();
             });
         };
-
-        $(".selecionarFiltro").select2({
-            placeholder: "Selecione o cliente",
-            allowClear: true
-        });
-
-        var config = {
-            '.chosen-select'           : {},
-            '.chosen-select-deselect'  : {allow_single_deselect:true},
-            '.chosen-select-no-single' : {disable_search_threshold:10},
-            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-            '.chosen-select-width'     : {width:"95%"}
-        };
-        for (var selector in config) {
-            $(selector).chosen(config[selector]);
-        }
 
     }]);
 

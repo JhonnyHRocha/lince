@@ -105,7 +105,7 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
             .when('/clientes',{
                 templateUrl: 'build/views/cliente/dashboard2.html',
                 controller: 'ClienteDashboardController',
-                title: 'Clientes'
+                title: 'Gerenciamento de Clientes'
             })
             .when('/clientes/dashboard',{
                 templateUrl: 'build/views/cliente/lista.html',

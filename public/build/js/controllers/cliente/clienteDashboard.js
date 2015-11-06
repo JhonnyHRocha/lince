@@ -1,6 +1,6 @@
 angular.module('app.controllers')
-    .controller('ClienteDashboardController', ['$scope','$uibModal','$cookies','$route', '$location', '$routeParams', 'Cliente', 'Usuario','ClienteDashboard'
-        ,function($scope,$uibModal,$cookies,$route,$location,$routeParams,Cliente,Usuario,ClienteDashboard){
+    .controller('ClienteDashboardController', ['$scope','$uibModal','$cookies','$route', '$location', '$routeParams', '$filter', 'Cliente', 'Usuario','ClienteDashboard'
+        ,function($scope,$uibModal,$cookies,$route,$location,$routeParams,$filter,Cliente,Usuario,ClienteDashboard){
 
         //DECLARACAO DA VARIAVEL QUE IRA GUARDAR A INSTANCIA DO MODAL DE EXIBICAO
         var modalInstance = [];
@@ -40,6 +40,7 @@ angular.module('app.controllers')
             });
         }
         getResultsPage(1);
+
 
         //MODAL COM A OPCAO DE CONFIRMAR A EXCLUSAO DO CLIENTE OU CANCELAR A MESMA
         $scope.excluirCliente = function(cliente){
@@ -115,8 +116,6 @@ angular.module('app.controllers')
         for (var selector in config) {
             $(selector).chosen(config[selector]);
         }
-            $('.footable').footable();
-
     }]);
 
 
@@ -150,7 +149,6 @@ angular.module('app.controllers')
             });
         }
     }
-        $('.footable').footable();
 });
 
 //  -------------------------------------------------------------------------------------------------------------------------------------------
@@ -181,6 +179,4 @@ angular.module('app.controllers')
                 });
             }
         }
-
-        $('.footable').footable();
     });

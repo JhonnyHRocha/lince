@@ -74,10 +74,10 @@
                                                 <th>Ações</th>
                                             </tr>
                                             </thead>
-                                            <tr dir-paginate="cliente in clientes
+                                            <tr dir-paginate="cliente in filtered = (clientes
                                             | filter:{nome:nomeCliente, cpf_cnpj:cnpjCliente, cidade:cidadeCliente, uf:ufCliente, consultas_disponiveis:consultasCliente, numero_usuarios:usuariosCliente,
-                                                valor_mensal:valorCliente, data_expiracao:validadeCliente, id_revendedor:revendedorCliente, status:statusCliente}
-                                            | itemsPerPage: clientesPerPage" total-items="totalClientes" current-page="pagination.current">
+                                                valor_mensal:valorCliente, data_expiracao:validadeCliente, id_revendedor:revendedorCliente, status:statusCliente})
+                                            | orderBy: predicate | itemsPerPage: clientesPerPage " total-items="totalClientes">
                                                 <td><a data-toggle="tab" ng-click="editCliente(cliente.id)" class="client-link">{{ cliente.nome }}</a></td>
                                                 <td>{{cliente.cpf_cnpj}}</td>
                                                 <td>{{cliente.cidade}}</td>

@@ -36,6 +36,7 @@
                                                             <option value="">Todos</option>
                                                             <option value="Ativo">Ativo</option>
                                                             <option value="Inativo">Inativo</option>
+                                                            <option value="Bloqueado">Bloqueado</option>
                                                         </select>
                                                     </th>
                                                 </tr>
@@ -91,7 +92,7 @@
                                                     <div class="btn-group pull-right">
                                                         <button ng-click="editCliente(cliente.id)" class="btn btn-outline btn-default btn-xs"><i class="fa fa-edit"></i></button>
                                                         <button ng-click="excluirCliente(cliente)" class="btn btn-danger btn-xs excluir"><i class="fa fa-trash"></i></button>
-                                                        <button ng-click="updatePass(usuario.id)" data-toggle="modal" data-target="#modal" class="btn btn-default btn-xs"><i class="fa fa-money"></i></button>
+                                                        <button ng-click="editVendas(cliente.id)" data-toggle="modal" data-target="#modal" class="btn btn-default btn-xs"><i class="fa fa-money"></i></button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -112,7 +113,5 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>

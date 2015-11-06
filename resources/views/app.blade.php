@@ -10,6 +10,7 @@
 		<link href="{{ asset('build/css/bootstrap.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/font-awesome.css') }}" rel="stylesheet"/>
 		<link href="{{ asset('build/css/vendor/toastr.min.css') }}" rel="stylesheet">
+		<link href="{{ asset('build/css/vendor/footable.core.css') }}" rel="stylesheet"/>
 		<link href="{{ asset('build/css/animate.css') }}" rel="stylesheet">
 		<link id="loadBefore" href="{{ asset('build/css/style.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/vendor/sweetalert.css') }}" rel="stylesheet">
@@ -117,6 +118,7 @@
 		<script src="{{asset('build/js/vendor/jquery-ui-1.10.4.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/jquery.metisMenu.js')}}"></script>
 		<script src="{{asset('build/js/vendor/jquery.slimscroll.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/footable.all.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/inspinia.js')}}"></script>
 		<script src="{{asset('build/js/vendor/pace.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular-translate.min.js')}}"></script>

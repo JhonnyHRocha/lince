@@ -13,10 +13,14 @@ class Vendas extends Model implements Transformable
     protected $fillable = [
         'id_cliente',
         'id_vendedor',
+        'id_pacote',
+        'quantidade_usuarios',
+        'quantidade_usuarios_adicionais',
         'quantidade_consultas',
         'valor',
         'data_venda',
         'status_pagamento',
+        'data_confirm_pgto'
     ];
 
 }

@@ -20,6 +20,10 @@ angular.module('app.controllers')
             current: 1
         };
 
+        $scope.pageChanged = function(newPage){
+            getResultsPage(newPage);
+        };
+
         //PEGO O USUARIO QUE ESTA CONECTADO NO SISTEMA E PASSO COMO PARAMETRO O ID PARA IDENTIFICAR O TIPO DE USUARIO E TRAZER A QUERY
         //DE ACORDO COM O SEU TIPO
         function getResultsPage(pageNumber){
@@ -36,21 +40,6 @@ angular.module('app.controllers')
             });
         }
         getResultsPage(1);
-
-        //SE HOUVER ALTERACAO NA PAGINA, EXIBE OS RESULTADOS DA MESMA
-        $scope.pageChanged = function(newPage){
-            getResultsPage(newPage);
-        };
-
-        $scope.exibirCliente = function (cliente) {
-            $scope.cliente = cliente;
-
-            $scope.usuarios = Usuario.query({
-               id: $scope.cliente.id
-            },function (data) {
-                $scope.usuarios = data;
-            });
-        };
 
         //MODAL COM A OPCAO DE CONFIRMAR A EXCLUSAO DO CLIENTE OU CANCELAR A MESMA
         $scope.excluirCliente = function(cliente){
@@ -78,102 +67,39 @@ angular.module('app.controllers')
             );
         };
 
-
-        // SESSÃO REFERENTE AOS USUARIOS
-        //MODAL
-        function atualizarUsuarios(){
-            $scope.usuarios = Usuario.query({
-                id: $scope.cliente.id
-            },function (data) {
-                $scope.usuarios = data;
-            });
-        }
-
-        //ABRE UM MODAL COM A TELA DE EDICAO DO USUARIO
-        $scope.editUser = function(item) {
-            $scope.usuarioEditar = new Usuario.get({id: $scope.cliente.id, idUsuario: item});
-
-            modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl:'build/views/usuario/editar.html',
-                controller: 'ModalInstanceCtrl',
-                scope: $scope //passa o escopo deste controller para o novo controller, não sendo preciso um novo select no banco de dados
-            });
-
-            modalInstance.result.then(function(selectedItem) {
-            }, function() {
-                atualizarUsuarios();
-            });
-        };
-
+        //ABRE O MODAL CHAMANDO A TELA DE EDICAO DO CLIENTE E PASSANDO O ID DO CLIENTE A SER EDITADO
         $scope.editCliente = function(item) {
             $scope.clienteEditar = new Cliente.get({id: item});
 
             modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl:'build/views/cliente/editar.html',
-                controller: 'ModalInstanceCtrl',
+                controller: 'ClienteEditar',
                 scope: $scope //passa o escopo deste controller para o novo controller, não sendo preciso um novo select no banco de dados
             });
 
             modalInstance.result.then(function(selectedItem) {
             }, function() {
-
+                getResultsPage(1);
             });
         };
 
-        //FUNÇAO DE SALVAR O USUARIO
-        $scope.save = function(){
-            if($scope.form.$valid){
-                Usuario.update({id: $scope.cliente.id, idUsuario: $scope.usuarioEditar.id}, $scope.usuarioEditar, function(){
-                    modalInstance.dismiss('close');
-                    toastr.success('O usuário foi atualizado com êxito!','Notificação de sistema');
-                });
-            }
-        };
-
-        //EXCLUSAO DO USUARIO
-        $scope.excluirUsu= function(id_usu){
-            swal({
-                    title: "Exclusão de Usuário",
-                    text: "Tem certeza que dezeja deletar o usuário \n"+$scope.usuarioEditar.name,
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",confirmButtonText: "Sim, deletar!",
-                    cancelButtonText: "Não, cancelar!",
-                    closeOnConfirm: false,
-                    closeOnCancel: false },
-                function(isConfirm){
-                    if (isConfirm) {
-                        swal("Deletado!", "O Usuário foi deletado com sucesso!", "success");
-                        $scope.cadastro = new Usuario();
-                        $scope.cadastro.$delete({id: $scope.cliente.id, idUsuario: id_usu}).then(function(){
-                            atualizarUsuarios();
-                        });
-                    } else {
-                        swal("Cancelado", "O Usuário continua em sua base de dados ", "error");
-                    }
-                });
-        };
-
-        //ABRE UM MODAL COM A TELA DE ALTERACAO DA SENHA DO USUARIO
-        $scope.updatePass = function(item) {
-            $scope.usuarioEditar = new Usuario.get({id: $scope.cliente.id, idUsuario: item});
+        //ABRE O MODAL CHAMANDO A TELA DE EDICAO DO CLIENTE E PASSANDO O ID DO CLIENTE A SER EDITADO
+        $scope.editVendas = function(item) {
+            $scope.clienteEditar = new Cliente.get({id: item});
 
             modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl:'build/views/usuario/novaSenha.html',
-                controller: 'ModalInstanceCtrl',
+                templateUrl:'build/views/cliente/vendas.html',
+                controller: 'ClienteVendasSistema',
                 scope: $scope //passa o escopo deste controller para o novo controller, não sendo preciso um novo select no banco de dados
             });
 
             modalInstance.result.then(function(selectedItem) {
-
-            }, function() {
-                atualizarUsuarios();
-            });
+            }, function() {});
         };
 
+        //FUNCAO EM JS REFERENTE AO FILTRO DE SELECAO DO STATUS DO CLIENTE
         $(".selecionarFiltro").select2({
             placeholder: "Selecione o cliente",
             allowClear: true
@@ -189,29 +115,72 @@ angular.module('app.controllers')
         for (var selector in config) {
             $(selector).chosen(config[selector]);
         }
+            $('.footable').footable();
 
     }]);
 
-//CONTROLLER DO MODAL QUE E ABERTO COM AS TELAS DE EDICAO DE USUARIO / TROCA DE SENHA / EDICAO DE CLIENTE
+
+//  -------------------------------------------------------------------------------------------------------------------------------------------
+
+//CONTROLLER DO MODAL QUE E ABERTO COM AS TELAS DE EDICAO DE CLIENTE
 angular.module('app.controllers')
-    .controller('ModalInstanceCtrl', function ($scope,Cliente,$modalInstance) {
+    .controller('ClienteEditar', function ($scope,Cliente,$modalInstance,appConfig) {
+
+    $scope.status = appConfig.cliente.status;
 
     $scope.ok = function () {
         $modalInstance.close($scope.usuarioEditar.id);
     };
 
+    //SE APERTADO O BOTAO CANCELAR, DA UM DISMISS NO MODAL QUE ESTA ABERTO
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 
-    //FUNÇAO DE SALVAR O CLIENTE
+    //FUNÇAO DE SALVAR O CLIENTE E APOS CONCLUIDO FECHA O MODAL
     $scope.saveCliente = function(){
         if($scope.form.$valid){
             $scope.clienteEditar.cpf_cnpj = $scope.clienteEditar.cpf_cnpj.replace(".","").replace(".","").replace("/","").replace("-","");
             Cliente.update({id: $scope.clienteEditar.id}, $scope.clienteEditar, function(){
                 $modalInstance.dismiss();
+
+                toastr.options.progressBar = true;
+                toastr.options.closeDuration = 300;
                 toastr.success('O cliente foi atualizado com êxito!','Notificação de sistema');
             });
         }
     }
+        $('.footable').footable();
 });
+
+//  -------------------------------------------------------------------------------------------------------------------------------------------
+
+//CONTROLLER DO MODAL QUE E ABERTO COM AS TELAS DE EDICAO DE USUARIO / TROCA DE SENHA / EDICAO DE CLIENTE
+angular.module('app.controllers')
+    .controller('ClienteVendasSistema', function ($scope,Cliente,$modalInstance) {
+        $scope.quantidade_usuarios = 1;
+
+        $scope.ok = function () {
+            $modalInstance.close($scope.usuarioEditar.id);
+        };
+
+        //SE APERTADO O BOTAO CANCELAR, DA UM DISMISS NO MODAL QUE ESTA ABERTO
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+        //FUNÇAO DE SALVAR O CLIENTE E APOS CONCLUIDO FECHA O MODAL
+        $scope.saveCliente = function(){
+            if($scope.form.$valid){
+                $scope.clienteEditar.cpf_cnpj = $scope.clienteEditar.cpf_cnpj.replace(".","").replace(".","").replace("/","").replace("-","");
+                Cliente.update({id: $scope.clienteEditar.id}, $scope.clienteEditar, function(){
+                    $modalInstance.dismiss();
+                    toastr.options.progressBar = true;
+                    toastr.options.closeDuration = 300;
+                    toastr.success('O cliente foi atualizado com êxito!','Notificação de sistema');
+                });
+            }
+        }
+
+        $('.footable').footable();
+    });

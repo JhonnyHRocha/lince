@@ -1,0 +1,160 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">Gerenciamento de Vendas</h4>
+</div>
+<div class="modal-body">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Adicionar nova venda para o cliente <strong>{{clienteEditar.nome}}</strong></h5>
+                </div>
+                <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="save()">
+                    <div class="ibox-content">
+                            <p>
+                                <strong>Tipo de venda</strong>
+                                <select class="form-control" name="status" ng-model="tipo_venda" required>
+                                    <option value="1">Renovação</option>
+                                    <option value="2">Avulsa</option>
+                                    <option value="3">Listagem</option>
+                                    <option value="4">Lote</option>
+                                </select>
+                            </p>
+                            <p>
+                                <strong>Pacote</strong>
+                                <select class="form-control" name="status" ng-model="pacote" required>
+                                    <option value="0">Ilimitado</option>
+                                </select>
+                            </p>
+                            <p>
+                                <strong>Quantidade de Usuários</strong>
+                                <input type="text" ng-model="quantidade_usuarios"  class="form-control" name="usuarios" id="usuarios">
+                            </p>
+                            <p>
+                                <strong>Valor total</strong>
+                                <input type="text" ng-model="quantidade_usuarios * (100.00) | currency:'R$ '" class="form-control" name="valor" id="valor" readonly="true">
+                            </p>
+                        </div>
+                    <div class="ibox-footer">
+                        <button type="submit" class="btn btn-primary">Adicionar venda</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- LISTAGEM DAS ULTIMAS VENDAS REALIZADAS PARA O CLIENTE -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Últimas vendas para este cliente</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Pacote</th>
+                                <th>Tipo</th>
+                                <th>Vendedor</th>
+                                <th>Usuários</th>
+                                <th>Valor</th>
+                                <th>Data da Venda</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>Ilimitado</td>
+                                <td>Renovação</td>
+                                <td>Jonathan Rocha</td>
+                                <td>3</td>
+                                <td>R$ 300,00</td>
+                                <td>05/11/2015</td>
+                                <td>Concluído</td>
+                                <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Ilimitado</td>
+                                <td>Renovação</td>
+                                <td>Jonathan Rocha</td>
+                                <td>3</td>
+                                <td>R$ 300,00</td>
+                                <td>05/11/2015</td>
+                                <td>Concluído</td>
+                                <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Ilimitado</td>
+                                <td>Renovação</td>
+                                <td>Jonathan Rocha</td>
+                                <td>3</td>
+                                <td>R$ 300,00</td>
+                                <td>05/11/2015</td>
+                                <td>Concluído</td>
+                                <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Ilimitado</td>
+                                <td>Renovação</td>
+                                <td>Jonathan Rocha</td>
+                                <td>3</td>
+                                <td>R$ 300,00</td>
+                                <td>05/11/2015</td>
+                                <td>Concluído</td>
+                                <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Ilimitado</td>
+                                <td>Renovação</td>
+                                <td>Jonathan Rocha</td>
+                                <td>3</td>
+                                <td>R$ 300,00</td>
+                                <td>05/11/2015</td>
+                                <td>Concluído</td>
+                                <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <div class="form-group">
+        <div class="col-md-6 col-md-offset-6">
+            <button ng-click="cancel()" class="btn btn-outline btn-default">Fechar</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    $('.footable').footable();
+
+    $('#data_1 .input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true,
+        format: "dd/mm/yyyy"
+    });
+
+    //FUNCAO EM JS REFERENTE AO FILTRO DE SELECAO DO STATUS DO CLIENTE
+    $(".selecionarFiltro").select2({
+        placeholder: "Selecione o tipo de venda",
+        allowClear: true
+    });
+</script>
+

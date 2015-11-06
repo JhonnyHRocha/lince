@@ -9680,6 +9680,8 @@ f+" > 4096 bytes)!");k.cookie=e}}c.module("ngCookies",["ng"]).provider("$cookies
     }
 })();
 
+!function(){"use strict";angular.module("ngMask",[])}(),function(){"use strict";angular.module("ngMask").directive("mask",["$log","$timeout","MaskService",function(a,b,c){return{restrict:"A",require:"ngModel",compile:function(d,e){function f(a){"number"==typeof a&&(b.cancel(g),g=b(function(){var b=a+1,c=d[0];if(c.setSelectionRange)c.focus(),c.setSelectionRange(a,b);else if(c.createTextRange){var e=c.createTextRange();e.collapse(!0),e.moveEnd("character",b),e.moveStart("character",a),e.select()}}))}if(!e.mask||!e.ngModel)return void a.info("Mask and ng-model attributes are required!");var g,h,i=c.create();return{pre:function(a,b,c){h=i.generateRegex({mask:c.mask,repeat:c.repeat||c.maskRepeat,clean:"true"===(c.clean||c.maskClean),limit:"true"===(c.limit||c.maskLimit||"true"),restrict:c.restrict||c.maskRestrict||"select",validate:"true"===(c.validate||c.maskValidate||"true"),model:c.ngModel,value:c.ngValue})},post:function(c,d,e,g){h.then(function(){function h(b){var c=b;b=b||"";var d=i.getViewValue(b),e=k.maskWithoutOptionals||"",h=d.withDivisors(!0),j=d.withoutDivisors(!0);try{var l=i.getRegex(h.length-1),m=i.getRegex(e.length-1),n=l.test(h)||m.test(h),o=b.length-h.length===1,p=e.length-h.length>0;if("accept"!==k.restrict)if("select"!==k.restrict||n&&!o)"reject"!==k.restrict||n||(d=i.removeWrongPositions(h),h=d.withDivisors(!0),j=d.withoutDivisors(!0));else{var q=b[b.length-1],r=h[h.length-1];q!==r&&p&&(h+=q);var s=i.getFirstWrongPosition(h);angular.isDefined(s)&&f(s)}k.limit||(h=d.withDivisors(!1),j=d.withoutDivisors(!1)),k.validate&&g.$dirty&&(m.test(h)||g.$isEmpty(c)?g.$setValidity("mask",!0):g.$setValidity("mask",!1)),b!==h&&(g.$setViewValue(angular.copy(h),"input"),g.$render())}catch(t){throw a.error("[mask - parseViewValue]"),t}return k.clean?j:h}var j,k=i.getOptions();g.$parsers.push(h),d.on("click input paste keyup",function(){j=b(function(){b.cancel(j),h(d.val()),c.$apply()},100)});var l=c.$watch(e.ngModel,function(a){angular.isDefined(a)&&(h(a),l())});k.value&&c.$evalAsync(function(){g.$setViewValue(angular.copy(k.value),"input"),g.$render()})})}}}}}])}(),function(){"use strict";angular.module("ngMask").factory("MaskService",["$q","OptionalService","UtilService",function(a,b,c){function d(){function d(a,b){var c;try{var d=t[a],e=C[d],f=h(a);e?c="("+e.source+")":(i(a)||(z.push(a),A[a]=d),c="(\\"+d+")")}catch(g){throw g}return(f||b)&&(c+="?"),new RegExp(c)}function e(a,b){var c,f;try{var g=d(a,b);c=g;var i=h(a),j=g.source;if(i&&u>a+1){var k=e(a+1,!0).elementOptionalRegex();j+=k.source}f=new RegExp(j)}catch(l){throw l}return{elementRegex:function(){return c},elementOptionalRegex:function(){return f}}}function f(c){var d=a.defer();s=c;try{var f=c.mask,g=c.repeat;if(!f)return;g&&(f=Array(parseInt(g)+1).join(f)),w=b.getOptionals(f).fromMaskWithoutOptionals(),s.maskWithoutOptionals=t=b.removeOptionals(f),u=t.length;for(var h,i=0;u>i;i++){var l=e(i),m=l.elementRegex(),n=l.elementOptionalRegex(),o=h?h.source+n.source:n.source;o=new RegExp(o),h=h?h.source+m.source:m.source,h=new RegExp(h),B.push(o)}j(),v=k(t).length,d.resolve({options:s,divisors:z,divisorElements:A,optionalIndexes:w,optionalDivisors:x,optionalDivisorsCombinations:y})}catch(p){throw d.reject(p),p}return d.promise}function g(a){var b;try{b=B[a]?B[a].source:""}catch(c){throw c}return new RegExp("^"+b+"$")}function h(a){return c.inArray(a,w)}function i(a){return c.inArray(a,z)}function j(){function a(a,b){return a-b}for(var b=z.sort(a),c=w.sort(a),d=0;d<b.length;d++)for(var e=b[d],f=1;f<=c.length;f++){var g=c[f-1];if(g>=e)break;x[e]=x[e]?x[e].concat(e-f):[e-f],A[e-f]=A[e]}}function k(a){a=a.toString();try{if(z.length>0&&a){for(var b=Object.keys(A),d=[],e=b.length-1;e>=0;e--){var f=A[b[e]];f&&d.push(f)}d=c.uniqueArray(d);var g=new RegExp("[\\"+d.join("\\")+"]","g");return a.replace(g,"")}return a}catch(h){throw h}}function l(a,b){function d(a,b){for(var c=b,d=0;d<a.length;d++){var e=a[d];e<c.length&&c.splice(e,0,A[e])}return c}var e=a,f=z.filter(function(a){var d=Object.keys(x).map(function(a){return parseInt(a)});return!c.inArray(a,b)&&!c.inArray(a,d)});return angular.isArray(a)&&angular.isArray(b)?(e=d(f,e),e=d(b,e)):e}function m(a){var b=a.split(""),d=!0;if(w.length>0){for(var e=[],f=Object.keys(x),h=0;h<f.length;h++){var i=x[f[h]];e.push(i)}0===y.length&&c.lazyProduct(e,function(){y.push(Array.prototype.slice.call(arguments))});for(var h=y.length-1;h>=0;h--){var j=angular.copy(b);j=l(j,y[h]);var k=j.join(""),m=g(t.length-1);if(m.test(k)){d=!1,b=j;break}}}return d&&(b=l(b,z)),b.join("")}function n(){return s}function o(a){try{var b=k(a),c=m(b);return{withDivisors:function(a){return a?c.substr(0,u):c},withoutDivisors:function(a){return a?b.substr(0,v):b}}}catch(d){throw d}}function p(a,b){var c=[];if(!a)return 0;for(var d=0;d<a.length;d++){var e=g(d),f=a.substr(0,d+1);if(e&&!e.test(f)&&(c.push(d),b))break}return c}function q(a){return p(a,!0)[0]}function r(a){for(var b=p(a,!1),c=a,d=0;d<b.length;d++){var e=b[d],f=a.split("");f.splice(e,1),c=f.join("")}return o(c)}var s,t,u=0,v=0,w=[],x={},y=[],z=[],A={},B=[],C={9:/[0-9]/,8:/[0-8]/,7:/[0-7]/,6:/[0-6]/,5:/[0-5]/,4:/[0-4]/,3:/[0-3]/,2:/[0-2]/,1:/[0-1]/,0:/[0]/,"*":/./,w:/\w/,W:/\W/,d:/\d/,D:/\D/,s:/\s/,S:/\S/,b:/\b/,A:/[A-Z]/,a:/[a-z]/,Z:/[A-ZÇÀÁÂÃÈÉÊẼÌÍÎĨÒÓÔÕÙÚÛŨ]/,z:/[a-zçáàãâéèêẽíìĩîóòôõúùũüû]/,"@":/[a-zA-Z]/,"#":/[a-zA-ZçáàãâéèêẽíìĩîóòôõúùũüûÇÀÁÂÃÈÉÊẼÌÍÎĨÒÓÔÕÙÚÛŨ]/,"%":/[0-9a-zA-ZçáàãâéèêẽíìĩîóòôõúùũüûÇÀÁÂÃÈÉÊẼÌÍÎĨÒÓÔÕÙÚÛŨ]/};return{getViewValue:o,generateRegex:f,getRegex:g,getOptions:n,removeDivisors:k,getFirstWrongPosition:q,removeWrongPositions:r}}return{create:d}}])}(),function(){"use strict";angular.module("ngMask").factory("OptionalService",[function(){function a(a){var c=[];try{for(var d=/\?/g,e=[];null!=(e=d.exec(a));)c.push(e.index-1)}catch(f){throw f}return{fromMask:function(){return c},fromMaskWithoutOptionals:function(){return b(c)}}}function b(a){for(var b=[],c=0;c<a.length;c++)b.push(a[c]-c);return b}function c(a){var b;try{b=a.replace(/\?/g,"")}catch(c){throw c}return b}return{removeOptionals:c,getOptionals:a}}])}(),function(){"use strict";angular.module("ngMask").factory("UtilService",[function(){function a(a,b,c){function d(h){var i=a[h],j=g[h];if(h===f)for(var k=0;j>k;++k)e[h]=i[k],b.apply(c,e);else for(var k=0;j>k;++k)e[h]=i[k],d(h+1);e.pop()}c||(c=this);for(var e=[],f=a.length-1,g=[],h=a.length;h--;)g[h]=a[h].length;d(0)}function b(a,b){var c;try{c=b.indexOf(a)>-1}catch(d){throw d}return c}function c(a){for(var b={},c=[],d=0,e=a.length;e>d;++d)b.hasOwnProperty(a[d])||(c.push(a[d]),b[a[d]]=1);return c}return{lazyProduct:a,inArray:b,uniqueArray:c}}])}();
+//# sourceMappingURL=ngMask.min.map
 /*! jQuery UI - v1.10.4 - 2014-04-02
 * http://jqueryui.com
 * Includes: jquery.ui.core.js, jquery.ui.widget.js, jquery.ui.mouse.js, jquery.ui.position.js, jquery.ui.accordion.js, jquery.ui.autocomplete.js, jquery.ui.button.js, jquery.ui.datepicker.js, jquery.ui.dialog.js, jquery.ui.draggable.js, jquery.ui.droppable.js, jquery.ui.effect.js, jquery.ui.effect-blind.js, jquery.ui.effect-bounce.js, jquery.ui.effect-clip.js, jquery.ui.effect-drop.js, jquery.ui.effect-explode.js, jquery.ui.effect-fade.js, jquery.ui.effect-fold.js, jquery.ui.effect-highlight.js, jquery.ui.effect-pulsate.js, jquery.ui.effect-scale.js, jquery.ui.effect-shake.js, jquery.ui.effect-slide.js, jquery.ui.effect-transfer.js, jquery.ui.menu.js, jquery.ui.progressbar.js, jquery.ui.resizable.js, jquery.ui.selectable.js, jquery.ui.slider.js, jquery.ui.sortable.js, jquery.ui.spinner.js, jquery.ui.tabs.js, jquery.ui.tooltip.js
@@ -9722,7 +9724,9 @@ return isNaN(t)?d:t},g=p(l[0]),m=Math.max(g,p(l[1]||"")),g=a?Math.max(g,a.getFul
  *
  */
 
+
 $(document).ready(function () {
+
 
     // Add body-small class if window less than 768px
     if ($(this).width() < 769) {
@@ -9735,7 +9739,7 @@ $(document).ready(function () {
     $('#side-menu').metisMenu();
 
     // Collapse ibox function
-    $('.collapse-link').click( function() {
+    $('.collapse-link').click(function () {
         var ibox = $(this).closest('div.ibox');
         var button = $(this).find('i');
         var content = ibox.find('div.ibox-content');
@@ -9749,19 +9753,31 @@ $(document).ready(function () {
     });
 
     // Close ibox function
-    $('.close-link').click( function() {
+    $('.close-link').click(function () {
         var content = $(this).closest('div.ibox');
         content.remove();
     });
 
+    // Fullscreen ibox function
+    $('.fullscreen-link').click(function() {
+        var ibox = $(this).closest('div.ibox');
+        var button = $(this).find('i');
+        $('body').toggleClass('fullscreen-ibox-mode');
+        button.toggleClass('fa-expand').toggleClass('fa-compress');
+        ibox.toggleClass('fullscreen');
+        setTimeout(function() {
+            $(window).trigger('resize');
+        }, 100);
+    });
+
     // Close menu in canvas mode
-    $('.close-canvas-menu').click( function() {
+    $('.close-canvas-menu').click(function () {
         $("body").toggleClass("mini-navbar");
         SmoothlyMenu();
     });
 
     // Open close right sidebar
-    $('.right-sidebar-toggle').click(function(){
+    $('.right-sidebar-toggle').click(function () {
         $('#right-sidebar').toggleClass('sidebar-open');
     });
 
@@ -9773,7 +9789,7 @@ $(document).ready(function () {
     });
 
     // Open close small chat
-    $('.open-small-chat').click(function(){
+    $('.open-small-chat').click(function () {
         $(this).children().toggleClass('fa-comments').toggleClass('fa-remove');
         $('.small-chat-box').toggleClass('active');
     });
@@ -9785,7 +9801,7 @@ $(document).ready(function () {
     });
 
     // Small todo handler
-    $('.check-link').click( function(){
+    $('.check-link').click(function () {
         var button = $(this).find('i');
         var label = $(this).next('span');
         button.toggleClass('fa-check-square').toggleClass('fa-square-o');
@@ -9818,12 +9834,12 @@ $(document).ready(function () {
         var navbarHeigh = $('nav.navbar-default').height();
         var wrapperHeigh = $('#page-wrapper').height();
 
-        if(navbarHeigh > wrapperHeigh){
+        if (navbarHeigh > wrapperHeigh) {
             $('#page-wrapper').css("min-height", navbarHeigh + "px");
         }
 
-        if(navbarHeigh < wrapperHeigh){
-            $('#page-wrapper').css("min-height", $(window).height()  + "px");
+        if (navbarHeigh < wrapperHeigh) {
+            $('#page-wrapper').css("min-height", $(window).height() + "px");
         }
 
         if ($('body').hasClass('fixed-nav')) {
@@ -9831,6 +9847,7 @@ $(document).ready(function () {
         }
 
     }
+
     fix_height();
 
     // Fixed Sidebar
@@ -9841,19 +9858,19 @@ $(document).ready(function () {
                 railOpacity: 0.9
             });
         }
-    })
+    });
 
     // Move right sidebar top after scroll
-    $(window).scroll(function(){
-        if ($(window).scrollTop() > 0 && !$('body').hasClass('fixed-nav') ) {
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 0 && !$('body').hasClass('fixed-nav')) {
             $('#right-sidebar').addClass('sidebar-top');
         } else {
             $('#right-sidebar').removeClass('sidebar-top');
         }
     });
 
-    $(window).bind("load resize scroll", function() {
-        if(!$("body").hasClass('body-small')) {
+    $(window).bind("load resize scroll", function () {
+        if (!$("body").hasClass('body-small')) {
             fix_height();
         }
     });
@@ -9877,16 +9894,70 @@ $(window).bind("resize", function () {
     }
 });
 
+// Local Storage functions
+// Set proper body class and plugins based on user configuration
+$(document).ready(function () {
+    if (localStorageSupport) {
+
+        var collapse = localStorage.getItem("collapse_menu");
+        var fixedsidebar = localStorage.getItem("fixedsidebar");
+        var fixednavbar = localStorage.getItem("fixednavbar");
+        var boxedlayout = localStorage.getItem("boxedlayout");
+        var fixedfooter = localStorage.getItem("fixedfooter");
+
+        var body = $('body');
+
+        if (fixedsidebar == 'on') {
+            body.addClass('fixed-sidebar');
+            $('.sidebar-collapse').slimScroll({
+                height: '100%',
+                railOpacity: 0.9
+            });
+        }
+
+        if (collapse == 'on') {
+            if (body.hasClass('fixed-sidebar')) {
+                if (!body.hasClass('body-small')) {
+                    body.addClass('mini-navbar');
+                }
+            } else {
+                if (!body.hasClass('body-small')) {
+                    body.addClass('mini-navbar');
+                }
+
+            }
+        }
+
+        if (fixednavbar == 'on') {
+            $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
+            body.addClass('fixed-nav');
+        }
+
+        if (boxedlayout == 'on') {
+            body.addClass('boxed-layout');
+        }
+
+        if (fixedfooter == 'on') {
+            $(".footer").addClass('fixed');
+        }
+    }
+});
+
+// check if browser support HTML5 local storage
+function localStorageSupport() {
+    return (('localStorage' in window) && window['localStorage'] !== null)
+}
+
 // For demo purpose - animation css script
-function animationHover(element, animation){
+function animationHover(element, animation) {
     element = $(element);
     element.hover(
-        function() {
+        function () {
             element.addClass('animated ' + animation);
         },
-        function(){
+        function () {
             //wait for animation to finish before removing classes
-            window.setTimeout( function(){
+            window.setTimeout(function () {
                 element.removeClass('animated ' + animation);
             }, 2000);
         });
@@ -9912,6 +9983,23 @@ function SmoothlyMenu() {
         $('#side-menu').removeAttr('style');
     }
 }
+
+// Dragable panels
+function WinMove() {
+    var element = "[class*=col]";
+    var handle = ".ibox-title";
+    var connect = "[class*=col]";
+    $(element).sortable(
+        {
+            handle: handle,
+            connectWith: connect,
+            tolerance: 'pointer',
+            forcePlaceholderSize: true,
+            opacity: 0.8
+        })
+        .disableSelection();
+}
+
 
 
 /*!
@@ -12810,6 +12898,2216 @@ b.id!=f.id&&d.push(f.id)}c.$element.val(d.join(c._valueSeparator)),c.$element.tr
 
 !function(e){e(["jquery"],function(e){return function(){function t(e,t,n){return f({type:O.error,iconClass:g().iconClasses.error,message:e,optionsOverride:n,title:t})}function n(t,n){return t||(t=g()),v=e("#"+t.containerId),v.length?v:(n&&(v=c(t)),v)}function i(e,t,n){return f({type:O.info,iconClass:g().iconClasses.info,message:e,optionsOverride:n,title:t})}function o(e){w=e}function s(e,t,n){return f({type:O.success,iconClass:g().iconClasses.success,message:e,optionsOverride:n,title:t})}function a(e,t,n){return f({type:O.warning,iconClass:g().iconClasses.warning,message:e,optionsOverride:n,title:t})}function r(e){var t=g();v||n(t),l(e,t)||u(t)}function d(t){var i=g();return v||n(i),t&&0===e(":focus",t).length?void h(t):void(v.children().length&&v.remove())}function u(t){for(var n=v.children(),i=n.length-1;i>=0;i--)l(e(n[i]),t)}function l(t,n){return t&&0===e(":focus",t).length?(t[n.hideMethod]({duration:n.hideDuration,easing:n.hideEasing,complete:function(){h(t)}}),!0):!1}function c(t){return v=e("<div/>").attr("id",t.containerId).addClass(t.positionClass).attr("aria-live","polite").attr("role","alert"),v.appendTo(e(t.target)),v}function p(){return{tapToDismiss:!0,toastClass:"toast",containerId:"toast-container",debug:!1,showMethod:"fadeIn",showDuration:300,showEasing:"swing",onShown:void 0,hideMethod:"fadeOut",hideDuration:1e3,hideEasing:"swing",onHidden:void 0,extendedTimeOut:1e3,iconClasses:{error:"toast-error",info:"toast-info",success:"toast-success",warning:"toast-warning"},iconClass:"toast-info",positionClass:"toast-top-right",timeOut:5e3,titleClass:"toast-title",messageClass:"toast-message",target:"body",closeHtml:'<button type="button">&times;</button>',newestOnTop:!0,preventDuplicates:!1,progressBar:!1}}function m(e){w&&w(e)}function f(t){function i(t){return!e(":focus",l).length||t?(clearTimeout(O.intervalId),l[r.hideMethod]({duration:r.hideDuration,easing:r.hideEasing,complete:function(){h(l),r.onHidden&&"hidden"!==b.state&&r.onHidden(),b.state="hidden",b.endTime=new Date,m(b)}})):void 0}function o(){(r.timeOut>0||r.extendedTimeOut>0)&&(u=setTimeout(i,r.extendedTimeOut),O.maxHideTime=parseFloat(r.extendedTimeOut),O.hideEta=(new Date).getTime()+O.maxHideTime)}function s(){clearTimeout(u),O.hideEta=0,l.stop(!0,!0)[r.showMethod]({duration:r.showDuration,easing:r.showEasing})}function a(){var e=(O.hideEta-(new Date).getTime())/O.maxHideTime*100;f.width(e+"%")}var r=g(),d=t.iconClass||r.iconClass;if("undefined"!=typeof t.optionsOverride&&(r=e.extend(r,t.optionsOverride),d=t.optionsOverride.iconClass||d),r.preventDuplicates){if(t.message===C)return;C=t.message}T++,v=n(r,!0);var u=null,l=e("<div/>"),c=e("<div/>"),p=e("<div/>"),f=e("<div/>"),w=e(r.closeHtml),O={intervalId:null,hideEta:null,maxHideTime:null},b={toastId:T,state:"visible",startTime:new Date,options:r,map:t};return t.iconClass&&l.addClass(r.toastClass).addClass(d),t.title&&(c.append(t.title).addClass(r.titleClass),l.append(c)),t.message&&(p.append(t.message).addClass(r.messageClass),l.append(p)),r.closeButton&&(w.addClass("toast-close-button").attr("role","button"),l.prepend(w)),r.progressBar&&(f.addClass("toast-progress"),l.prepend(f)),l.hide(),r.newestOnTop?v.prepend(l):v.append(l),l[r.showMethod]({duration:r.showDuration,easing:r.showEasing,complete:r.onShown}),r.timeOut>0&&(u=setTimeout(i,r.timeOut),O.maxHideTime=parseFloat(r.timeOut),O.hideEta=(new Date).getTime()+O.maxHideTime,r.progressBar&&(O.intervalId=setInterval(a,10))),l.hover(s,o),!r.onclick&&r.tapToDismiss&&l.click(i),r.closeButton&&w&&w.click(function(e){e.stopPropagation?e.stopPropagation():void 0!==e.cancelBubble&&e.cancelBubble!==!0&&(e.cancelBubble=!0),i(!0)}),r.onclick&&l.click(function(){r.onclick(),i()}),m(b),r.debug&&console&&console.log(b),l}function g(){return e.extend({},p(),b.options)}function h(e){v||(v=n()),e.is(":visible")||(e.remove(),e=null,0===v.children().length&&(v.remove(),C=void 0))}var v,w,C,T=0,O={error:"error",info:"info",success:"success",warning:"warning"},b={clear:r,remove:d,error:t,getContainer:n,info:i,options:{},subscribe:o,success:s,version:"2.1.0",warning:a};return b}()})}("function"==typeof define&&define.amd?define:function(e,t){"undefined"!=typeof module&&module.exports?module.exports=t(require("jquery")):window.toastr=t(window.jQuery)});
 //# sourceMappingURL=/toastr.js.map
+/*! jQuery Validation Plugin - v1.13.0 - 7/1/2014
+ * http://jqueryvalidation.org/
+ * Copyright (c) 2014 Jörn Zaefferer; Licensed MIT */
+!function(a){"function"==typeof define&&define.amd?define(["jquery"],a):a(jQuery)}(function(a){a.extend(a.fn,{validate:function(b){if(!this.length)return void(b&&b.debug&&window.console&&console.warn("Nothing selected, can't validate, returning nothing."));var c=a.data(this[0],"validator");return c?c:(this.attr("novalidate","novalidate"),c=new a.validator(b,this[0]),a.data(this[0],"validator",c),c.settings.onsubmit&&(this.validateDelegate(":submit","click",function(b){c.settings.submitHandler&&(c.submitButton=b.target),a(b.target).hasClass("cancel")&&(c.cancelSubmit=!0),void 0!==a(b.target).attr("formnovalidate")&&(c.cancelSubmit=!0)}),this.submit(function(b){function d(){var d;return c.settings.submitHandler?(c.submitButton&&(d=a("<input type='hidden'/>").attr("name",c.submitButton.name).val(a(c.submitButton).val()).appendTo(c.currentForm)),c.settings.submitHandler.call(c,c.currentForm,b),c.submitButton&&d.remove(),!1):!0}return c.settings.debug&&b.preventDefault(),c.cancelSubmit?(c.cancelSubmit=!1,d()):c.form()?c.pendingRequest?(c.formSubmitted=!0,!1):d():(c.focusInvalid(),!1)})),c)},valid:function(){var b,c;return a(this[0]).is("form")?b=this.validate().form():(b=!0,c=a(this[0].form).validate(),this.each(function(){b=c.element(this)&&b})),b},removeAttrs:function(b){var c={},d=this;return a.each(b.split(/\s/),function(a,b){c[b]=d.attr(b),d.removeAttr(b)}),c},rules:function(b,c){var d,e,f,g,h,i,j=this[0];if(b)switch(d=a.data(j.form,"validator").settings,e=d.rules,f=a.validator.staticRules(j),b){case"add":a.extend(f,a.validator.normalizeRule(c)),delete f.messages,e[j.name]=f,c.messages&&(d.messages[j.name]=a.extend(d.messages[j.name],c.messages));break;case"remove":return c?(i={},a.each(c.split(/\s/),function(b,c){i[c]=f[c],delete f[c],"required"===c&&a(j).removeAttr("aria-required")}),i):(delete e[j.name],f)}return g=a.validator.normalizeRules(a.extend({},a.validator.classRules(j),a.validator.attributeRules(j),a.validator.dataRules(j),a.validator.staticRules(j)),j),g.required&&(h=g.required,delete g.required,g=a.extend({required:h},g),a(j).attr("aria-required","true")),g.remote&&(h=g.remote,delete g.remote,g=a.extend(g,{remote:h})),g}}),a.extend(a.expr[":"],{blank:function(b){return!a.trim(""+a(b).val())},filled:function(b){return!!a.trim(""+a(b).val())},unchecked:function(b){return!a(b).prop("checked")}}),a.validator=function(b,c){this.settings=a.extend(!0,{},a.validator.defaults,b),this.currentForm=c,this.init()},a.validator.format=function(b,c){return 1===arguments.length?function(){var c=a.makeArray(arguments);return c.unshift(b),a.validator.format.apply(this,c)}:(arguments.length>2&&c.constructor!==Array&&(c=a.makeArray(arguments).slice(1)),c.constructor!==Array&&(c=[c]),a.each(c,function(a,c){b=b.replace(new RegExp("\\{"+a+"\\}","g"),function(){return c})}),b)},a.extend(a.validator,{defaults:{messages:{},groups:{},rules:{},errorClass:"error",validClass:"valid",errorElement:"label",focusInvalid:!0,errorContainer:a([]),errorLabelContainer:a([]),onsubmit:!0,ignore:":hidden",ignoreTitle:!1,onfocusin:function(a){this.lastActive=a,this.settings.focusCleanup&&!this.blockFocusCleanup&&(this.settings.unhighlight&&this.settings.unhighlight.call(this,a,this.settings.errorClass,this.settings.validClass),this.hideThese(this.errorsFor(a)))},onfocusout:function(a){this.checkable(a)||!(a.name in this.submitted)&&this.optional(a)||this.element(a)},onkeyup:function(a,b){(9!==b.which||""!==this.elementValue(a))&&(a.name in this.submitted||a===this.lastElement)&&this.element(a)},onclick:function(a){a.name in this.submitted?this.element(a):a.parentNode.name in this.submitted&&this.element(a.parentNode)},highlight:function(b,c,d){"radio"===b.type?this.findByName(b.name).addClass(c).removeClass(d):a(b).addClass(c).removeClass(d)},unhighlight:function(b,c,d){"radio"===b.type?this.findByName(b.name).removeClass(c).addClass(d):a(b).removeClass(c).addClass(d)}},setDefaults:function(b){a.extend(a.validator.defaults,b)},messages:{required:"This field is required.",remote:"Please fix this field.",email:"Please enter a valid email address.",url:"Please enter a valid URL.",date:"Please enter a valid date.",dateISO:"Please enter a valid date ( ISO ).",number:"Please enter a valid number.",digits:"Please enter only digits.",creditcard:"Please enter a valid credit card number.",equalTo:"Please enter the same value again.",maxlength:a.validator.format("Please enter no more than {0} characters."),minlength:a.validator.format("Please enter at least {0} characters."),rangelength:a.validator.format("Please enter a value between {0} and {1} characters long."),range:a.validator.format("Please enter a value between {0} and {1}."),max:a.validator.format("Please enter a value less than or equal to {0}."),min:a.validator.format("Please enter a value greater than or equal to {0}.")},autoCreateRanges:!1,prototype:{init:function(){function b(b){var c=a.data(this[0].form,"validator"),d="on"+b.type.replace(/^validate/,""),e=c.settings;e[d]&&!this.is(e.ignore)&&e[d].call(c,this[0],b)}this.labelContainer=a(this.settings.errorLabelContainer),this.errorContext=this.labelContainer.length&&this.labelContainer||a(this.currentForm),this.containers=a(this.settings.errorContainer).add(this.settings.errorLabelContainer),this.submitted={},this.valueCache={},this.pendingRequest=0,this.pending={},this.invalid={},this.reset();var c,d=this.groups={};a.each(this.settings.groups,function(b,c){"string"==typeof c&&(c=c.split(/\s/)),a.each(c,function(a,c){d[c]=b})}),c=this.settings.rules,a.each(c,function(b,d){c[b]=a.validator.normalizeRule(d)}),a(this.currentForm).validateDelegate(":text, [type='password'], [type='file'], select, textarea, [type='number'], [type='search'] ,[type='tel'], [type='url'], [type='email'], [type='datetime'], [type='date'], [type='month'], [type='week'], [type='time'], [type='datetime-local'], [type='range'], [type='color'], [type='radio'], [type='checkbox']","focusin focusout keyup",b).validateDelegate("select, option, [type='radio'], [type='checkbox']","click",b),this.settings.invalidHandler&&a(this.currentForm).bind("invalid-form.validate",this.settings.invalidHandler),a(this.currentForm).find("[required], [data-rule-required], .required").attr("aria-required","true")},form:function(){return this.checkForm(),a.extend(this.submitted,this.errorMap),this.invalid=a.extend({},this.errorMap),this.valid()||a(this.currentForm).triggerHandler("invalid-form",[this]),this.showErrors(),this.valid()},checkForm:function(){this.prepareForm();for(var a=0,b=this.currentElements=this.elements();b[a];a++)this.check(b[a]);return this.valid()},element:function(b){var c=this.clean(b),d=this.validationTargetFor(c),e=!0;return this.lastElement=d,void 0===d?delete this.invalid[c.name]:(this.prepareElement(d),this.currentElements=a(d),e=this.check(d)!==!1,e?delete this.invalid[d.name]:this.invalid[d.name]=!0),a(b).attr("aria-invalid",!e),this.numberOfInvalids()||(this.toHide=this.toHide.add(this.containers)),this.showErrors(),e},showErrors:function(b){if(b){a.extend(this.errorMap,b),this.errorList=[];for(var c in b)this.errorList.push({message:b[c],element:this.findByName(c)[0]});this.successList=a.grep(this.successList,function(a){return!(a.name in b)})}this.settings.showErrors?this.settings.showErrors.call(this,this.errorMap,this.errorList):this.defaultShowErrors()},resetForm:function(){a.fn.resetForm&&a(this.currentForm).resetForm(),this.submitted={},this.lastElement=null,this.prepareForm(),this.hideErrors(),this.elements().removeClass(this.settings.errorClass).removeData("previousValue").removeAttr("aria-invalid")},numberOfInvalids:function(){return this.objectLength(this.invalid)},objectLength:function(a){var b,c=0;for(b in a)c++;return c},hideErrors:function(){this.hideThese(this.toHide)},hideThese:function(a){a.not(this.containers).text(""),this.addWrapper(a).hide()},valid:function(){return 0===this.size()},size:function(){return this.errorList.length},focusInvalid:function(){if(this.settings.focusInvalid)try{a(this.findLastActive()||this.errorList.length&&this.errorList[0].element||[]).filter(":visible").focus().trigger("focusin")}catch(b){}},findLastActive:function(){var b=this.lastActive;return b&&1===a.grep(this.errorList,function(a){return a.element.name===b.name}).length&&b},elements:function(){var b=this,c={};return a(this.currentForm).find("input, select, textarea").not(":submit, :reset, :image, [disabled]").not(this.settings.ignore).filter(function(){return!this.name&&b.settings.debug&&window.console&&console.error("%o has no name assigned",this),this.name in c||!b.objectLength(a(this).rules())?!1:(c[this.name]=!0,!0)})},clean:function(b){return a(b)[0]},errors:function(){var b=this.settings.errorClass.split(" ").join(".");return a(this.settings.errorElement+"."+b,this.errorContext)},reset:function(){this.successList=[],this.errorList=[],this.errorMap={},this.toShow=a([]),this.toHide=a([]),this.currentElements=a([])},prepareForm:function(){this.reset(),this.toHide=this.errors().add(this.containers)},prepareElement:function(a){this.reset(),this.toHide=this.errorsFor(a)},elementValue:function(b){var c,d=a(b),e=b.type;return"radio"===e||"checkbox"===e?a("input[name='"+b.name+"']:checked").val():"number"===e&&"undefined"!=typeof b.validity?b.validity.badInput?!1:d.val():(c=d.val(),"string"==typeof c?c.replace(/\r/g,""):c)},check:function(b){b=this.validationTargetFor(this.clean(b));var c,d,e,f=a(b).rules(),g=a.map(f,function(a,b){return b}).length,h=!1,i=this.elementValue(b);for(d in f){e={method:d,parameters:f[d]};try{if(c=a.validator.methods[d].call(this,i,b,e.parameters),"dependency-mismatch"===c&&1===g){h=!0;continue}if(h=!1,"pending"===c)return void(this.toHide=this.toHide.not(this.errorsFor(b)));if(!c)return this.formatAndAdd(b,e),!1}catch(j){throw this.settings.debug&&window.console&&console.log("Exception occurred when checking element "+b.id+", check the '"+e.method+"' method.",j),j}}if(!h)return this.objectLength(f)&&this.successList.push(b),!0},customDataMessage:function(b,c){return a(b).data("msg"+c.charAt(0).toUpperCase()+c.substring(1).toLowerCase())||a(b).data("msg")},customMessage:function(a,b){var c=this.settings.messages[a];return c&&(c.constructor===String?c:c[b])},findDefined:function(){for(var a=0;a<arguments.length;a++)if(void 0!==arguments[a])return arguments[a];return void 0},defaultMessage:function(b,c){return this.findDefined(this.customMessage(b.name,c),this.customDataMessage(b,c),!this.settings.ignoreTitle&&b.title||void 0,a.validator.messages[c],"<strong>Warning: No message defined for "+b.name+"</strong>")},formatAndAdd:function(b,c){var d=this.defaultMessage(b,c.method),e=/\$?\{(\d+)\}/g;"function"==typeof d?d=d.call(this,c.parameters,b):e.test(d)&&(d=a.validator.format(d.replace(e,"{$1}"),c.parameters)),this.errorList.push({message:d,element:b,method:c.method}),this.errorMap[b.name]=d,this.submitted[b.name]=d},addWrapper:function(a){return this.settings.wrapper&&(a=a.add(a.parent(this.settings.wrapper))),a},defaultShowErrors:function(){var a,b,c;for(a=0;this.errorList[a];a++)c=this.errorList[a],this.settings.highlight&&this.settings.highlight.call(this,c.element,this.settings.errorClass,this.settings.validClass),this.showLabel(c.element,c.message);if(this.errorList.length&&(this.toShow=this.toShow.add(this.containers)),this.settings.success)for(a=0;this.successList[a];a++)this.showLabel(this.successList[a]);if(this.settings.unhighlight)for(a=0,b=this.validElements();b[a];a++)this.settings.unhighlight.call(this,b[a],this.settings.errorClass,this.settings.validClass);this.toHide=this.toHide.not(this.toShow),this.hideErrors(),this.addWrapper(this.toShow).show()},validElements:function(){return this.currentElements.not(this.invalidElements())},invalidElements:function(){return a(this.errorList).map(function(){return this.element})},showLabel:function(b,c){var d,e,f,g=this.errorsFor(b),h=this.idOrName(b),i=a(b).attr("aria-describedby");g.length?(g.removeClass(this.settings.validClass).addClass(this.settings.errorClass),g.html(c)):(g=a("<"+this.settings.errorElement+">").attr("id",h+"-error").addClass(this.settings.errorClass).html(c||""),d=g,this.settings.wrapper&&(d=g.hide().show().wrap("<"+this.settings.wrapper+"/>").parent()),this.labelContainer.length?this.labelContainer.append(d):this.settings.errorPlacement?this.settings.errorPlacement(d,a(b)):d.insertAfter(b),g.is("label")?g.attr("for",h):0===g.parents("label[for='"+h+"']").length&&(f=g.attr("id"),i?i.match(new RegExp("\b"+f+"\b"))||(i+=" "+f):i=f,a(b).attr("aria-describedby",i),e=this.groups[b.name],e&&a.each(this.groups,function(b,c){c===e&&a("[name='"+b+"']",this.currentForm).attr("aria-describedby",g.attr("id"))}))),!c&&this.settings.success&&(g.text(""),"string"==typeof this.settings.success?g.addClass(this.settings.success):this.settings.success(g,b)),this.toShow=this.toShow.add(g)},errorsFor:function(b){var c=this.idOrName(b),d=a(b).attr("aria-describedby"),e="label[for='"+c+"'], label[for='"+c+"'] *";return d&&(e=e+", #"+d.replace(/\s+/g,", #")),this.errors().filter(e)},idOrName:function(a){return this.groups[a.name]||(this.checkable(a)?a.name:a.id||a.name)},validationTargetFor:function(a){return this.checkable(a)&&(a=this.findByName(a.name).not(this.settings.ignore)[0]),a},checkable:function(a){return/radio|checkbox/i.test(a.type)},findByName:function(b){return a(this.currentForm).find("[name='"+b+"']")},getLength:function(b,c){switch(c.nodeName.toLowerCase()){case"select":return a("option:selected",c).length;case"input":if(this.checkable(c))return this.findByName(c.name).filter(":checked").length}return b.length},depend:function(a,b){return this.dependTypes[typeof a]?this.dependTypes[typeof a](a,b):!0},dependTypes:{"boolean":function(a){return a},string:function(b,c){return!!a(b,c.form).length},"function":function(a,b){return a(b)}},optional:function(b){var c=this.elementValue(b);return!a.validator.methods.required.call(this,c,b)&&"dependency-mismatch"},startRequest:function(a){this.pending[a.name]||(this.pendingRequest++,this.pending[a.name]=!0)},stopRequest:function(b,c){this.pendingRequest--,this.pendingRequest<0&&(this.pendingRequest=0),delete this.pending[b.name],c&&0===this.pendingRequest&&this.formSubmitted&&this.form()?(a(this.currentForm).submit(),this.formSubmitted=!1):!c&&0===this.pendingRequest&&this.formSubmitted&&(a(this.currentForm).triggerHandler("invalid-form",[this]),this.formSubmitted=!1)},previousValue:function(b){return a.data(b,"previousValue")||a.data(b,"previousValue",{old:null,valid:!0,message:this.defaultMessage(b,"remote")})}},classRuleSettings:{required:{required:!0},email:{email:!0},url:{url:!0},date:{date:!0},dateISO:{dateISO:!0},number:{number:!0},digits:{digits:!0},creditcard:{creditcard:!0}},addClassRules:function(b,c){b.constructor===String?this.classRuleSettings[b]=c:a.extend(this.classRuleSettings,b)},classRules:function(b){var c={},d=a(b).attr("class");return d&&a.each(d.split(" "),function(){this in a.validator.classRuleSettings&&a.extend(c,a.validator.classRuleSettings[this])}),c},attributeRules:function(b){var c,d,e={},f=a(b),g=b.getAttribute("type");for(c in a.validator.methods)"required"===c?(d=b.getAttribute(c),""===d&&(d=!0),d=!!d):d=f.attr(c),/min|max/.test(c)&&(null===g||/number|range|text/.test(g))&&(d=Number(d)),d||0===d?e[c]=d:g===c&&"range"!==g&&(e[c]=!0);return e.maxlength&&/-1|2147483647|524288/.test(e.maxlength)&&delete e.maxlength,e},dataRules:function(b){var c,d,e={},f=a(b);for(c in a.validator.methods)d=f.data("rule"+c.charAt(0).toUpperCase()+c.substring(1).toLowerCase()),void 0!==d&&(e[c]=d);return e},staticRules:function(b){var c={},d=a.data(b.form,"validator");return d.settings.rules&&(c=a.validator.normalizeRule(d.settings.rules[b.name])||{}),c},normalizeRules:function(b,c){return a.each(b,function(d,e){if(e===!1)return void delete b[d];if(e.param||e.depends){var f=!0;switch(typeof e.depends){case"string":f=!!a(e.depends,c.form).length;break;case"function":f=e.depends.call(c,c)}f?b[d]=void 0!==e.param?e.param:!0:delete b[d]}}),a.each(b,function(d,e){b[d]=a.isFunction(e)?e(c):e}),a.each(["minlength","maxlength"],function(){b[this]&&(b[this]=Number(b[this]))}),a.each(["rangelength","range"],function(){var c;b[this]&&(a.isArray(b[this])?b[this]=[Number(b[this][0]),Number(b[this][1])]:"string"==typeof b[this]&&(c=b[this].replace(/[\[\]]/g,"").split(/[\s,]+/),b[this]=[Number(c[0]),Number(c[1])]))}),a.validator.autoCreateRanges&&(b.min&&b.max&&(b.range=[b.min,b.max],delete b.min,delete b.max),b.minlength&&b.maxlength&&(b.rangelength=[b.minlength,b.maxlength],delete b.minlength,delete b.maxlength)),b},normalizeRule:function(b){if("string"==typeof b){var c={};a.each(b.split(/\s/),function(){c[this]=!0}),b=c}return b},addMethod:function(b,c,d){a.validator.methods[b]=c,a.validator.messages[b]=void 0!==d?d:a.validator.messages[b],c.length<3&&a.validator.addClassRules(b,a.validator.normalizeRule(b))},methods:{required:function(b,c,d){if(!this.depend(d,c))return"dependency-mismatch";if("select"===c.nodeName.toLowerCase()){var e=a(c).val();return e&&e.length>0}return this.checkable(c)?this.getLength(b,c)>0:a.trim(b).length>0},email:function(a,b){return this.optional(b)||/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(a)},url:function(a,b){return this.optional(b)||/^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(a)},date:function(a,b){return this.optional(b)||!/Invalid|NaN/.test(new Date(a).toString())},dateISO:function(a,b){return this.optional(b)||/^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(a)},number:function(a,b){return this.optional(b)||/^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test(a)},digits:function(a,b){return this.optional(b)||/^\d+$/.test(a)},creditcard:function(a,b){if(this.optional(b))return"dependency-mismatch";if(/[^0-9 \-]+/.test(a))return!1;var c,d,e=0,f=0,g=!1;if(a=a.replace(/\D/g,""),a.length<13||a.length>19)return!1;for(c=a.length-1;c>=0;c--)d=a.charAt(c),f=parseInt(d,10),g&&(f*=2)>9&&(f-=9),e+=f,g=!g;return e%10===0},minlength:function(b,c,d){var e=a.isArray(b)?b.length:this.getLength(a.trim(b),c);return this.optional(c)||e>=d},maxlength:function(b,c,d){var e=a.isArray(b)?b.length:this.getLength(a.trim(b),c);return this.optional(c)||d>=e},rangelength:function(b,c,d){var e=a.isArray(b)?b.length:this.getLength(a.trim(b),c);return this.optional(c)||e>=d[0]&&e<=d[1]},min:function(a,b,c){return this.optional(b)||a>=c},max:function(a,b,c){return this.optional(b)||c>=a},range:function(a,b,c){return this.optional(b)||a>=c[0]&&a<=c[1]},equalTo:function(b,c,d){var e=a(d);return this.settings.onfocusout&&e.unbind(".validate-equalTo").bind("blur.validate-equalTo",function(){a(c).valid()}),b===e.val()},remote:function(b,c,d){if(this.optional(c))return"dependency-mismatch";var e,f,g=this.previousValue(c);return this.settings.messages[c.name]||(this.settings.messages[c.name]={}),g.originalMessage=this.settings.messages[c.name].remote,this.settings.messages[c.name].remote=g.message,d="string"==typeof d&&{url:d}||d,g.old===b?g.valid:(g.old=b,e=this,this.startRequest(c),f={},f[c.name]=b,a.ajax(a.extend(!0,{url:d,mode:"abort",port:"validate"+c.name,dataType:"json",data:f,context:e.currentForm,success:function(d){var f,h,i,j=d===!0||"true"===d;e.settings.messages[c.name].remote=g.originalMessage,j?(i=e.formSubmitted,e.prepareElement(c),e.formSubmitted=i,e.successList.push(c),delete e.invalid[c.name],e.showErrors()):(f={},h=d||e.defaultMessage(c,"remote"),f[c.name]=g.message=a.isFunction(h)?h(b):h,e.invalid[c.name]=!0,e.showErrors(f)),g.valid=j,e.stopRequest(c,j)}},d)),"pending")}}}),a.format=function(){throw"$.format has been deprecated. Please use $.validator.format instead."};var b,c={};a.ajaxPrefilter?a.ajaxPrefilter(function(a,b,d){var e=a.port;"abort"===a.mode&&(c[e]&&c[e].abort(),c[e]=d)}):(b=a.ajax,a.ajax=function(d){var e=("mode"in d?d:a.ajaxSettings).mode,f=("port"in d?d:a.ajaxSettings).port;return"abort"===e?(c[f]&&c[f].abort(),c[f]=b.apply(this,arguments),c[f]):b.apply(this,arguments)}),a.extend(a.fn,{validateDelegate:function(b,c,d){return this.bind(c,function(c){var e=a(c.target);return e.is(b)?d.apply(e,arguments):void 0})}})});
+/*!
+ * FooTable - Awesome Responsive Tables
+ * Version : 2.0.3
+ * http://fooplugins.com/plugins/footable-jquery/
+ *
+ * Requires jQuery - http://jquery.com/
+ *
+ * Copyright 2014 Steven Usher & Brad Vincent
+ * Released under the MIT license
+ * You are free to use FooTable in commercial projects as long as this copyright header is left intact.
+ *
+ * Date: 11 Nov 2014
+ */
+(function(e,t){function a(){var e=this;e.id=null,e.busy=!1,e.start=function(t,a){e.busy||(e.stop(),e.id=setTimeout(function(){t(),e.id=null,e.busy=!1},a),e.busy=!0)},e.stop=function(){null!==e.id&&(clearTimeout(e.id),e.id=null,e.busy=!1)}}function i(i,o,n){var r=this;r.id=n,r.table=i,r.options=o,r.breakpoints=[],r.breakpointNames="",r.columns={},r.plugins=t.footable.plugins.load(r);var l=r.options,d=l.classes,s=l.events,u=l.triggers,f=0;return r.timers={resize:new a,register:function(e){return r.timers[e]=new a,r.timers[e]}},r.init=function(){var a=e(t),i=e(r.table);if(t.footable.plugins.init(r),i.hasClass(d.loaded))return r.raise(s.alreadyInitialized),undefined;r.raise(s.initializing),i.addClass(d.loading),i.find(l.columnDataSelector).each(function(){var e=r.getColumnData(this);r.columns[e.index]=e});for(var o in l.breakpoints)r.breakpoints.push({name:o,width:l.breakpoints[o]}),r.breakpointNames+=o+" ";r.breakpoints.sort(function(e,t){return e.width-t.width}),i.unbind(u.initialize).bind(u.initialize,function(){i.removeData("footable_info"),i.data("breakpoint",""),i.trigger(u.resize),i.removeClass(d.loading),i.addClass(d.loaded).addClass(d.main),r.raise(s.initialized)}).unbind(u.redraw).bind(u.redraw,function(){r.redraw()}).unbind(u.resize).bind(u.resize,function(){r.resize()}).unbind(u.expandFirstRow).bind(u.expandFirstRow,function(){i.find(l.toggleSelector).first().not("."+d.detailShow).trigger(u.toggleRow)}).unbind(u.expandAll).bind(u.expandAll,function(){i.find(l.toggleSelector).not("."+d.detailShow).trigger(u.toggleRow)}).unbind(u.collapseAll).bind(u.collapseAll,function(){i.find("."+d.detailShow).trigger(u.toggleRow)}),i.trigger(u.initialize),a.bind("resize.footable",function(){r.timers.resize.stop(),r.timers.resize.start(function(){r.raise(u.resize)},l.delay)})},r.addRowToggle=function(){if(l.addRowToggle){var t=e(r.table),a=!1;t.find("span."+d.toggle).remove();for(var i in r.columns){var o=r.columns[i];if(o.toggle){a=!0;var n="> tbody > tr:not(."+d.detail+",."+d.disabled+") > td:nth-child("+(parseInt(o.index,10)+1)+"),"+"> tbody > tr:not(."+d.detail+",."+d.disabled+") > th:nth-child("+(parseInt(o.index,10)+1)+")";return t.find(n).not("."+d.detailCell).prepend(e(l.toggleHTMLElement).addClass(d.toggle)),undefined}}a||t.find("> tbody > tr:not(."+d.detail+",."+d.disabled+") > td:first-child").add("> tbody > tr:not(."+d.detail+",."+d.disabled+") > th:first-child").not("."+d.detailCell).prepend(e(l.toggleHTMLElement).addClass(d.toggle))}},r.setColumnClasses=function(){var t=e(r.table);for(var a in r.columns){var i=r.columns[a];if(null!==i.className){var o="",n=!0;e.each(i.matches,function(e,t){n||(o+=", "),o+="> tbody > tr:not(."+d.detail+") > td:nth-child("+(parseInt(t,10)+1)+")",n=!1}),t.find(o).not("."+d.detailCell).addClass(i.className)}}},r.bindToggleSelectors=function(){var t=e(r.table);r.hasAnyBreakpointColumn()&&(t.find(l.toggleSelector).unbind(u.toggleRow).bind(u.toggleRow,function(){var t=e(this).is("tr")?e(this):e(this).parents("tr:first");r.toggleDetail(t)}),t.find(l.toggleSelector).unbind("click.footable").bind("click.footable",function(a){t.is(".breakpoint")&&e(a.target).is("td,th,."+d.toggle)&&e(this).trigger(u.toggleRow)}))},r.parse=function(e,t){var a=l.parsers[t.type]||l.parsers.alpha;return a(e)},r.getColumnData=function(t){var a=e(t),i=a.data("hide"),o=a.index();i=i||"",i=jQuery.map(i.split(","),function(e){return jQuery.trim(e)});var n={index:o,hide:{},type:a.data("type")||"alpha",name:a.data("name")||e.trim(a.text()),ignore:a.data("ignore")||!1,toggle:a.data("toggle")||!1,className:a.data("class")||null,matches:[],names:{},group:a.data("group")||null,groupName:null,isEditable:a.data("editable")};if(null!==n.group){var d=e(r.table).find('> thead > tr.footable-group-row > th[data-group="'+n.group+'"], > thead > tr.footable-group-row > td[data-group="'+n.group+'"]').first();n.groupName=r.parse(d,{type:"alpha"})}var u=parseInt(a.prev().attr("colspan")||0,10);f+=u>1?u-1:0;var p=parseInt(a.attr("colspan")||0,10),c=n.index+f;if(p>1){var b=a.data("names");b=b||"",b=b.split(",");for(var g=0;p>g;g++)n.matches.push(g+c),b.length>g&&(n.names[g+c]=b[g])}else n.matches.push(c);n.hide["default"]="all"===a.data("hide")||e.inArray("default",i)>=0;var h=!1;for(var m in l.breakpoints)n.hide[m]="all"===a.data("hide")||e.inArray(m,i)>=0,h=h||n.hide[m];n.hasBreakpoint=h;var v=r.raise(s.columnData,{column:{data:n,th:t}});return v.column.data},r.getViewportWidth=function(){return window.innerWidth||(document.body?document.body.offsetWidth:0)},r.calculateWidth=function(e,t){return jQuery.isFunction(l.calculateWidthOverride)?l.calculateWidthOverride(e,t):(t.viewportWidth<t.width&&(t.width=t.viewportWidth),t.parentWidth<t.width&&(t.width=t.parentWidth),t)},r.hasBreakpointColumn=function(e){for(var t in r.columns)if(r.columns[t].hide[e]){if(r.columns[t].ignore)continue;return!0}return!1},r.hasAnyBreakpointColumn=function(){for(var e in r.columns)if(r.columns[e].hasBreakpoint)return!0;return!1},r.resize=function(){var t=e(r.table);if(t.is(":visible")){if(!r.hasAnyBreakpointColumn())return t.trigger(u.redraw),undefined;var a={width:t.width(),viewportWidth:r.getViewportWidth(),parentWidth:t.parent().width()};a=r.calculateWidth(t,a);var i=t.data("footable_info");if(t.data("footable_info",a),r.raise(s.resizing,{old:i,info:a}),!i||i&&i.width&&i.width!==a.width){for(var o,n=null,l=0;r.breakpoints.length>l;l++)if(o=r.breakpoints[l],o&&o.width&&a.width<=o.width){n=o;break}var d=null===n?"default":n.name,f=r.hasBreakpointColumn(d),p=t.data("breakpoint");t.data("breakpoint",d).removeClass("default breakpoint").removeClass(r.breakpointNames).addClass(d+(f?" breakpoint":"")),d!==p&&(t.trigger(u.redraw),r.raise(s.breakpoint,{breakpoint:d,info:a}))}r.raise(s.resized,{old:i,info:a})}},r.redraw=function(){r.addRowToggle(),r.bindToggleSelectors(),r.setColumnClasses();var t=e(r.table),a=t.data("breakpoint"),i=r.hasBreakpointColumn(a);t.find("> tbody > tr:not(."+d.detail+")").data("detail_created",!1).end().find("> thead > tr:last-child > th").each(function(){var i=r.columns[e(this).index()],o="",n=!0;e.each(i.matches,function(e,t){n||(o+=", ");var a=t+1;o+="> tbody > tr:not(."+d.detail+") > td:nth-child("+a+")",o+=", > tfoot > tr:not(."+d.detail+") > td:nth-child("+a+")",o+=", > colgroup > col:nth-child("+a+")",n=!1}),o+=', > thead > tr[data-group-row="true"] > th[data-group="'+i.group+'"]';var l=t.find(o).add(this);if(""!==a&&(i.hide[a]===!1?l.addClass("footable-visible").show():l.removeClass("footable-visible").hide()),1===t.find("> thead > tr.footable-group-row").length){var s=t.find('> thead > tr:last-child > th[data-group="'+i.group+'"]:visible, > thead > tr:last-child > th[data-group="'+i.group+'"]:visible'),u=t.find('> thead > tr.footable-group-row > th[data-group="'+i.group+'"], > thead > tr.footable-group-row > td[data-group="'+i.group+'"]'),f=0;e.each(s,function(){f+=parseInt(e(this).attr("colspan")||1,10)}),f>0?u.attr("colspan",f).show():u.hide()}}).end().find("> tbody > tr."+d.detailShow).each(function(){r.createOrUpdateDetailRow(this)}),t.find("[data-bind-name]").each(function(){r.toggleInput(this)}),t.find("> tbody > tr."+d.detailShow+":visible").each(function(){var t=e(this).next();t.hasClass(d.detail)&&(i?t.show():t.hide())}),t.find("> thead > tr > th.footable-last-column, > tbody > tr > td.footable-last-column").removeClass("footable-last-column"),t.find("> thead > tr > th.footable-first-column, > tbody > tr > td.footable-first-column").removeClass("footable-first-column"),t.find("> thead > tr, > tbody > tr").find("> th.footable-visible:last, > td.footable-visible:last").addClass("footable-last-column").end().find("> th.footable-visible:first, > td.footable-visible:first").addClass("footable-first-column"),r.raise(s.redrawn)},r.toggleDetail=function(t){var a=t.jquery?t:e(t),i=a.next();a.hasClass(d.detailShow)?(a.removeClass(d.detailShow),i.hasClass(d.detail)&&i.hide(),r.raise(s.rowCollapsed,{row:a[0]})):(r.createOrUpdateDetailRow(a[0]),a.addClass(d.detailShow).next().show(),r.raise(s.rowExpanded,{row:a[0]}))},r.removeRow=function(t){var a=t.jquery?t:e(t);a.hasClass(d.detail)&&(a=a.prev());var i=a.next();a.data("detail_created")===!0&&i.remove(),a.remove(),r.raise(s.rowRemoved)},r.appendRow=function(t){var a=t.jquery?t:e(t);e(r.table).find("tbody").append(a),r.redraw()},r.getColumnFromTdIndex=function(t){var a=null;for(var i in r.columns)if(e.inArray(t,r.columns[i].matches)>=0){a=r.columns[i];break}return a},r.createOrUpdateDetailRow=function(t){var a,i=e(t),o=i.next(),n=[];if(i.data("detail_created")===!0)return!0;if(i.is(":hidden"))return!1;if(r.raise(s.rowDetailUpdating,{row:i,detail:o}),i.find("> td:hidden").each(function(){var t=e(this).index(),a=r.getColumnFromTdIndex(t),i=a.name;if(a.ignore===!0)return!0;t in a.names&&(i=a.names[t]);var o=e(this).attr("data-bind-name");if(null!=o&&e(this).is(":empty")){var l=e("."+d.detailInnerValue+"["+'data-bind-value="'+o+'"]');e(this).html(e(l).contents().detach())}var s;return a.isEditable!==!1&&(a.isEditable||e(this).find(":input").length>0)&&(null==o&&(o="bind-"+e.now()+"-"+t,e(this).attr("data-bind-name",o)),s=e(this).contents().detach()),s||(s=e(this).contents().clone(!0,!0)),n.push({name:i,value:r.parse(this,a),display:s,group:a.group,groupName:a.groupName,bindName:o}),!0}),0===n.length)return!1;var u=i.find("> td:visible").length,f=o.hasClass(d.detail);return f||(o=e('<tr class="'+d.detail+'"><td class="'+d.detailCell+'"><div class="'+d.detailInner+'"></div></td></tr>'),i.after(o)),o.find("> td:first").attr("colspan",u),a=o.find("."+d.detailInner).empty(),l.createDetail(a,n,l.createGroupedDetail,l.detailSeparator,d),i.data("detail_created",!0),r.raise(s.rowDetailUpdated,{row:i,detail:o}),!f},r.raise=function(t,a){r.options.debug===!0&&e.isFunction(r.options.log)&&r.options.log(t,"event"),a=a||{};var i={ft:r};e.extend(!0,i,a);var o=e.Event(t,i);return o.ft||e.extend(!0,o,i),e(r.table).trigger(o),o},r.reset=function(){var t=e(r.table);t.removeData("footable_info").data("breakpoint","").removeClass(d.loading).removeClass(d.loaded),t.find(l.toggleSelector).unbind(u.toggleRow).unbind("click.footable"),t.find("> tbody > tr").removeClass(d.detailShow),t.find("> tbody > tr."+d.detail).remove(),r.raise(s.reset)},r.toggleInput=function(t){var a=e(t).attr("data-bind-name");if(null!=a){var i=e("."+d.detailInnerValue+"["+'data-bind-value="'+a+'"]');null!=i&&(e(t).is(":visible")?e(i).is(":empty")||e(t).html(e(i).contents().detach()):e(t).is(":empty")||e(i).html(e(t).contents().detach()))}},r.init(),r}t.footable={options:{delay:100,breakpoints:{phone:480,tablet:1024},parsers:{alpha:function(t){return e(t).data("value")||e.trim(e(t).text())},numeric:function(t){var a=e(t).data("value")||e(t).text().replace(/[^0-9.\-]/g,"");return a=parseFloat(a),isNaN(a)&&(a=0),a}},addRowToggle:!0,calculateWidthOverride:null,toggleSelector:" > tbody > tr:not(.footable-row-detail)",columnDataSelector:"> thead > tr:last-child > th, > thead > tr:last-child > td",detailSeparator:":",toggleHTMLElement:"<span />",createGroupedDetail:function(e){for(var t={_none:{name:null,data:[]}},a=0;e.length>a;a++){var i=e[a].group;null!==i?(i in t||(t[i]={name:e[a].groupName||e[a].group,data:[]}),t[i].data.push(e[a])):t._none.data.push(e[a])}return t},createDetail:function(t,a,i,o,n){var r=i(a);for(var l in r)if(0!==r[l].data.length){"_none"!==l&&t.append('<div class="'+n.detailInnerGroup+'">'+r[l].name+"</div>");for(var d=0;r[l].data.length>d;d++){var s=r[l].data[d].name?o:"";t.append(e("<div></div>").addClass(n.detailInnerRow).append(e("<div></div>").addClass(n.detailInnerName).append(r[l].data[d].name+s)).append(e("<div></div>").addClass(n.detailInnerValue).attr("data-bind-value",r[l].data[d].bindName).append(r[l].data[d].display)))}}},classes:{main:"footable",loading:"footable-loading",loaded:"footable-loaded",toggle:"footable-toggle",disabled:"footable-disabled",detail:"footable-row-detail",detailCell:"footable-row-detail-cell",detailInner:"footable-row-detail-inner",detailInnerRow:"footable-row-detail-row",detailInnerGroup:"footable-row-detail-group",detailInnerName:"footable-row-detail-name",detailInnerValue:"footable-row-detail-value",detailShow:"footable-detail-show"},triggers:{initialize:"footable_initialize",resize:"footable_resize",redraw:"footable_redraw",toggleRow:"footable_toggle_row",expandFirstRow:"footable_expand_first_row",expandAll:"footable_expand_all",collapseAll:"footable_collapse_all"},events:{alreadyInitialized:"footable_already_initialized",initializing:"footable_initializing",initialized:"footable_initialized",resizing:"footable_resizing",resized:"footable_resized",redrawn:"footable_redrawn",breakpoint:"footable_breakpoint",columnData:"footable_column_data",rowDetailUpdating:"footable_row_detail_updating",rowDetailUpdated:"footable_row_detail_updated",rowCollapsed:"footable_row_collapsed",rowExpanded:"footable_row_expanded",rowRemoved:"footable_row_removed",reset:"footable_reset"},debug:!1,log:null},version:{major:0,minor:5,toString:function(){return t.footable.version.major+"."+t.footable.version.minor},parse:function(e){var t=/(\d+)\.?(\d+)?\.?(\d+)?/.exec(e);return{major:parseInt(t[1],10)||0,minor:parseInt(t[2],10)||0,patch:parseInt(t[3],10)||0}}},plugins:{_validate:function(a){if(!e.isFunction(a))return t.footable.options.debug===!0&&console.error('Validation failed, expected type "function", received type "{0}".',typeof a),!1;var i=new a;return"string"!=typeof i.name?(t.footable.options.debug===!0&&console.error('Validation failed, plugin does not implement a string property called "name".',i),!1):e.isFunction(i.init)?(t.footable.options.debug===!0&&console.log('Validation succeeded for plugin "'+i.name+'".',i),!0):(t.footable.options.debug===!0&&console.error('Validation failed, plugin "'+i.name+'" does not implement a function called "init".',i),!1)},registered:[],register:function(a,i){t.footable.plugins._validate(a)&&(t.footable.plugins.registered.push(a),"object"==typeof i&&e.extend(!0,t.footable.options,i))},load:function(e){var a,i,o=[];for(i=0;t.footable.plugins.registered.length>i;i++)try{a=t.footable.plugins.registered[i],o.push(new a(e))}catch(n){t.footable.options.debug===!0&&console.error(n)}return o},init:function(e){for(var a=0;e.plugins.length>a;a++)try{e.plugins[a].init(e)}catch(i){t.footable.options.debug===!0&&console.error(i)}}}};var o=0;e.fn.footable=function(a){a=a||{};var n=e.extend(!0,{},t.footable.options,a);return this.each(function(){o++;var t=new i(this,n,o);e(this).data("footable",t)})}})(jQuery,window);;(function(e,t,undefined){function a(t){var a=e("<th>"+t.title+"</th>");return e.isPlainObject(t.data)&&a.data(t.data),e.isPlainObject(t.style)&&a.css(t.style),t.className&&a.addClass(t.className),a}function o(t,o){var i=t.find("thead");0===i.size()&&(i=e("<thead>").appendTo(t));for(var n=e("<tr>").appendTo(i),r=0,l=o.cols.length;l>r;r++)n.append(a(o.cols[r]))}function i(t){var a=t.find("tbody");0===a.size()&&(a=e("<tbody>").appendTo(t))}function n(t,a,o){if(o){t.attr("data-page-size",o["page-size"]);var i=t.find("tfoot");0===i.size()&&(i=e('<tfoot class="hide-if-no-paging"></tfoot>').appendTo(t)),i.append("<tr><td colspan="+a.length+"></td></tr>");var n=e("<div>").appendTo(i.find("tr:last-child td"));n.addClass(o["pagination-class"])}}function r(t){for(var a=t[0],o=0,i=t.length;i>o;o++){var n=t[o];if(n.data&&(n.data.toggle===!0||"true"===n.data.toggle))return}a.data=e.extend(a.data,{toggle:!0})}function l(e,t,a){0===e.find("tr.emptyInfo").size()&&e.find("tbody").append('<tr class="emptyInfo"><td colspan="'+t.length+'">'+a+"</td></tr>")}function d(t,a,o,i){t.find("tr:not(."+o+")").each(function(){var t=e(this),o=a.data("index"),n=parseInt(t.data("index"),0),r=n+i;n>=o&&this!==a.get(0)&&t.attr("data-index",r).data("index",r)})}function s(){function t(t,a,o){var i=e("<td>");return t.formatter?i.html(t.formatter(a,i,o)):i.html(a||""),i}var a=this;a.name="Footable Grid",a.init=function(t){var d=t.options.classes.toggle,s=t.options.classes.detail,f=t.options.grid;if(f.cols){a.footable=t;var u=e(t.table);u.data("grid",a),e.isPlainObject(f.data)&&u.data(f.data),a._items=[],r(f.cols),f.showCheckbox&&(f.multiSelect=!0,f.cols.unshift({title:f.checkboxFormatter(!0),name:"",data:{"sort-ignore":!0},formatter:f.checkboxFormatter})),f.showIndex&&f.cols.unshift({title:"#",name:"index",data:{"sort-ignore":!0},formatter:f.indexFormatter}),o(u,f),i(u),n(u,f.cols,f.pagination),u.off(".grid").on({"footable_initialized.grid":function(){f.url||f.ajax?e.ajax(f.ajax||{url:f.url}).then(function(e){a.newItem(e),t.raise(f.events.loaded)},function(){throw"load data from "+(f.url||f.ajax.url)+" fail"}):(a.newItem(f.items||[]),t.raise(f.events.loaded))},"footable_sorted.grid footable_grid_created.grid footable_grid_removed.grid":function(){f.showIndex&&a.getItem().length>0&&u.find("tbody tr:not(."+s+")").each(function(t){var a=e(this).find("td:first");a.html(f.indexFormatter(null,a,t))})},"footable_redrawn.grid footable_row_removed.grid":function(){0===a.getItem().length&&f.showEmptyInfo&&l(u,f.cols,f.emptyInfo)}}).on({"click.grid":function(a){if(e(a.target).closest("td").find(">."+d).size()>0)return!0;var o=e(a.currentTarget);return o.hasClass(s)?!0:(f.multiSelect||o.hasClass(f.activeClass)||u.find("tbody tr."+f.activeClass).removeClass(f.activeClass),o.toggleClass(f.activeClass),f.showCheckbox&&o.find("input:checkbox.check").prop("checked",function(e,t){return a.target===this?t:!t}),t.toggleDetail(o),undefined)}},"tbody tr").on("click.grid","thead input:checkbox.checkAll",function(e){var t=!!e.currentTarget.checked;t?u.find("tbody tr").addClass(f.activeClass):u.find("tbody tr").removeClass(f.activeClass),u.find("tbody input:checkbox.check").prop("checked",t)})}},a.getSelected=function(){var t=a.footable.options.grid,o=e(a.footable.table).find("tbody>tr."+t.activeClass);return o.map(function(){return e(this).data("index")})},a.getItem=function(t){return t!==undefined?e.isArray(t)?e.map(t,function(e){return a._items[e]}):a._items[t]:a._items},a._makeRow=function(o,i){var n,r=a.footable.options.grid;if(e.isFunction(r.template))n=e(r.template(e.extend({},{__index:i},o)));else{n=e("<tr>");for(var l=0,d=r.cols.length;d>l;l++){var s=r.cols[l];n.append(t(s,o[s.name]||"",i))}}return n.attr("data-index",i),n},a.newItem=function(t,o,i){var n=e(a.footable.table).find("tbody"),r=a.footable.options.classes.detail;if(n.find("tr.emptyInfo").remove(),e.isArray(t)){for(var l;l=t.pop();)a.newItem(l,o,!0);return a.footable.redraw(),a.footable.raise(a.footable.options.grid.events.created,{item:t,index:o}),undefined}if(e.isPlainObject(t)){var s,f=a._items.length;if(o===undefined||0>o||o>f)s=a._makeRow(t,f++),a._items.push(t),n.append(s);else{if(s=a._makeRow(t,o),0===o)a._items.unshift(t),n.prepend(s);else{var u=n.find("tr[data-index="+(o-1)+"]");a._items.splice(o,0,t),u.data("detail_created")===!0&&(u=u.next()),u.after(s)}d(n,s,r,1)}i||(a.footable.redraw(),a.footable.raise(a.footable.options.grid.events.created,{item:t,index:o}))}},a.setItem=function(t,o){if(e.isPlainObject(t)){var i=e(a.footable.table).find("tbody"),n=a._makeRow(t,o);e.extend(a._items[o],t);var r=i.find("tr").eq(o);r.html(n.html()),a.footable.redraw(),a.footable.raise(a.footable.options.grid.events.updated,{item:t,index:o})}},a.removeItem=function(t){var o=e(a.footable.table).find("tbody"),i=a.footable.options.classes.detail,n=[];if(e.isArray(t)){for(var r;r=t.pop();)n.push(a.removeItem(r));return a.footable.raise(a.footable.options.grid.events.removed,{item:n,index:t}),n}if(t===undefined)o.find("tr").each(function(){n.push(a._items.shift()),a.footable.removeRow(this)});else{var l=o.find("tr[data-index="+t+"]");n=a._items.splice(t,1)[0],a.footable.removeRow(l),d(o,l,i,-1)}return a.footable.raise(a.footable.options.grid.events.removed,{item:n,index:t}),n}}if(t.footable===undefined||null===t.foobox)throw Error("Please check and make sure footable.js is included in the page and is loaded prior to this script.");var f={grid:{enabled:!0,data:null,template:null,cols:null,items:null,url:null,ajax:null,activeClass:"active",multiSelect:!1,showIndex:!1,showCheckbox:!1,showEmptyInfo:!1,emptyInfo:'<p class="text-center text-warning">No Data</p>',pagination:{"page-size":20,"pagination-class":"pagination pagination-centered"},indexFormatter:function(e,t,a){return a+1},checkboxFormatter:function(e){return'<input type="checkbox" class="'+(e?"checkAll":"check")+'">'},events:{loaded:"footable_grid_loaded",created:"footable_grid_created",removed:"footable_grid_removed",updated:"footable_grid_updated"}}};t.footable.plugins.register(s,f)})(jQuery,window);;(function(t,e,undefined){function a(){var e=this;e.name="Footable Filter",e.init=function(a){if(e.footable=a,a.options.filter.enabled===!0){if(t(a.table).data("filter")===!1)return;a.timers.register("filter"),t(a.table).unbind(".filtering").bind({"footable_initialized.filtering":function(){var i=t(a.table),o={input:i.data("filter")||a.options.filter.input,timeout:i.data("filter-timeout")||a.options.filter.timeout,minimum:i.data("filter-minimum")||a.options.filter.minimum,disableEnter:i.data("filter-disable-enter")||a.options.filter.disableEnter};o.disableEnter&&t(o.input).keypress(function(t){return window.event?13!==window.event.keyCode:13!==t.which}),i.bind("footable_clear_filter",function(){t(o.input).val(""),e.clearFilter()}),i.bind("footable_filter",function(t,a){e.filter(a.filter)}),t(o.input).keyup(function(i){a.timers.filter.stop(),27===i.which&&t(o.input).val(""),a.timers.filter.start(function(){var a=t(o.input).val()||"";e.filter(a)},o.timeout)})},"footable_redrawn.filtering":function(){var i=t(a.table),o=i.data("filter-string");o&&e.filter(o)}}).data("footable-filter",e)}},e.filter=function(a){var i=e.footable,o=t(i.table),n=o.data("filter-minimum")||i.options.filter.minimum,r=!a,l=i.raise("footable_filtering",{filter:a,clear:r});if(!(l&&l.result===!1||l.filter&&n>l.filter.length))if(l.clear)e.clearFilter();else{var d=l.filter.split(" ");o.find("> tbody > tr").hide().addClass("footable-filtered");var s=o.find("> tbody > tr:not(.footable-row-detail)");t.each(d,function(t,e){e&&e.length>0&&(o.data("current-filter",e),s=s.filter(i.options.filter.filterFunction))}),s.each(function(){e.showRow(this,i),t(this).removeClass("footable-filtered")}),o.data("filter-string",l.filter),i.raise("footable_filtered",{filter:l.filter,clear:!1})}},e.clearFilter=function(){var a=e.footable,i=t(a.table);i.find("> tbody > tr:not(.footable-row-detail)").removeClass("footable-filtered").each(function(){e.showRow(this,a)}),i.removeData("filter-string"),a.raise("footable_filtered",{clear:!0})},e.showRow=function(e,a){var i=t(e),o=i.next(),n=t(a.table);i.is(":visible")||(n.hasClass("breakpoint")&&i.hasClass("footable-detail-show")&&o.hasClass("footable-row-detail")?(i.add(o).show(),a.createOrUpdateDetailRow(e)):i.show())}}if(e.footable===undefined||null===e.footable)throw Error("Please check and make sure footable.js is included in the page and is loaded prior to this script.");var i={filter:{enabled:!0,input:".footable-filter",timeout:300,minimum:2,disableEnter:!1,filterFunction:function(){var e=t(this),a=e.parents("table:first"),i=a.data("current-filter").toUpperCase(),o=e.find("td").text();return a.data("filter-text-only")||e.find("td[data-value]").each(function(){o+=t(this).data("value")}),o.toUpperCase().indexOf(i)>=0}}};e.footable.plugins.register(a,i)})(jQuery,window);;(function(e,t,undefined){function a(t){var a=e(t.table),i=a.data();this.pageNavigation=i.pageNavigation||t.options.pageNavigation,this.pageSize=i.pageSize||t.options.pageSize,this.firstText=i.firstText||t.options.firstText,this.previousText=i.previousText||t.options.previousText,this.nextText=i.nextText||t.options.nextText,this.lastText=i.lastText||t.options.lastText,this.limitNavigation=parseInt(i.limitNavigation||t.options.limitNavigation||o.limitNavigation,10),this.limitPreviousText=i.limitPreviousText||t.options.limitPreviousText,this.limitNextText=i.limitNextText||t.options.limitNextText,this.limit=this.limitNavigation>0,this.currentPage=i.currentPage||0,this.pages=[],this.control=!1}function i(){var t=this;t.name="Footable Paginate",t.init=function(a){if(a.options.paginate===!0){if(e(a.table).data("page")===!1)return;t.footable=a,e(a.table).unbind(".paging").bind({"footable_initialized.paging footable_row_removed.paging footable_redrawn.paging footable_sorted.paging footable_filtered.paging":function(){t.setupPaging()}}).data("footable-paging",t)}},t.setupPaging=function(){var i=t.footable,o=e(i.table).find("> tbody");i.pageInfo=new a(i),t.createPages(i,o),t.createNavigation(i,o),t.fillPage(i,o,i.pageInfo.currentPage)},t.createPages=function(t,a){var i=1,o=t.pageInfo,n=i*o.pageSize,r=[],l=[];o.pages=[];var d=a.find("> tr:not(.footable-filtered,.footable-row-detail)");d.each(function(e,t){r.push(t),e===n-1?(o.pages.push(r),i++,n=i*o.pageSize,r=[]):e>=d.length-d.length%o.pageSize&&l.push(t)}),l.length>0&&o.pages.push(l),o.currentPage>=o.pages.length&&(o.currentPage=o.pages.length-1),0>o.currentPage&&(o.currentPage=0),1===o.pages.length?e(t.table).addClass("no-paging"):e(t.table).removeClass("no-paging")},t.createNavigation=function(a){var i=e(a.table).find(a.pageInfo.pageNavigation);if(0===i.length){if(i=e(a.pageInfo.pageNavigation),i.parents("table:first").length>0&&i.parents("table:first")!==e(a.table))return;i.length>1&&a.options.debug===!0&&console.error("More than one pagination control was found!")}if(0!==i.length){i.is("ul")||(0===i.find("ul:first").length&&i.append("<ul />"),i=i.find("ul")),i.find("li").remove();var o=a.pageInfo;o.control=i,o.pages.length>0&&(i.append('<li class="footable-page-arrow"><a data-page="first" href="#first">'+a.pageInfo.firstText+"</a>"),i.append('<li class="footable-page-arrow"><a data-page="prev" href="#prev">'+a.pageInfo.previousText+"</a></li>"),o.limit&&i.append('<li class="footable-page-arrow"><a data-page="limit-prev" href="#limit-prev">'+a.pageInfo.limitPreviousText+"</a></li>"),o.limit||e.each(o.pages,function(e,t){t.length>0&&i.append('<li class="footable-page"><a data-page="'+e+'" href="#">'+(e+1)+"</a></li>")}),o.limit&&(i.append('<li class="footable-page-arrow"><a data-page="limit-next" href="#limit-next">'+a.pageInfo.limitNextText+"</a></li>"),t.createLimited(i,o,0)),i.append('<li class="footable-page-arrow"><a data-page="next" href="#next">'+a.pageInfo.nextText+"</a></li>"),i.append('<li class="footable-page-arrow"><a data-page="last" href="#last">'+a.pageInfo.lastText+"</a></li>")),i.off("click","a[data-page]").on("click","a[data-page]",function(n){n.preventDefault();var r=e(this).data("page"),l=o.currentPage;if("first"===r)l=0;else if("prev"===r)l>0&&l--;else if("next"===r)o.pages.length-1>l&&l++;else if("last"===r)l=o.pages.length-1;else if("limit-prev"===r){l=-1;var d=i.find(".footable-page:first a").data("page");t.createLimited(i,o,d-o.limitNavigation),t.setPagingClasses(i,o.currentPage,o.pages.length)}else if("limit-next"===r){l=-1;var s=i.find(".footable-page:last a").data("page");t.createLimited(i,o,s+1),t.setPagingClasses(i,o.currentPage,o.pages.length)}else l=r;if(l>=0){if(o.limit&&o.currentPage!=l){for(var f=l;0!==f%o.limitNavigation;)f-=1;t.createLimited(i,o,f)}t.paginate(a,l)}}),t.setPagingClasses(i,o.currentPage,o.pages.length)}},t.createLimited=function(e,t,a){a=a||0,e.find("li.footable-page").remove();var i,o,n=e.find('li.footable-page-arrow > a[data-page="limit-prev"]').parent(),r=e.find('li.footable-page-arrow > a[data-page="limit-next"]').parent();for(i=t.pages.length-1;i>=0;i--)o=t.pages[i],i>=a&&a+t.limitNavigation>i&&o.length>0&&n.after('<li class="footable-page"><a data-page="'+i+'" href="#">'+(i+1)+"</a></li>");0===a?n.hide():n.show(),a+t.limitNavigation>=t.pages.length?r.hide():r.show()},t.paginate=function(a,i){var o=a.pageInfo;if(o.currentPage!==i){var n=e(a.table).find("> tbody"),r=a.raise("footable_paging",{page:i,size:o.pageSize});if(r&&r.result===!1)return;t.fillPage(a,n,i),o.control.find("li").removeClass("active disabled"),t.setPagingClasses(o.control,o.currentPage,o.pages.length)}},t.setPagingClasses=function(e,t,a){e.find("li.footable-page > a[data-page="+t+"]").parent().addClass("active"),t>=a-1&&(e.find('li.footable-page-arrow > a[data-page="next"]').parent().addClass("disabled"),e.find('li.footable-page-arrow > a[data-page="last"]').parent().addClass("disabled")),1>t&&(e.find('li.footable-page-arrow > a[data-page="first"]').parent().addClass("disabled"),e.find('li.footable-page-arrow > a[data-page="prev"]').parent().addClass("disabled"))},t.fillPage=function(a,i,o){a.pageInfo.currentPage=o,e(a.table).data("currentPage",o),i.find("> tr").hide(),e(a.pageInfo.pages[o]).each(function(){t.showRow(this,a)}),a.raise("footable_page_filled")},t.showRow=function(t,a){var i=e(t),o=i.next(),n=e(a.table);n.hasClass("breakpoint")&&i.hasClass("footable-detail-show")&&o.hasClass("footable-row-detail")?(i.add(o).show(),a.createOrUpdateDetailRow(t)):i.show()}}if(t.footable===undefined||null===t.footable)throw Error("Please check and make sure footable.js is included in the page and is loaded prior to this script.");var o={paginate:!0,pageSize:10,pageNavigation:".pagination",firstText:"&laquo;",previousText:"&lsaquo;",nextText:"&rsaquo;",lastText:"&raquo;",limitNavigation:0,limitPreviousText:"...",limitNextText:"..."};t.footable.plugins.register(i,o)})(jQuery,window);;(function(t,e,undefined){function a(){var e=this;e.name="Footable Sortable",e.init=function(a){e.footable=a,a.options.sort===!0&&t(a.table).unbind(".sorting").bind({"footable_initialized.sorting":function(){var i,o,n=t(a.table),r=(n.find("> tbody"),a.options.classes.sort);if(n.data("sort")!==!1){n.find("> thead > tr:last-child > th, > thead > tr:last-child > td").each(function(){var e=t(this),i=a.columns[e.index()];i.sort.ignore===!0||e.hasClass(r.sortable)||(e.addClass(r.sortable),t("<span />").addClass(r.indicator).appendTo(e))}),n.find("> thead > tr:last-child > th."+r.sortable+", > thead > tr:last-child > td."+r.sortable).unbind("click.footable").bind("click.footable",function(a){a.preventDefault(),o=t(this);var i=!o.hasClass(r.sorted);return e.doSort(o.index(),i),!1});var l=!1;for(var s in a.columns)if(i=a.columns[s],i.sort.initial){var d="descending"!==i.sort.initial;e.doSort(i.index,d);break}l&&a.bindToggleSelectors()}},"footable_redrawn.sorting":function(){var i=t(a.table),o=a.options.classes.sort;i.data("sorted")>=0&&i.find("> thead > tr:last-child > th").each(function(a){var i=t(this);return i.hasClass(o.sorted)||i.hasClass(o.descending)?(e.doSort(a),undefined):undefined})},"footable_column_data.sorting":function(e){var a=t(e.column.th);e.column.data.sort=e.column.data.sort||{},e.column.data.sort.initial=a.data("sort-initial")||!1,e.column.data.sort.ignore=a.data("sort-ignore")||!1,e.column.data.sort.selector=a.data("sort-selector")||null;var i=a.data("sort-match")||0;i>=e.column.data.matches.length&&(i=0),e.column.data.sort.match=e.column.data.matches[i]}}).data("footable-sort",e)},e.doSort=function(a,i){var o=e.footable;if(t(o.table).data("sort")!==!1){var n=t(o.table),r=n.find("> tbody"),l=o.columns[a],s=n.find("> thead > tr:last-child > th:eq("+a+")"),d=o.options.classes.sort,f=o.options.events.sort;if(i=i===undefined?s.hasClass(d.sorted):"toggle"===i?!s.hasClass(d.sorted):i,l.sort.ignore===!0)return!0;var u=o.raise(f.sorting,{column:l,direction:i?"ASC":"DESC"});u&&u.result===!1||(n.data("sorted",l.index),n.find("> thead > tr:last-child > th, > thead > tr:last-child > td").not(s).removeClass(d.sorted+" "+d.descending),i===undefined&&(i=s.hasClass(d.sorted)),i?s.removeClass(d.descending).addClass(d.sorted):s.removeClass(d.sorted).addClass(d.descending),e.sort(o,r,l,i),o.bindToggleSelectors(),o.raise(f.sorted,{column:l,direction:i?"ASC":"DESC"}))}},e.rows=function(e,a,i){var o=[];return a.find("> tr").each(function(){var a=t(this),n=null;if(a.hasClass(e.options.classes.detail))return!0;a.next().hasClass(e.options.classes.detail)&&(n=a.next().get(0));var r={row:a,detail:n};return i!==undefined&&(r.value=e.parse(this.cells[i.sort.match],i)),o.push(r),!0}).detach(),o},e.sort=function(t,a,i,o){var n=e.rows(t,a,i),r=t.options.sorters[i.type]||t.options.sorters.alpha;n.sort(function(t,e){return o?r(t.value,e.value):r(e.value,t.value)});for(var l=0;n.length>l;l++)a.append(n[l].row),null!==n[l].detail&&a.append(n[l].detail)}}if(e.footable===undefined||null===e.footable)throw Error("Please check and make sure footable.js is included in the page and is loaded prior to this script.");var i={sort:!0,sorters:{alpha:function(t,e){return"string"==typeof t&&(t=t.toLowerCase()),"string"==typeof e&&(e=e.toLowerCase()),t===e?0:e>t?-1:1},numeric:function(t,e){return t-e}},classes:{sort:{sortable:"footable-sortable",sorted:"footable-sorted",descending:"footable-sorted-desc",indicator:"footable-sort-indicator"}},events:{sort:{sorting:"footable_sorting",sorted:"footable_sorted"}}};e.footable.plugins.register(a,i)})(jQuery,window);;(function(t,e,undefined){function a(){var e=this;e.name="Footable Striping",e.init=function(a){e.footable=a,t(a.table).unbind("striping").bind({"footable_initialized.striping footable_row_removed.striping footable_redrawn.striping footable_sorted.striping footable_filtered.striping":function(){t(this).data("striping")!==!1&&e.setupStriping(a)}})},e.setupStriping=function(e){var a=0;t(e.table).find("> tbody > tr:not(.footable-row-detail)").each(function(){var i=t(this);i.removeClass(e.options.classes.striping.even).removeClass(e.options.classes.striping.odd),0===a%2?i.addClass(e.options.classes.striping.even):i.addClass(e.options.classes.striping.odd),a++})}}if(e.footable===undefined||null===e.foobox)throw Error("Please check and make sure footable.js is included in the page and is loaded prior to this script.");var i={striping:{enabled:!0},classes:{striping:{odd:"footable-odd",even:"footable-even"}}};e.footable.plugins.register(a,i)})(jQuery,window);;(function(t,e,undefined){function a(t,e){e=e?e:location.hash;var a=RegExp("&"+t+"(?:=([^&]*))?(?=&|$)","i");return(e=e.replace(/^\#/,"&").match(a))?e[1]===undefined?"":decodeURIComponent(e[1]):undefined}function i(e,a){var i=t(e.table).find("tbody").find("tr:not(.footable-row-detail, .footable-filtered)").length;t(e.table).data("status_num_total",i);var o=t(e.table).find("tbody").find("tr:not(.footable-row-detail)").filter(":visible").length;t(e.table).data("status_num_shown",o);var n=t(e.table).data("sorted"),r=t(e.table).find("th")[n],l=t(r).hasClass("footable-sorted-desc");if(t(e.table).data("status_descending",l),e.pageInfo){var s=e.pageInfo.currentPage;t(e.table).data("status_pagenum",s)}var d="",f=t(e.table).data("filter");t(f).length&&(d=t(f).val()),t(e.table).data("status_filter_val",d);var u,p,c;if("footable_row_expanded"==a.type&&(u=a.row,u&&(p=t(e.table).data("expanded_rows"),c=[],p&&(c=p.split(",")),c.push(u.rowIndex),t(e.table).data("expanded_rows",c.join(",")))),"footable_row_collapsed"==a.type&&(u=a.row)){p=t(e.table).data("expanded_rows"),c=[],p&&(c=p.split(","));var g=[];for(var b in c)if(c[b]==u.rowIndex){g=c.splice(b,1);break}t(e.table).data("expanded_rows",g.join(","))}}function o(){var e=this;e.name="Footable LucidBookmarkable",e.init=function(e){e.options.bookmarkable.enabled&&t(e.table).bind({footable_initialized:function(){var i=e.table.id,o=a(i+"_f"),n=a(i+"_p"),r=a(i+"_s"),l=a(i+"_d"),s=a(i+"_e");if(o){var d=t(e.table).data("filter");t(d).val(o),t(e.table).trigger("footable_filter",{filter:o})}if(n&&t(e.table).data("currentPage",n),r!==undefined){var f=t(e.table).data("footable-sort"),u=!0;"true"==l&&(u=!1),f.doSort(r,u)}else t(e.table).trigger("footable_setup_paging");if(s){var p=s.split(",");for(var c in p){var g=t(e.table.rows[p[c]]);g.find("> td:first").trigger("footable_toggle_row")}}e.lucid_bookmark_read=!0},"footable_page_filled footable_redrawn footable_filtered footable_sorted footable_row_expanded footable_row_collapsed":function(a){if(i(e,a),e.lucid_bookmark_read){var o=e.table.id,n=o+"_f",r=o+"_p",l=o+"_s",s=o+"_d",d=o+"_e",f=location.hash.replace(/^\#/,"&"),u=[n,r,l,s,d];for(var p in u){var c=RegExp("&"+u[p]+"=([^&]*)","g");f=f.replace(c,"")}var g={};g[n]=t(e.table).data("status_filter_val"),g[r]=t(e.table).data("status_pagenum"),g[l]=t(e.table).data("sorted"),g[s]=t(e.table).data("status_descending"),g[d]=t(e.table).data("expanded_rows");var b=[];for(var h in g)g[h]!==undefined&&b.push(h+"="+encodeURIComponent(g[h]));f.length&&b.push(f),location.hash=b.join("&")}}})}}if(e.footable===undefined||null===e.foobox)throw Error("Please check and make sure footable.js is included in the page and is loaded prior to this script.");var n={bookmarkable:{enabled:!1}};e.footable.plugins.register(o,n)})(jQuery,window);
+/* global console, MobileDetect, jQuery */
+/* jQuery Plugin jsPanel
+    Dependencies:
+        jQuery library ( > 1.9.1 incl. 2.1.3 )
+        jQuery.UI library ( > 1.9.2 ) - (at least UI Core, Mouse, Widget, Draggable, Resizable)
+        HTML5/CSS3 compatible browser
+
+    Copyright (c) 2014-15 Stefan Sträßer, <http://stefanstraesser.eu/>
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+
+    <http://opensource.org/licenses/MIT>.
+
+    CHANGES IN 2.5.5:
+    + option.ajax bugfix (unnecessary get requests)
+ */
+
+"use strict";
+// check for jQuery and jQuery UI components
+if (!$.fn.jquery || !$.fn.uniqueId || !$.widget || !$.ui.mouse || !$.ui.draggable || !$.ui.resizable) {
+    //console.log("Error: jQuery or at least one jQuery UI component is not loaded! You need at least jQuery 1.9.1 and jQuery UI 1.9.2 (modules Core, Mouse, Widget, Draggable and Resizable).");
+} else {
+    //console.log("Loaded: jQuery " + $.fn.jquery + ", jQuery UI " + $.ui.version +
+    //"\nUI core: " + $.isFunction($.fn.uniqueId) + ", UI widget: " + $.isFunction($.widget) + ", UI mouse: " +$.isFunction($.ui.mouse) +
+    //", UI draggable: " + $.isFunction($.ui.draggable) + ", UI resizable: " + $.isFunction($.ui.resizable));
+}
+
+var jsPanel = {
+    version: '2.5.5 2015-10-08 15:47',
+    device: (function(){
+        try {
+            // requires "mobile-detect.js" to be loaded
+            var md = new MobileDetect(window.navigator.userAgent),
+                mobile = md.mobile(),
+                phone = md.phone(),
+                tablet = md.tablet(),
+                os = md.os(),
+                userAgent = md.userAgent();
+            return {mobile: mobile, tablet: tablet, phone: phone, os: os, userAgent: userAgent};
+        } catch (e) {
+            //console.log(e + "; Seems like mobile-detect.js is not loaded");
+            return {mobile: undefined, tablet: undefined, phone: undefined, os: undefined, userAgent: undefined};
+        }
+    })(),
+    ID: 0,                              // kind of a counter to add to automatically generated id attribute
+    widthForMinimized: 180,             // default width of minimized panels
+    template: '<div class="jsPanel jsPanel-theme-default jsPanel-state-initialized">' +
+                '<div class="jsPanel-hdr jsPanel-theme-default">' +
+                    '<h3 class="jsPanel-title"></h3>' +
+                    '<div class="jsPanel-hdr-r">' +
+                        '<div class="jsPanel-btn-close"><span class="jsglyph jsglyph-remove"></span></div>' +
+                        '<div class="jsPanel-btn-max"><span class="jsglyph jsglyph-maximize"></span></div>' +
+                        '<div class="jsPanel-btn-norm"><span class="jsglyph jsglyph-normalize"></span></div>' +
+                        '<div class="jsPanel-btn-min"><span class="jsglyph jsglyph-minimize"></span></div>' +
+                        '<div class="jsPanel-btn-small"><span class="jsglyph jsglyph-chevron-up"></span></div>' +
+                        '<div class="jsPanel-btn-smallrev"><span class="jsglyph jsglyph-chevron-down"></span></div>' +
+                    '</div>' +
+                    '<div class="jsPanel-hdr-toolbar jsPanel-clearfix"></div>' +
+                '</div>' +
+                '<div class="jsPanel-content jsPanel-theme-default"></div>' +
+                '<div class="jsPanel-ftr jsPanel-theme-default jsPanel-clearfix"></div>' +
+              '</div>',
+
+    // add toolbar
+    addToolbar: function (panel, place, items) {
+        if (place === 'header') {
+            this.configToolbar(items, panel.header.toolbar, panel);
+        } else if (place === 'footer') {
+            panel.footer.css({display: 'block'});
+            this.configToolbar(items, panel.footer, panel);
+        }
+        // give toolbar the same font-family as title
+        panel.header.toolbar.css("font-family", panel.header.title.css("font-family"));
+        return panel;
+    },
+
+    // loads content using jQuery.ajax();
+    ajax: function(panel) {
+        var oAjax = panel.option.ajax,
+            pc = panel.content;
+        $.ajax(oAjax)
+            .done(function (data, textStatus, jqXHR) {
+                if (oAjax.autoload && oAjax.url) {
+                    pc.empty().append(data);
+                }
+                if ($.isFunction(oAjax.done)) {
+                    oAjax.done.call(pc, data, textStatus, jqXHR, panel);
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                if ($.isFunction(oAjax.fail)) {
+                    oAjax.fail.call(pc, jqXHR, textStatus, errorThrown, panel);
+                }
+            })
+            .always(function (arg1, textStatus, arg3) {
+                //In response to a successful request, the function's arguments are the same as those of .done(): data(hier: arg1), textStatus, and the jqXHR object(hier: arg3)
+                //For failed requests the arguments are the same as those of .fail(): the jqXHR object(hier: arg1), textStatus, and errorThrown(hier: arg3)
+                // fix for a bug in jQuery-UI draggable? that causes the jsPanel to reduce width when dragged beyond boundary of containing element and option.size.width is 'auto'
+                pc.css('width', function () {
+                    return pc.outerWidth();
+                });
+                if ($.isFunction(oAjax.always)) {
+                    oAjax.always.call(pc, arg1, textStatus, arg3, panel);
+                }
+                // title h3 might be to small: load() is async!
+                jsPanel.resizeTitle(panel);
+                // update option.size (content might come delayed)
+                jsPanel.updateOptionSize(panel, panel.option.size);
+            })
+            .then(function (data, textStatus, jqXHR) {
+                if (oAjax.then && $.isArray(oAjax.then)) {
+                    if ($.isFunction(oAjax.then[0])) {
+                        oAjax.then[0].call(pc, data, textStatus, jqXHR, panel);
+                    }
+                    // title h3 might be to small: load() is async!
+                    jsPanel.resizeTitle(panel);
+                    // update option.size (content might come delayed)
+                    jsPanel.updateOptionSize(panel, panel.option.size);
+                }
+            }, function (jqXHR, textStatus, errorThrown) {
+                if (oAjax.then && $.isArray(oAjax.then)) {
+                    if ($.isFunction(oAjax.then[1])) {
+                        oAjax.then[1].call(pc, jqXHR, textStatus, errorThrown, panel);
+                    }
+                    // title h3 might be to small: load() is async!
+                    jsPanel.resizeTitle(panel);
+                }
+            }
+        );
+        panel.data("ajaxURL", oAjax.url); // needed for exportPanels()
+    },
+
+    // used in option.autoclose and checks prior use of .close() whether the panel is still there
+    autoclose: function (panel) {
+        window.setTimeout(function () {
+            if(panel) {
+                panel.fadeOut('slow', function () {
+                    panel.close();
+                });
+            }
+        }, panel.option.autoclose);
+    },
+
+    calcPanelposition: function (jsP) {
+        // when using option.size = 'auto' and option.position = 'center' consider use of option.ajax with
+        // async: false -> size will be known when position is calculated
+        // value "center" not allowed for option.position.bottom & option.position.right -> use top and/or left
+        var panelpos = {};
+        // get px values for panel size in case option.size is 'auto' - results will be incorrect whenever content
+        // is not loaded yet ( e.g. option.load, option.ajax ) -> centering can't work correctly
+        jsP.option.size.width = $(jsP).outerWidth();
+        jsP.option.size.height = $(jsP).innerHeight();
+        // delete option.position.top and/or left if option.position.bottom and/or right (top & left values come from defaults object)
+        if (jsP.option.position.bottom) {
+            delete jsP.option.position.top;
+        }
+        if (jsP.option.position.right) {
+            delete jsP.option.position.left;
+        }
+        // calculate top | bottom values != center
+        // if not checked for 0 as well code would not be executed!
+        if (jsP.option.position.bottom || jsP.option.position.bottom === 0) {
+            this.calcPos('bottom', jsP);
+        } else if (jsP.option.position.top || jsP.option.position.top === 0) {
+            if (jsP.option.position.top === 'center') {
+                jsP.option.position.top = this.calcPosCenter(jsP.option).top;
+            } else {
+                panelpos.top = this.calcPos('top', jsP);  // change in 2.5.4
+            }
+        }
+        // calculate left | right values != center
+        if (jsP.option.position.right || jsP.option.position.right === 0) {
+            this.calcPos('right', jsP);
+        } else if (jsP.option.position.left || jsP.option.position.left === 0) {
+            if (jsP.option.position.left === 'center') {
+                jsP.option.position.left = this.calcPosCenter(jsP.option).left;
+            } else {
+                panelpos.left = this.calcPos('left', jsP);  // change in 2.5.4
+            }
+        }
+        if (jsP.option.position.top) {
+            panelpos.top = parseInt(jsP.option.position.top, 10) + jsP.option.offset.top;
+        } else {
+            panelpos.bottom = parseInt(jsP.option.position.bottom, 10) + jsP.option.offset.top;
+        }
+        if (jsP.option.position.left) {
+            panelpos.left = parseInt(jsP.option.position.left, 10) + jsP.option.offset.left;
+        } else {
+            panelpos.right = parseInt(jsP.option.position.right, 10) + jsP.option.offset.left;
+        }
+        jsP.css(panelpos);
+        jsP.option.position = {
+            top: jsP.css('top'),
+            left: jsP.css('left')
+        };
+    },
+
+    // used in calcPanelposition
+    calcPos: function (prop, panel) {
+        var optPosition = panel.option.position;
+        if (optPosition[prop] === 'auto') {
+            panel.option.position[prop] = panel.count * 30;
+        } else if ($.isFunction(optPosition[prop])) {
+            panel.option.position[prop] = optPosition[prop](panel);
+        } else if (optPosition[prop] === 0) {
+            panel.option.position[prop] = '0';
+        } else {
+            panel.option.position[prop] = parseInt(optPosition[prop], 10);
+        }
+        // corrections if jsPanel is appended to the body element
+        if (panel.option.selector === 'body') {
+            if (prop === 'top') {
+                panel.option.position.top = parseInt(optPosition.top, 10) + $(window).scrollTop();
+            } else if (prop === 'bottom') {
+                panel.option.position.bottom = parseInt(optPosition.bottom, 10) - $(window).scrollTop();
+            } else if (prop === 'left') {
+                panel.option.position.left = parseInt(optPosition.left, 10) + $(window).scrollLeft();
+            } else if (prop === 'right') {
+                panel.option.position.right = parseInt(optPosition.right, 10) - $(window).scrollLeft();
+            }
+        }
+        return panel.option.position[prop];
+    },
+
+    // calculate position center for option.position == 'center'
+    calcPosCenter: function (option) {
+        var optSelector = option.selector,
+            optSize = option.size,
+            posL = ($(optSelector).outerWidth() / 2) - ((parseInt(optSize.width, 10) / 2)),
+            posT;
+        if (optSelector === 'body') {
+            posT = ($(window).outerHeight() / 2) - ((parseInt(optSize.height, 10) / 2) - $(window).scrollTop());
+        } else {
+            posT = ($(optSelector).outerHeight() / 2) - ((parseInt(optSize.height, 10) / 2));
+        }
+        return {top: posT, left: posL};
+    },
+
+    // calculate position for maximized panels using option.controls.maxtoScreen (for devmondo)
+    calcPosmaxtoScreen: function(panel) {
+        var offset = panel.offset();
+        return {
+            top: parseInt(panel.css('top')) - (offset.top - $(document).scrollTop()) + 5,
+            left: parseInt(panel.css('left')) - (offset.left - $(document).scrollLeft()) + 5
+        };
+    },
+
+    // calculates css left for tooltips
+    calcPosTooltipLeft: function (jsPparent, option) {
+        // width of element serving as trigger for the tooltip
+        var parW = jsPparent.outerWidth(),
+        // check possible margins of  trigger
+            mL = parseInt(jsPparent.css('margin-left')),
+        // check whether offset is set
+            oX = option.offset.left || 0,
+            optptPosition = option.paneltype.position;
+        if (optptPosition === 'top' || optptPosition === 'bottom') {
+            return (parW - option.size.width) / 2 + mL + oX;
+        } else if (optptPosition === 'left') {
+            return -(option.size.width) + mL + oX;
+        } else if (optptPosition === 'right') {
+            return parW + mL + oX;
+        }
+        return false;
+    },
+
+    // calculates css top for tooltips
+    calcPosTooltipTop: function (jsPparent, option) {
+        var parH = jsPparent.innerHeight(),
+            mT = parseInt(jsPparent.css('margin-top')),
+            oY = option.offset.top || 0,
+            optptPosition = option.paneltype.position;
+        if (optptPosition === 'left' || optptPosition === 'right') {
+            return -(option.size.height / 2) + (parH / 2) + mT + oY;
+        } else if (optptPosition === 'top') {
+            return -(option.size.height + oY) + mT;
+        } else if (optptPosition === 'bottom') {
+            return parH + mT + oY;
+        }
+        return false;
+    },
+
+    // calculate final tooltip position
+    calcToooltipPosition: function(jsPparent, option) {
+        return {
+            top: this.calcPosTooltipTop(jsPparent, option),
+            left: this.calcPosTooltipLeft(jsPparent, option)
+        };
+    },
+
+    calcVerticalOffset: function (panel) {
+        return Math.floor(panel.offset().top - $(window).scrollTop());
+    },
+
+    // closes a jsPanel and removes it from the DOM
+    close: function (panel) {
+        // get parent-element of jsPanel
+        var context = panel.parent(),
+            panelID = panel.attr('id');
+        panel.trigger('jspanelbeforeclose', panelID);
+        // delete childpanels ...
+        this.closeChildpanels(panel);
+        // if present remove tooltip wrapper
+        if (context.hasClass('jsPanel-tooltip-wrapper')) {
+            panel.unwrap();
+        }
+        // remove the jsPanel itself
+        panel.remove();
+        $('body').trigger('jspanelclosed', panelID);
+        // remove backdrop only when modal jsPanel is closed
+        if (panel.option.paneltype.type === 'modal') {
+            $('.jsPanel-backdrop').remove();
+        }
+        // reposition minimized panels
+        this.reposMinimized(this.widthForMinimized);
+        // reposition hints
+        if (panel.option.paneltype.type === 'hint') {
+            if (panel.hasClass("jsPanel-hint-tl")) {
+                jsPanel.reposHints("jsPanel-hint-tl", panel.parentElmtTagname);
+            } else if (panel.hasClass("jsPanel-hint-tc")) {
+                jsPanel.reposHints("jsPanel-hint-tc", panel.parentElmtTagname);
+            } else if (panel.hasClass("jsPanel-hint-tr")) {
+                jsPanel.reposHints("jsPanel-hint-tr", panel.parentElmtTagname);
+            }
+        }
+        return context;
+    },
+
+    // close all tooltips
+    closeallTooltips: function () {
+        $('.jsPanel-tt').each(function () {
+            // remove tooltip wrapper and than remove tooltip
+            $(this).unwrap().remove();
+            $('body').trigger('jspanelclosed', $(this).attr('id'));
+        });
+    },
+
+    // closes/removes all childpanels within the parent jsPanel
+    closeChildpanels: function (panel) {
+        $('.jsPanel', panel).each(function () {
+            panel.trigger('jspanelbeforeclose', $(this).attr('id'));
+            $(this).remove();
+            $('body').trigger('jspanelclosed', $(this).attr('id'));
+        });
+        return panel;
+    },
+
+    // configure controls
+    configControls: function(panel) {
+        var controls = ["close", "maximize", "minimize", "normalize", "smallify"];
+        if (panel.option.controls.buttons === 'closeonly') {
+            $("div:not('.jsPanel-btn-close')", panel.header.controls).remove();               // change in 2.5.3
+            panel.header.title.css("width", "calc(100% - 30px)");
+        } else if (panel.option.controls.buttons === 'none') {
+            $('*', panel.header.controls).remove();
+            panel.header.title.css("width", "100%");
+        }
+        // disable controls individually
+        controls.forEach(function(ctrl){
+            if (panel.option.controls[ctrl]) {panel.control('disable', ctrl);}
+        });
+    },
+
+    // configure iconfonts
+    configIconfont: function(panel) {
+        var controlsArray = ["close", "max", "norm", "min", "small", "smallrev"],
+            bootstrapArray = ["remove", "fullscreen", "resize-full", "minus", "chevron-up", "chevron-down"],
+            fontawesomeArray = ["times", "arrows-alt", "expand", "minus", "chevron-up", "chevron-down"],
+            optIconfont = panel.option.controls.iconfont,
+            controls = panel.header.controls;
+        // remove icon sprites
+        $('*', controls).css('background-image', 'none');
+        // set icons
+        if (optIconfont === 'bootstrap') {
+            controlsArray.forEach(function(item, i){
+                $('.jsPanel-btn-' + item, controls).empty().append('<span class="glyphicon glyphicon-' + bootstrapArray[i] + '"></span>');
+            });
+        } else if (optIconfont === 'font-awesome') {
+            controlsArray.forEach(function(item, i){
+                $('.jsPanel-btn-' + item, controls).empty().append('<span class="fa fa-' + fontawesomeArray[i] + '"></span>');
+            });
+        }
+    },
+
+    // builds toolbar
+    configToolbar: function (toolbaritems, toolbarplace, panel) {
+        var el;
+        toolbaritems.forEach(function(item){
+            if(typeof item === "object") {
+                el = $(item.item);
+                // add text to button
+                if (typeof item.btntext === 'string') {
+                    el.append(item.btntext);
+                }
+                // add class to button
+                if (typeof item.btnclass === 'string') {
+                    el.addClass(item.btnclass);
+                }
+                toolbarplace.append(el);
+                // bind handler to the item
+                if ($.isFunction(item.callback)) {
+                    el.on(item.event, panel, item.callback);
+                    // jsP is accessible in the handler as "event.data"
+                }
+            }
+        });
+    },
+
+    // disable/enable individual controls
+    control: function (panel, action, btn) {
+        var controls = panel.header.controls,
+            controlbtn;
+        if (arguments.length === 3) {
+            if (arguments[1] === 'disable') {
+                if (btn === 'close') {
+                    controlbtn = $('.jsPanel-btn-close', controls);
+                } else if (btn === 'maximize') {
+                    controlbtn = $('.jsPanel-btn-max', controls);
+                } else if (btn === 'minimize') {
+                    controlbtn = $('.jsPanel-btn-min', controls);
+                } else if (btn === 'normalize') {
+                    controlbtn = $('.jsPanel-btn-norm', controls);
+                } else if (btn === 'smallify') {
+                    controlbtn = $('.jsPanel-btn-small', controls);
+                }
+                // unbind handler and set styles
+                controlbtn.off().css({opacity:0.5, cursor: 'default'});
+            } else if (arguments[1] === 'enable') {
+                if (btn === 'close') {
+                    controlbtn = $('.jsPanel-btn-close', controls);
+                } else if (btn === 'maximize') {
+                    controlbtn = $('.jsPanel-btn-max', controls);
+                } else if (btn === 'minimize') {
+                    controlbtn = $('.jsPanel-btn-min', controls);
+                } else if (btn === 'normalize') {
+                    controlbtn = $('.jsPanel-btn-norm', controls);
+                } else if (btn === 'smallify') {
+                    controlbtn = $('.jsPanel-btn-small', controls);
+                }
+                // enable control and reset styles
+                controlbtn.on('click', function (e) {
+                    e.preventDefault();
+                    panel[btn]();
+                }).css({opacity: 1, cursor: 'pointer'});
+            }
+        }
+        return panel;
+    },
+
+    // helper function for the doubleclick handlers (title, content, footer)
+    dblclickhelper: function (odcs, panel) {
+        if (typeof odcs === 'string') {
+            if (odcs === "maximize" || odcs === "normalize") {
+                if (panel.status === "normalized" || panel.option.panelstatus === "normalized") {
+                    panel.maximize();
+                } else {
+                    panel.normalize();
+                }
+            } else if (odcs === "minimize" || odcs === "smallify" || odcs === "close") {
+                panel[odcs]();
+            }
+        }
+    },
+
+    // export a panel layout to localStorage and returns array with an object for each panel
+    exportPanels: function() {
+        var elmtOffset, elmtPosition, elmtTop, elmtLeft, elmtWidth, elmtHeight, elmtStatus, panelParent,
+            panelArr = [], exportedPanel,
+            panels = $(".jsPanel").not(".jsPanel-tt, .jsPanel-hint, .jsPanel-modal");
+        panels.each(function(index, elmt){
+            exportedPanel = {
+                panelstatus: $(elmt).data("panelstatus"),
+                id: $(elmt).prop("id"),
+                title: $(".jsPanel-title", elmt).html(),
+                custom: $(elmt).data("custom"),
+                offset: { top: 0, left: 0 },
+                content: $(elmt).data("content")
+            };
+            // normalize minimized/maximized panels before export
+            // status to restore is saved in exportedPanel.panelstatus
+            if ($(elmt).data("panelstatus") !== "normalized") {
+                $(".jsPanel-btn-norm", elmt).trigger("click");
+            }
+            panelParent = $(elmt).data("selector");
+            elmtOffset = $(elmt).offset();
+            elmtPosition = $(elmt).position();
+            if (elmtStatus === "minimized") {
+                if (panelParent.toLowerCase() === "body") {
+                    elmtTop = $(elmt).data("paneltop") - $(window).scrollTop() + "px";
+                    elmtLeft = $(elmt).data("panelleft") - $(window).scrollLeft() + "px";
+                } else {
+                    elmtTop = $(elmt).data("paneltop") + "px";
+                    elmtLeft = $(elmt).data("panelleft") + "px";
+                }
+                elmtWidth = $(elmt).data("panelwidth") + "px";
+                elmtHeight = $(elmt).data("panelheight") + "px";
+            } else {
+                if (panelParent.toLowerCase() === "body") {
+                    elmtTop = Math.floor(elmtOffset.top - $(window).scrollTop()) + "px";
+                    elmtLeft = Math.floor(elmtOffset.left - $(window).scrollLeft()) + "px";
+                } else {
+                    elmtTop = Math.floor(elmtPosition.top) + "px";
+                    elmtLeft = Math.floor(elmtPosition.left) + "px";
+                }
+                elmtWidth = $(elmt).css("width");
+                elmtHeight = $(".jsPanel-content", elmt).css("height");
+            }
+            exportedPanel.size = {
+                width: elmtWidth,
+                height: elmtHeight
+            };
+            exportedPanel.position = {
+                top: elmtTop,
+                left: elmtLeft
+            };
+            if ($(elmt).data("loadURL")) {
+                exportedPanel.load = {};
+                exportedPanel.load.url = $(elmt).data("loadURL");
+            }
+            if ($(elmt).data("ajaxURL")) {
+                exportedPanel.ajax = {};
+                exportedPanel.ajax.url = $(elmt).data("ajaxURL");
+            }
+            if ($(elmt).data("iframeDOC") || $(elmt).data("iframeSRC")) {
+                exportedPanel.iframe = {};
+                if ($(elmt).data("iframeDOC")) {
+                    exportedPanel.iframe.srcdoc = $(elmt).data("iframeDOC");
+                }
+                if ($(elmt).data("iframeSRC")) {
+                    exportedPanel.iframe.src = $(elmt).data("iframeSRC");
+                }
+            }
+            panelArr.push(exportedPanel);
+            // restore status that is saved
+            switch (exportedPanel.panelstatus) {
+                case "minimized":
+                    $(".jsPanel-btn-min", elmt).trigger("click");
+                    break;
+                case "maximized":
+                    $(".jsPanel-btn-max", elmt).trigger("click");
+                    break;
+                case "smallified":
+                    $(".jsPanel-btn-small", elmt).trigger("click");
+                    break;
+                case "smallifiedMax":
+                    $(".jsPanel-btn-small", elmt).trigger("click");
+                    break;
+            }
+        });
+        //window.localStorage.setItem("jspanels", panelArr);
+        window.localStorage.setItem("jspanels", JSON.stringify(panelArr));
+        return panelArr;
+    },
+
+    // imports panel layout from localStorage.jspanels and restores panels
+    importPanels: function(predefinedConfigs) {
+        /* panelConfig needs to be an object with predefined configs.
+         * A config named "default" will be applied to ALL panels
+         *
+         *       panelConfig = { default: { } [, config1 [, config2 [, configN ]]] };
+         */
+        var savedPanels,restoredConfig, defaultConfig;
+        savedPanels = JSON.parse(localStorage.jspanels) || {};
+        defaultConfig = predefinedConfigs["default"] || {};
+        savedPanels.forEach(function(savedconfig){
+            // safedconfig represents one item in safedPanels
+            if (typeof savedconfig.custom.config === "string") {
+                restoredConfig = $.extend(true, {}, defaultConfig, predefinedConfigs[savedconfig.custom.config], savedconfig);
+            } else {
+                restoredConfig = $.extend(true, {}, defaultConfig, savedconfig);
+            }
+            // restore panel
+            $.jsPanel(restoredConfig);
+        });
+    },
+
+    // maintains panel position relative to window on scroll of page
+    fixPosition: function (panel) {
+        var jspaneldiff = panel.offset().top - $(window).scrollTop();
+        panel.jsPanelfixPos = function () {
+            panel.css('top', $(window).scrollTop() + jspaneldiff);
+        };
+        $(window).on('scroll', panel.jsPanelfixPos);
+    },
+
+    // calculate panel margins
+    getMargins: function(panel) {
+        var off, elmtOff, mR, mL, mB, mT,
+            selector = panel.option.paneltype.shiftwithin,
+            winWidth = $(window).outerWidth(),
+            winHeight = $(window).outerHeight(),
+            panelWidth = panel.outerWidth(),
+            panelHeight = panel.outerHeight();
+        if(!selector || selector === "body") {
+            // panel margins relative to browser viewport
+            off = panel.offset();
+            mR = winWidth - off.left - panelWidth + $(window).scrollLeft();
+            mL = winWidth - panelWidth - mR;
+            mB = winHeight - off.top - panelHeight + $(window).scrollTop();
+            mT = winHeight - panelHeight - mB;
+        } else {
+            // panel margins relative to element matching selector "selector"
+            elmtOff = $(selector).offset();
+            off = panel.offset();
+            mR = $(selector).outerWidth() - parseInt(panel.css('width')) - (off.left - elmtOff.left);
+            mL = off.left - elmtOff.left;
+            mB = $(selector).outerHeight() - (off.top - elmtOff.top) - parseInt(panel.css('height'));
+            mT = off.top - elmtOff.top;
+        }
+        return {marginTop: parseInt(mT), marginRight: parseInt(mR), marginBottom: parseInt(mB), marginLeft: parseInt(mL)};
+    },
+
+    // return max value of an array with numbers
+    getMaxOfArray: function (numArray) {
+        return Math.max.apply(null, numArray);
+    },
+
+    // calculate max horizontal and vertical tooltip shift
+    getMaxpanelshift: function(panel) {
+        var panelWidth = panel.outerWidth(),
+            panelHeight = panel.outerHeight(),
+            horiz = parseInt( panelWidth/2 ) + parseInt( panel.parent().outerWidth()/2 ) - 20,
+            vert = parseInt( panelHeight/2 ) + parseInt( panel.parent().outerHeight()/2 ) - 20,
+            cornerHoriz = parseInt( panelWidth/2 ) - 16,
+            cornerVert = parseInt( panelHeight/2 ) - 16;
+        return {maxshiftH: horiz, maxshiftV: vert, maxCornerH: cornerHoriz, maxCornerV: cornerVert};
+    },
+
+    // hide controls specified by param "sel" of the jsPanel "panel"
+    hideControls: function (sel, panel) {
+        var controls = panel.header.controls;
+        $("*", controls).css('display', 'block');
+        $(sel, controls).css('display', 'none');
+    },
+
+    // calculates option.position for hints using 'top left', 'top center' or 'top right'
+    hintTop: function (hintGroup) {
+        var hintH = 0;
+        $("." + hintGroup).each(function(){
+            hintH += $(this).outerHeight(true);
+        });
+        if (hintGroup === "jsPanel-hint-tr") {
+            return {top: hintH, right: 0};
+        } else if (hintGroup === "jsPanel-hint-tl") {
+            return {top: hintH, left: 0};
+        } else if (hintGroup === "jsPanel-hint-tc") {
+            return {top: hintH, left: 'center'};
+        }
+        return {top: 0, left: 0};
+    },
+
+    // loads content in an iFrame
+    iframe: function(panel) {
+        var iFrame = $("<iframe></iframe>");
+        // iframe content
+        if (panel.option.iframe.srcdoc) {
+            iFrame.prop("srcdoc", panel.option.iframe.srcdoc);
+            panel.data("iframeDOC", panel.option.iframe.srcdoc); // needed for exportPanels()
+        }
+        if (panel.option.iframe.src) {
+            iFrame.prop("src", panel.option.iframe.src);
+            panel.data("iframeSRC", panel.option.iframe.src); // needed for exportPanels()
+        }
+        //iframe size
+        if (panel.option.size.width !== "auto" && !panel.option.iframe.width) {
+            iFrame.prop("width", "100%");
+        } else if (typeof panel.option.iframe.width === 'string' && panel.option.iframe.width.slice(-1) === '%') {
+            iFrame.prop("width", panel.option.iframe.width);
+        } else {
+            iFrame.prop("width", parseInt(panel.option.iframe.width) + 'px');
+        }
+        if (panel.option.size.height !== "auto" && !panel.option.iframe.height) {
+            iFrame.prop("height", "100%");
+        } else if (typeof panel.option.iframe.height === 'string' && panel.option.iframe.height.slice(-1) === '%') {
+            iFrame.prop("height", panel.option.iframe.height);
+        } else {
+            iFrame.prop("height", parseInt(panel.option.iframe.height) + 'px');
+        }
+        //iframe name
+        if (typeof panel.option.iframe.name === 'string') {
+            iFrame.prop("name", panel.option.iframe.name);
+        }
+        //iframe id
+        if (typeof panel.option.iframe.id === 'string') {
+            iFrame.prop("id", panel.option.iframe.id);
+        }
+        //iframe seamless (not yet supported by any browser)
+        if (panel.option.iframe.seamless) {
+            iFrame.prop("seamless", "seamless");
+        }
+        //iframe sandbox
+        if (typeof panel.option.iframe.sandbox === 'string') {
+            iFrame.prop("sandox", panel.option.iframe.sandbox);
+        }
+        //iframe style
+        if ($.isPlainObject(panel.option.iframe.style)) {
+            iFrame.css(panel.option.iframe.style);
+        }
+        //iframe css classes
+        if (typeof panel.option.iframe.classname === 'string') {
+            iFrame.addClass(panel.option.iframe.classname);
+        } else if ($.isFunction(panel.option.iframe.classname)) {
+            iFrame.addClass(panel.option.iframe.classname());
+        }
+        panel.content.empty().append(iFrame);
+    },
+
+    // append modal backdrop
+    insertModalBackdrop: function () {
+        var backdrop = '<div class="jsPanel-backdrop" style="height:' + $(document).outerHeight() + 'px;"></div>';
+        $('body').append(backdrop);
+        /*$(document).on("keydown", ".jsPanel-backdrop", function(e){
+         e.preventDefault();
+         return false;
+         });*/
+    },
+
+    // check whether a bootstrap compatible theme is used
+    isBootstrapTheme: function(optionBootstrap) {
+        if ($.inArray(optionBootstrap, ["default", "primary", "info", "success", "warning", "danger"]) > -1) {
+            return optionBootstrap;
+        }
+        return "default";
+    },
+
+    // loads content using jQuery.load()
+    load: function(panel) {
+        panel.content.load(panel.option.load.url, panel.option.load.data || undefined, function (responseText, textStatus, jqXHR) {
+            if ($.isFunction(panel.option.load.complete)) {
+                panel.option.load.complete.call(panel.content, responseText, textStatus, jqXHR, panel);
+            }
+            // title h3 might be to small: load() is async!
+            jsPanel.resizeTitle(panel);
+            // update option.size (content might come delayed)
+            jsPanel.updateOptionSize(panel, panel.option.size);
+            // fix for a bug in jQuery-UI draggable? that causes the jsPanel to reduce width when dragged beyond boundary of containing element and option.size.width is 'auto'
+            panel.content.css('width', function () {
+                return panel.content.outerWidth();
+            });
+        });
+        panel.data("loadURL", panel.option.load.url); // needed for exportPanels()
+    },
+
+    // maximizes a panel within the body element
+    maxWithinBody: function (panel) {
+        var newPos, newTop, newLeft;
+        if ((panel.status !== "maximized" || panel.option.panelstatus !== "maximized") && panel.option.paneltype.mode !== 'default') {
+            // remove window.scroll handler, is added again later in this function
+            $(window).off('scroll', panel.jsPanelfixPos);
+            // restore minimized panel to initial container if necessary
+            if (panel.status === "minimized" || panel.option.panelstatus === "minimized") {
+                this.restoreFromMinimized(panel);
+            }
+            // test to enable fullscreen maximize for panels in a parent other than body
+            if (panel.option.controls.maxtoScreen === true) {
+                newPos = this.calcPosmaxtoScreen(panel);
+                newTop = newPos.top + parseInt(panel.option.maximizedMargin.top);
+                newLeft = newPos.left + parseInt(panel.option.maximizedMargin.left);
+            } else {
+                newTop = $(window).scrollTop() + parseInt(panel.option.maximizedMargin.top);
+                newLeft = $(window).scrollLeft() + parseInt(panel.option.maximizedMargin.left);
+            }
+            panel.css({
+                top: newTop,
+                left: newLeft,
+                width: $(window).outerWidth() - parseInt(panel.option.maximizedMargin.left) - parseInt(panel.option.maximizedMargin.right),
+                height: $(window).outerHeight() - parseInt(panel.option.maximizedMargin.top) - parseInt(panel.option.maximizedMargin.bottom)
+            });
+            if (!panel.option.controls.maxtoScreen || (panel.option.controls.maxtoScreen && panel.option.selector === 'body')) {
+                // test to enable fullscreen maximize for panels in a parent other than body
+                this.fixPosition(panel);
+            }
+        }
+    },
+
+    // maximizes a panel within an element other than body
+    maxWithinElement: function (panel) {
+        if ((panel.status !== "maximized" || panel.option.panelstatus !== "maximized") && panel.option.paneltype.mode !== 'default') {
+            // restore minimized panel to initial container if necessary
+            if (panel.status === "minimized" || panel.option.panelstatus === "minimized") {
+                this.restoreFromMinimized(panel);
+            }
+            panel.css({
+                top: parseInt(panel.option.maximizedMargin.top),
+                left: parseInt(panel.option.maximizedMargin.left),
+                width: parseInt(panel.parent().outerWidth(), 10) - parseInt(panel.option.maximizedMargin.left) - parseInt(panel.option.maximizedMargin.right),
+                height: parseInt(panel.parent().outerHeight(), 10) - parseInt(panel.option.maximizedMargin.top) - parseInt(panel.option.maximizedMargin.bottom)
+            });
+        }
+    },
+
+    // calls functions to maximize a jsPanel
+    maximize: function (panel) {
+        panel.trigger('jspanelbeforemaximize', panel.attr('id'));
+        if (panel.parentElmtTagname === 'body' || panel.option.controls.maxtoScreen === true) {
+            this.maxWithinBody(panel);
+        } else {
+            this.maxWithinElement(panel);
+        }
+        panel.trigger('jspanelmaximized', panel.attr('id'));
+        panel.trigger('jspanelstatechange', panel.attr('id'));
+        return panel;
+    },
+
+    // minimizes a jsPanel to the lower left corner of the browser viewport
+    minimize: function (panel) {
+        panel.trigger('jspanelbeforeminimize', panel.attr('id'));
+        panel.data({ // needed for method exportPanels()
+            "paneltop": parseInt(panel.option.position.top),
+            "panelleft": parseInt(panel.option.position.left),
+            "panelwidth": parseInt(panel.option.size.width),
+            "panelheight": parseInt($(".jsPanel-content", panel).css("height"))
+        });
+        // update panel size to have correct values when normalizing again
+        if (panel.status === "normalized" || panel.option.panelstatus === "normalized") {
+            panel.option.size.width = panel.outerWidth();
+            panel.option.size.height = panel.outerHeight();
+        }
+        panel.animate({
+            opacity: 0
+        }, {
+            duration: 400, // fade out speed when minimizing
+            complete: function () {
+                panel.animate({
+                    width: jsPanel.widthForMinimized + "px",
+                    height: '28px'
+                }, {
+                    duration: 100,
+                    complete: function () {
+                        jsPanel.movetoMinified(panel);
+                        jsPanel.resizeTitle(panel);
+                        panel.css('opacity', 1);
+                    }
+                });
+            }
+        });
+        return panel;
+    },
+
+    // moves a panel to the minimized container
+    movetoMinified: function (panel) {
+        // wenn der Container für die minimierten jsPanels noch nicht existiert -> erstellen
+        if ($('#jsPanel-min-container').length === 0) {
+            $('body').append('<div id="jsPanel-min-container"></div>');
+        }
+        if (panel.status !== "minimized" || panel.option.panelstatus !== "minimized") {
+            // jsPanel in vorgesehenen Container verschieben
+            panel.css({
+                left: ($('.jsPanel', '#jsPanel-min-container').length * jsPanel.widthForMinimized),
+                top: 0,
+                opacity: 1
+            })
+                .appendTo('#jsPanel-min-container')
+                .resizable({disabled: true})
+                .draggable({disabled: true});
+            panel.trigger('jspanelminimized', panel.attr('id'));
+            panel.trigger('jspanelstatechange', panel.attr('id'));
+        }
+    },
+
+    // restores a panel to its "normalized" (not minimized, maximized or smallified) position & size
+    normalize: function (panel) {
+        var panelTop,
+            interactions = ["resizable", "draggable"];
+        panel.trigger('jspanelbeforenormalize', panel.attr('id'));
+        // remove window.scroll handler, is added again later in this function
+        $(window).off('scroll', panel.jsPanelfixPos);
+        // restore minimized panel to initial container if necessary
+        if (panel.status === "minimized" || panel.option.panelstatus === "minimized") {
+            this.restoreFromMinimized(panel);
+        }
+        // correction for panels maximized in body after page was scrolled
+        if (panel.parentElmtTagname === 'body') {
+            panelTop = $(window).scrollTop() + panel.verticalOffset;
+        } else {
+            panelTop = panel.option.position.top;
+        }
+        panel.css({
+            width: panel.option.size.width,
+            height: panel.option.size.height,
+            top: panelTop,
+            left: panel.option.position.left
+        });
+        interactions.forEach(function(action){
+            if (panel.option[action] !== "disabled") {
+                panel[action]("enable");
+                // get resizer and cursor for resizable back
+                $('.ui-icon-gripsmall-diagonal-se', panel).css({'background-image': 'none', 'text-indent': 0});
+                $('.ui-resizable-handle', panel).css({'cursor': ''});
+            }
+        });
+        panel.trigger('jspanelnormalized', panel.attr('id'));
+        panel.trigger('jspanelstatechange', panel.attr('id'));
+        if (panel.parentElmtTagname === 'body') {
+            this.fixPosition(panel);
+        }
+        return panel;
+    },
+
+    // replace bottom/right values with corresponding top/left values if necessary and update option.position
+    replaceCSSBottomRight: function (panel) {
+        var panelPosition = panel.position();
+        if (panel.css('bottom')) {
+            panel.css({
+                'top': parseInt(panelPosition.top, 10),
+                'bottom': ''
+            });
+            panel.option.position.top = parseInt(panelPosition.top, 10);
+        }
+        if (panel.css('right')) {
+            panel.css({
+                'left': parseInt(panelPosition.left, 10),
+                'right': ''
+            });
+            panel.option.position.left = parseInt(panelPosition.left, 10);
+        }
+    },
+
+    // reposition hint upon closing
+    reposHints: function (hintGroup, jsPtagname) {
+        var hintH;
+        if (jsPtagname === 'body') {
+            hintH = $(window).scrollTop();
+        } else {
+            hintH = 0;
+        }
+        $("." + hintGroup).each(function(){
+            $(this).animate({
+                top: hintH
+            });
+            hintH += $(this).outerHeight(true);
+        });
+    },
+
+    // reposition hints on window scroll
+    reposHintsScroll: function(panel) {
+        var dif = panel.offset().top - $(window).scrollTop();
+        // with window.onscroll only the last added hint would stay in position
+        $(window).scroll(function () {
+            panel.css('top', $(window).scrollTop() + dif);
+        });
+    },
+
+    // repositions a panel and optionally moves it to another container
+    reposition: function(panel, position, selector) {
+        if (selector && typeof selector === "string") {
+            panel.option.selector = selector;
+            panel.appendTo(selector);
+            panel.parentElmt = $(selector).first();
+            panel.parentElmtTagname = panel.parentElmt[0].tagName.toLowerCase();
+        }
+        if (panel.option.paneltype.type !== 'tooltip' && panel.option.paneltype.type !== 'hint') {
+            // rewrite passed position to be a proper object
+            panel.option.position = jsPanel.rewriteOPosition(position);
+            // delete element styles concerning position, otherwise you might end up with left &right and/or top & bottom values
+            panel.css({top: "", right: "", bottom: "", left: ""});
+            this.calcPanelposition(panel);
+            panel.verticalOffset = jsPanel.calcVerticalOffset(panel) || 0;
+            this.replaceCSSBottomRight(panel);
+            if (panel.parentElmtTagname === "body") {
+                this.fixPosition(panel);
+            } else {
+                $(window).off('scroll', panel.jsPanelfixPos);
+            }
+            this.updateOptionPosition(panel);
+        }
+        return panel;
+    },
+
+    // repositions minimized jsPanels
+    reposMinimized: function () {
+        $('.jsPanel', '#jsPanel-min-container').each(function(index, elmt){
+            $(elmt).animate({
+                left: (index * jsPanel.widthForMinimized)
+            });
+        });
+    },
+
+    // resize exsisting jsPanel; resizes the full panel (not content section only)
+    resize: function(panel, width, height) {
+        if (panel.option.panelstatus !== "minimized") {             // v2.4.1 don't call resize() on minimized panels
+            if(width && width !== null) {
+                panel.css("width", width);
+            } else {
+                panel.css("width", panel.content.css("width"));
+            }
+            if(height && height !== null) {
+                panel.css("height", height);
+            }
+            this.resizeContent(panel);
+            this.resizeTitle(panel);
+        }
+    },
+
+    // reset dimensions of content section after resize and so on
+    resizeContent: function (panel) {
+        var hdrftr;
+        if (panel.footer.css('display') === 'none') {
+            hdrftr = panel.header.outerHeight();
+        } else {
+            hdrftr = panel.header.outerHeight() + panel.footer.outerHeight();
+        }
+        panel.content.css({
+            height: (panel.outerHeight() - hdrftr),
+            width: panel.outerWidth()
+        });
+        return panel;
+    },
+
+    // resize the title h3 to use full width minus controls width (and prevent being longer than panel)
+    resizeTitle: function(panel) {
+        var titleWidth = (panel.outerWidth() - $(panel.header.controls).outerWidth() - 15);
+        panel.header.title.css('width', titleWidth);
+    },
+
+    // restores minimized panels to their initial container, reenables resizable and draggable, repositions minimized panels
+    restoreFromMinimized: function (panel) {
+        var interactions = ["resizable", "draggable"];
+        // restore minimized panel to initial container
+        if (panel.status === "minimized" || panel.option.panelstatus === "minimized") {
+            panel.appendTo(panel.option.selector);
+        }
+        interactions.forEach(function(action){
+            if (panel.option[action] !== "disabled") {
+                panel[action]("enable");
+                // get resizer and cursor for resizable back
+                $('.ui-icon-gripsmall-diagonal-se', panel).css({'background-image': 'none', 'text-indent': 0});
+                $('.ui-resizable-handle', panel).css({'cursor': ''});
+            }
+        });
+        // reposition minimized panels
+        this.reposMinimized(jsPanel.widthForMinimized);
+    },
+
+    // rewrite option.paneltype strings to objects and set defaults for option.paneltype
+    rewriteOPaneltype: function (optionPaneltype) {
+        var op = optionPaneltype;
+        if (op === 'modal') {
+            return {type: 'modal', mode: 'default'};
+        } else if (op === 'tooltip') {
+            return {type: 'tooltip', position: 'top'};
+        } else if (op === 'hint') {
+            return {type: 'hint'};
+        } else if (op.type === 'modal') {
+            return {type: 'modal', mode: op.mode || 'default'};
+        } else if (op.type === 'tooltip') {
+            return {
+                type: 'tooltip',
+                mode: op.mode || false,
+                position: op.position || false,
+                shiftwithin: op.shiftwithin || "body",
+                solo: op.solo || false,
+                cornerBG: op.cornerBG || false,
+                cornerOX: op.cornerOX || false,
+                cornerOY: op.cornerOY || false
+            };
+        } else {
+            return {paneltype: false};
+        }
+    },
+
+    // converts option.position string to object
+    rewriteOPosition: function (optionPosition) {
+        var op = optionPosition;
+        if (op === 'center') {
+            return {top: 'center', left: 'center'};
+        } else if (op === 'auto') {
+            return {top: 'auto', left: 'auto'};
+        } else if (op === 'top left') {
+            return {top: '0', left: '0'};
+        } else if (op === 'top center') {
+            return {top: '0', left: 'center'};
+        } else if (op === 'top right') {
+            return {top: '0', right: '0'};
+        } else if (op === 'center right') {
+            return {top: 'center', right: '0'};
+        } else if (op === 'bottom right') {
+            return {bottom: '0', right: '0'};
+        } else if (op === 'bottom center') {
+            return {bottom: '0', left: 'center'};
+        } else if (op === 'bottom left') {
+            return {bottom: '0', left: '0'};
+        } else if (op === 'center left') {
+            return {top: 'center', left: '0'};
+        }
+        // if bottom and/or right is set to "center" change that to top and/or left set to "center"
+        if (op.bottom === "center") {
+            delete op.bottom;
+            op.top = "center";
+        }
+        if (op.right === "center") {
+            delete op.right;
+            op.left = "center";
+        }
+        return optionPosition;
+    },
+
+    // converts option.size string to object
+    rewriteOSize: function(optionSize) {
+        var oSize = optionSize;
+        if (typeof oSize === 'string' && oSize === 'auto') {
+            oSize = {
+                width: 'auto',
+                height: 'auto'
+            };
+        }
+        return oSize;
+    },
+
+    // set default options for hints and add necessary classes
+    setHintDefaults: function(panel) {
+        panel.option.resizable = false;
+        panel.option.draggable = false;
+        panel.option.removeHeader = true;
+        panel.option.toolbarFooter = false;
+        panel.option.show = 'fadeIn';
+        panel.addClass('jsPanel-hint');
+        panel.content.addClass('jsPanel-hint-content');
+        // autoclose default 8 sec | or -1 to deactivate
+        if (!panel.option.autoclose) {
+            panel.option.autoclose = 8000;
+        } else if (panel.option.autoclose < 0) {
+            panel.option.autoclose = false;
+        }
+        // add class according option.theme to color the hint background
+        panel.content.addClass('jsPanel-hint-' + panel.option.theme);
+        panel.content.append('<div class="jsPanel-hint-close jsglyph jsglyph-remove"></div>');
+    },
+
+    // set default options for standard modal
+    setModalDefaults: function (panel) {
+        panel.option.selector = 'body';
+        panel.option.show = 'fadeIn';
+        panel.addClass('jsPanel-modal');
+        if (panel.option.paneltype.mode === 'default') {
+            panel.option.resizable = false;
+            panel.option.draggable = false;
+            panel.option.removeHeader = false;
+            panel.option.position = {top: 'center', left: 'center'};
+            panel.option.offset = {top: 0, left: 0};
+            panel.option.controls.buttons = 'closeonly'; //do not delete else "modal" with no close button possible
+            $(".jsPanel-btn-min, .jsPanel-btn-norm, .jsPanel-btn-max, .jsPanel-btn-small, .jsPanel-btn-smallrev", panel).remove();
+            $(panel.header, panel.header.title, panel.footer).css('cursor', 'default');
+            $('.jsPanel-title', panel).css('cursor', 'inherit');
+        }
+    },
+
+    // set right-to-left text direction and language; set styles and reoorder controls for rtl
+    setRTL: function(panel) {
+        var elmts = [ panel.header.title, panel.content, panel.header.toolbar, panel.footer ];
+        elmts.forEach(function(item){
+            item.prop('dir', 'rtl');
+            if (panel.option.rtl.lang) {
+                item.prop('lang', panel.option.rtl.lang);
+            }
+        });
+        panel.header.title.css('text-align', 'right');
+        $('.jsPanel-btn-close', panel.header.controls).insertAfter($('.jsPanel-btn-min', panel.header.controls));
+        $('.jsPanel-btn-max', panel.header.controls).insertAfter($('.jsPanel-btn-min', panel.header.controls));
+        $('.jsPanel-btn-small', panel.header.controls).insertBefore($('.jsPanel-btn-min', panel.header.controls));
+        $('.jsPanel-btn-smallrev', panel.header.controls).insertBefore($('.jsPanel-btn-min', panel.header.controls));
+        $('.jsPanel-hdr-r', panel).css({left: '0px', right: '', position: 'relative', 'float': 'left'});
+        $('.jsPanel-hint-close', panel).css('float', 'left');
+        $('.jsPanel-title', panel).css('float', 'right');
+        $('.jsPanel-ftr', panel).append('<div style="clear:both;height:0;"></div>');
+        $('button', panel.footer).css('float', 'left');
+    },
+
+    // set default options for tooltips
+    setTooltipDefaults: function(panel) {
+        panel.option.position = {};
+        panel.option.resizable = false;
+        panel.option.draggable = false;
+        panel.option.show = 'fadeIn';
+        panel.option.controls.buttons = 'closeonly';
+        panel.header.title.css('cursor', 'inherit');
+        panel.footer.css('cursor', 'inherit');
+        panel.addClass('jsPanel-tt');
+    },
+
+    // returns a z-index value for a panel in order to have it on top
+    setZi: function (panel) {
+        var jspanel, allZi = [], maxZi;
+        if (typeof panel === "string") {
+            jspanel = $(panel);
+        } else {
+            jspanel = panel;
+        }
+        // build array with all z-index values
+        $(".jsPanel:not('.jsPanel-modal, .jsPanel-nofront')").each(function(i, elmt){
+            if (jspanel.attr("id") !== $(elmt).attr("id")) {
+                allZi.push($(elmt).css("z-index"));
+            }
+        });
+        //allZi.sort(function(a, b) {return a - b}); // sort array ascending
+        //console.log(allZi);
+        maxZi = this.getMaxOfArray(allZi);
+        return maxZi + 1;
+    },
+
+    // shift tooltip left/right if it overflows window; when using horizontal offsets of panel and/or corner result might be not as expected
+    shiftTooltipHorizontal: function(panel){
+        var margins = this.getMargins(panel),
+            leftShiftRequired,
+            maxShift = this.getMaxpanelshift(panel),
+            maxLeftShift = maxShift.maxshiftH,
+            shift,
+            maxCornerLeft = maxShift.maxCornerH,
+            cornerShift,
+            newPanelLeft = 0,
+            newCornerLeft = 0;
+        if (margins.marginLeft < 0 && margins.marginRight > 0) {
+            // if panel overflows left window border
+            leftShiftRequired = Math.abs(margins.marginLeft) + 5 || 0;
+            shift = Math.min(leftShiftRequired, maxLeftShift) || 0;
+            cornerShift = Math.min(maxCornerLeft, shift) || 0;
+            newPanelLeft = parseInt(panel.css('left')) + shift + "px";
+            newCornerLeft = parseInt($('.jsPanel-corner', panel).css('left')) - cornerShift + "px";
+        } else if (margins.marginRight < 0 && margins.marginLeft > 0) {
+            // if panel overflows right window border
+            leftShiftRequired = Math.abs(margins.marginRight) + 5 || 0;
+            shift = Math.min(leftShiftRequired, maxLeftShift) || 0;
+            cornerShift = Math.min(maxCornerLeft, shift) || 0;
+            newPanelLeft = parseInt(panel.css('left')) - shift + "px";
+            newCornerLeft = parseInt($('.jsPanel-corner', panel).css('left')) + cornerShift + "px";
+        }
+        if ((margins.marginLeft < 0 && margins.marginRight > 0) || (margins.marginRight < 0 && margins.marginLeft > 0)) {
+            // shift panel
+            panel.animate({
+                "left": newPanelLeft
+            },{ queue: false /* to have both animation run simultaneously */ });
+
+            // shift corner if present
+            if ($('.jsPanel-corner', panel)) {
+                $('.jsPanel-corner', panel).animate({
+                    "left": newCornerLeft
+                },{ queue: false /* to have both animation run simultaneously */ });
+            }
+        }
+    },
+
+    // shift tooltip up/down if it overflows window; when using vertical offsets of panel and/or corner result might be not as expected
+    shiftTooltipVertical: function(panel){
+        //console.log( parseInt($('*:first-child', panel.parent()).css('margin-left')) );
+        var margins = this.getMargins(panel),
+            topShiftRequired,
+            maxShift = this.getMaxpanelshift(panel),
+            maxTopShift = maxShift.maxshiftV,
+            shift,
+            maxCornerTop = maxShift.maxCornerV,
+            cornerShift,
+            newPanelTop = 0,
+            newCornerTop = 0;
+        if (margins.marginTop < 0 && margins.marginBottom > 0) {
+            // if panel overflows top window border
+            topShiftRequired = Math.abs(margins.marginTop) + 5 || 0;
+            shift = Math.min(topShiftRequired, maxTopShift) || 0;
+            cornerShift = Math.min(maxCornerTop, shift) || 0;
+            newPanelTop = parseInt(panel.css('top')) + shift + "px";
+            newCornerTop = parseInt($('.jsPanel-corner', panel).css('top')) - cornerShift + "px";
+        } else if (margins.marginBottom < 0 && margins.marginTop > 0) {
+            // if panel overflows bottom window border
+            topShiftRequired = Math.abs(margins.marginBottom) + 5 || 0;
+            shift = Math.min(topShiftRequired, maxTopShift) || 0;
+            cornerShift = Math.min(maxCornerTop, shift) || 0;
+            newPanelTop = parseInt(panel.css('top')) - shift + "px";
+            newCornerTop = parseInt($('.jsPanel-corner', panel).css('top')) + cornerShift + "px";
+        }
+        if ((margins.marginTop < 0 && margins.marginBottom > 0) || (margins.marginBottom < 0 && margins.marginTop > 0)) {
+            // shift panel
+            panel.animate({
+                "top": newPanelTop
+            },{ queue: false /* to have both animation run simultaneously */ });
+
+            // shift corner if present
+            if ($('.jsPanel-corner', panel)) {
+                $('.jsPanel-corner', panel).animate({
+                    "top": newCornerTop
+                },{ queue: false /* to have both animation run simultaneously */ });
+            }
+        }
+    },
+
+    smallify: function(panel) {
+        var statusNew;
+        if ((panel.status !== "smallified" || panel.option.panelstatus !== "smallified") && (panel.status !== "smallifiedMax" || panel.option.panelstatus !== "smallifiedMax")) {
+            if (panel.status === "maximized" || panel.option.panelstatus === "maximized") {
+                statusNew = "smallifiedMax";
+            } else {
+                statusNew = "smallified";
+            }
+            // store panel height in function property
+            panel.smallify.height = panel.outerHeight();
+            panel.panelheaderheight = panel.header.outerHeight() - 2;
+            panel.panelfooterheight = panel.footer.outerHeight();
+            panel.panelcontentheight = panel.content.outerHeight();
+            panel.animate({
+                    height: panel.panelheaderheight
+                },
+                {
+                    done: function () {
+                        if (panel.status === 'maximized' || panel.option.panelstatus === 'maximized') {
+                            jsPanel.hideControls(".jsPanel-btn-max, .jsPanel-btn-small", panel);
+                        } else {
+                            jsPanel.hideControls(".jsPanel-btn-norm, .jsPanel-btn-small", panel);
+                        }
+                        jsPanel.updateStateProps(panel, statusNew);
+                        panel.trigger('jspanel' + statusNew, panel.attr('id'));
+                        panel.trigger('jspanelstatechange', panel.attr('id'));
+                    }
+                });
+        }
+    },
+
+    unsmallify: function(panel) {
+        panel.animate({
+                height: panel.smallify.height
+            },
+            {
+                done: function () {
+                    if (panel.status === 'smallified' || panel.option.panelstatus === 'smallified') {
+                        jsPanel.hideControls(".jsPanel-btn-norm, .jsPanel-btn-smallrev", panel);
+                        jsPanel.updateStateProps(panel, "normalized");
+                        panel.trigger('jspanelnormalized', panel.attr('id'));
+                        panel.trigger('jspanelstatechange', panel.attr('id'));
+                    } else {
+                        jsPanel.hideControls(".jsPanel-btn-max, .jsPanel-btn-smallrev", panel);
+                        jsPanel.updateStateProps(panel, "maximized");
+                        panel.trigger('jspanelmaximized', panel.attr('id'));
+                        panel.trigger('jspanelstatechange', panel.attr('id'));
+                    }
+                }
+            }
+        );
+    },
+
+    // updates option.position to hold actual values
+    updateOptionPosition: function(panel) {
+        panel.option.position.top = panel.css('top');
+        panel.option.position.left = panel.css('left');
+    },
+
+    // updates option.size to hold actual values
+    updateOptionSize: function(panel) {
+        panel.option.size.width = panel.css('width');
+        panel.option.size.height = $(".jsPanel-content", panel).css("height");
+    },
+
+    updateCustomData: function(panel, key, val) {
+        var custom = panel.data("custom");
+        custom[key] = val;
+        panel.data("custom", custom);
+    },
+
+    updateStateProps: function(panel, status) {
+        panel.status = status;
+        panel.option.panelstatus = status;
+        panel.data("panelstatus", status);
+        panel.alterClass("jsPanel-state-*", "jsPanel-state-" + status);
+    }
+
+};
+
+//console.log("jsPanel version: " + jsPanel.version);
+
+(function($){
+    $.jsPanel = function (config) {
+
+        var jsP, template, id,
+            panelconfig = config || {},
+            optConfig = panelconfig.config || {};
+
+        // use custom jsPanel template if present else standard template
+        template = panelconfig.template || jsPanel.template;
+        jsP = $(template);
+
+        // Extend our default config with those provided. Note that the first arg to extend is an empty object - this is to keep from overriding our "defaults" object.
+        jsP.option = $.extend(true, {}, $.jsPanel.defaults, optConfig, panelconfig);
+
+        // option.id ---------------------------------------------------------------------------------------------------
+        if (typeof jsP.option.id === "string") {
+            id = jsP.option.id;
+        } else if ($.isFunction(jsP.option.id)) {
+            id = jsP.option.id();
+        } else {
+            jsPanel.ID += 1;
+            id = jsPanel.ID;
+        }
+        if ($("#" + id).length > 0) {
+            alert("jsPanel Error: No jsPanel created - id attribute passed with option.id already exists in document");
+            return false;
+        } else {
+            jsP.attr("id", id);
+        }
+
+        jsP.data("custom", jsP.option.custom);
+
+        jsP.verticalOffset = 0; // always use 0 ... not "0" !
+
+        try {
+            jsP.parentElmt = $(jsP.option.selector).first();
+            jsP.parentElmtTagname = jsP.parentElmt[0].tagName.toLowerCase();
+            jsP.count = jsP.parentElmt.children('.jsPanel').length;
+        } catch (e) {
+            alert(e + "\n\nThe element you want to append the jsPanel to does not exist!\n\n The jsPanel will be appended to the body element instead.");
+            jsP.option.selector = 'body';
+            jsP.parentElmt = $('body');
+            jsP.parentElmtTagname = 'body';
+            jsP.count = jsP.parentElmt.children('.jsPanel').length;
+        }
+
+        jsP.status = "initialized";
+
+        jsP.header = $('.jsPanel-hdr', jsP);
+
+        jsP.header.title = $('.jsPanel-title', jsP.header);
+
+        jsP.header.controls = $('.jsPanel-hdr-r', jsP.header);
+
+        jsP.header.toolbar = $('.jsPanel-hdr-toolbar', jsP.header);
+
+        jsP.content = $('.jsPanel-content', jsP);
+
+        jsP.footer = $('.jsPanel-ftr', jsP);
+
+        jsP.normalize = function() {
+            jsPanel.normalize(jsP);
+            return jsP;
+        };
+
+        jsP.close = function () {
+            jsPanel.close(jsP);
+            // no need to return something
+        };
+
+        jsP.closeChildpanels = function () {
+            jsPanel.closeChildpanels(jsP);
+            return jsP;
+        };
+
+        jsP.minimize = function () {
+            jsPanel.minimize(jsP);
+            return jsP;
+        };
+
+        jsP.maximize = function () {
+            jsPanel.maximize(jsP);
+            return jsP;
+        };
+
+        jsP.smallify = function () {
+            if ((jsP.status === "normalized" || jsP.option.panelstatus === "normalized") || (jsP.status === "maximized" || jsP.option.panelstatus === "maximized")) {
+                jsPanel.smallify(jsP);
+            } else if ((jsP.status !== "minimized" || jsP.option.panelstatus !== "minimized")) {
+                jsPanel.unsmallify(jsP);
+            }
+            return jsP;
+        };
+
+        jsP.front = function () {
+            jsP.css('z-index', jsPanel.setZi(jsP));
+            return jsP;
+        };
+
+        jsP.title = function (text) {
+            if (text && typeof text === "string") {
+                jsP.header.title.html(text);
+                return jsP;
+            } else if (arguments.length === 0) {
+                return jsP.header.title.html();
+            }
+        };
+
+        jsP.addToolbar = function (place, items) {
+            jsPanel.addToolbar(jsP, place, items);
+            return jsP;
+        };
+
+        jsP.control = function (action, btn) {
+            jsPanel.control(jsP, action, btn);
+            return jsP;
+        };
+
+        jsP.resize = function (width, height) {
+            // method resizes the full panel (not content section only)
+            jsPanel.resize(jsP, width, height);
+            return jsP;
+        };
+
+        jsP.reposition = function (position, selector) {
+            jsPanel.reposition(jsP, position, selector);
+            return jsP;
+        };
+
+        jsP.reloadContent = function() {
+            if (jsP.option.content) {
+                jsP.content.empty().append(jsP.option.content);
+            } else if (jsP.option.load) {
+                jsP.content.empty();
+                jsPanel.load(jsP);
+            } else if (jsP.option.ajax) {
+                jsPanel.ajax(jsP);
+            } else if (jsP.option.iframe) {
+                jsPanel.iframe(jsP);
+            }
+        };
+
+        // handler to move panel to foreground on click
+        jsP.on('click', function (e) {
+            // use of e.preventDefault(); would prevent events from inside a panel from firing properly
+            if (!$(e.target).is("a[href], button, .jsPanel-nofront, .jsPanel-nofront *")) {
+                if (!jsP.hasClass("jsPanel-modal")) {
+                    jsP.css('z-index', jsPanel.setZi(jsP));
+                }
+            }
+        });
+
+        // jsPanel close
+        $('.jsPanel-btn-close', jsP).on('click', function (e) {
+            e.preventDefault();
+            if (!jsP.option.controls.confirmClose) {
+                jsPanel.close(jsP, jsP.parentElmtTagname);
+            } else {
+                if (window.confirm(jsP.option.controls.confirmClose) === true) {
+                    jsPanel.close(jsP, jsP.parentElmtTagname);
+                }
+            }
+        });
+
+        // jsPanel minimize
+        $('.jsPanel-btn-min', jsP).on('click', function (e) {
+            e.preventDefault();
+            jsPanel.minimize(jsP);
+        });
+
+        // jsPanel maximize
+        $('.jsPanel-btn-max', jsP).on('click', function (e) {
+            e.preventDefault();
+            jsPanel.maximize(jsP);
+        });
+
+        // jsPanel normalize
+        $('.jsPanel-btn-norm', jsP).on('click', function (e) {
+            e.preventDefault();
+            jsPanel.normalize(jsP);
+        });
+
+        // jsPanel smallify
+        $('.jsPanel-btn-small', jsP).on('click', function (e) {
+            e.preventDefault();
+            jsPanel.smallify(jsP);
+        });
+
+        // jsPanel unsmallify
+        $('.jsPanel-btn-smallrev', jsP).on('click', function (e) {
+            e.preventDefault();
+            jsPanel.unsmallify(jsP);
+        });
+
+        // rewrite option.paneltype strings to objects and set defaults for option.paneltype
+        jsP.option.paneltype = jsPanel.rewriteOPaneltype(jsP.option.paneltype);
+
+        // converts option.position string to object
+        jsP.option.position = jsPanel.rewriteOPosition(jsP.option.position);
+
+        // converts option.size string to object
+        jsP.option.size = jsPanel.rewriteOSize(jsP.option.size);
+
+        /* option.paneltype - override or set various settings depending on option.paneltype ------------------------ */
+        if (jsP.option.paneltype.type === 'modal') {
+            // set defaults for standard modal
+            jsPanel.setModalDefaults(jsP);
+            // insert backdrop
+            if ($('.jsPanel-backdrop').length < 1) {
+                jsPanel.insertModalBackdrop();
+            }
+        } else if (jsP.option.paneltype.type === 'tooltip') {
+            jsPanel.setTooltipDefaults(jsP);
+            // optionally remove all other tooltips
+            if (jsP.option.paneltype.solo) {
+                jsPanel.closeallTooltips();
+            }
+            // calc top & left for the various tooltip positions
+            jsP.option.position = jsPanel.calcToooltipPosition(jsP.parentElmt, jsP.option);
+            // position the tooltip & add tooltip class
+            jsP.css({
+                top: jsP.option.position.top,
+                left: jsP.option.position.left
+            });
+            if (!jsP.parentElmt.parent().hasClass('jsPanel-tooltip-wrapper')) {
+                // wrap element serving as trigger in a div - will take the tooltip
+                jsP.parentElmt.wrap('<div class="jsPanel-tooltip-wrapper">');
+                // append tooltip (jsPanel) to the wrapper div
+                jsP.parentElmt.parent().append(jsP);
+                if (jsP.option.paneltype.mode === 'semisticky') {
+                    jsP.hover(
+                        function () {
+                            $.noop();
+                        },
+                        function () {
+                            jsPanel.close(jsP);
+                        }
+                    );
+                } else if (jsP.option.paneltype.mode === 'sticky') {
+                    $.noop();
+                } else {
+                    jsP.option.controls.buttons = 'none';
+                    // tooltip will be removed whenever mouse leaves trigger
+                    jsP.parentElmt.off('mouseout'); // to prevent mouseout from firing several times
+                    jsP.parentElmt.mouseout(function () {
+                        jsPanel.close(jsP);
+                    });
+                }
+            }
+            // corners
+            jsP.css('overflow', 'visible');
+            if (jsP.option.paneltype.cornerBG) {
+                var corner = $("<div></div>"),
+                    cornerLoc = "jsPanel-corner-" + jsP.option.paneltype.position,
+                    cornerPos,
+                    cornerOX = parseInt(jsP.option.paneltype.cornerOX) || 0,
+                    cornerOY = parseInt(jsP.option.paneltype.cornerOY) || 0,
+                    cornerBG = jsP.option.paneltype.cornerBG;
+                if (jsP.option.paneltype.position !== "bottom") {
+                    corner.addClass("jsPanel-corner " + cornerLoc).appendTo(jsP);
+                } else {
+                    corner.addClass("jsPanel-corner " + cornerLoc).prependTo(jsP);
+                }
+                if (jsP.option.paneltype.position === "top") {
+                    cornerPos = parseInt(jsP.option.size.width)/2 - 12 + (cornerOX) + "px";
+                    corner.css({borderTopColor: cornerBG, left: cornerPos});
+                } else if (jsP.option.paneltype.position === "right") {
+                    cornerPos = parseInt(jsP.option.size.height)/2 - 12 + (cornerOY) + "px";
+                    corner.css({borderRightColor: cornerBG, left: "-22px", top: cornerPos});
+                } else if (jsP.option.paneltype.position === "bottom") {
+                    cornerPos = parseInt(jsP.option.size.width)/2 - 12 + (cornerOX) + "px";
+                    corner.css({borderBottomColor: cornerBG, left: cornerPos, top: "-22px"});
+                } else if (jsP.option.paneltype.position === "left") {
+                    cornerPos = parseInt(jsP.option.size.height)/2 - 12 + (cornerOY) + "px";
+                    corner.css({borderLeftColor: cornerBG, left: jsP.option.size.width, top: cornerPos});
+                }
+            }
+        } else if (jsP.option.paneltype.type === 'hint') {
+            jsPanel.setHintDefaults(jsP);
+            // bind callback for close button
+            $('.jsPanel-hint-close', jsP).on('click', jsP, function (event) {
+                event.data.close(jsP);
+            });
+            // set option.position for hints using 'top left', 'top center' or 'top right'
+            if (jsP.option.position.top === '0' && jsP.option.position.left === 'center') {
+                jsP.addClass("jsPanel-hint-tc");
+                if ($(".jsPanel-hint-tc").length > 0) {
+                    jsP.option.position = jsPanel.hintTop("jsPanel-hint-tc");
+                }
+            } else if (jsP.option.position.top === '0' && jsP.option.position.left === '0') {
+                jsP.addClass("jsPanel-hint-tl");
+                if ($(".jsPanel-hint-tl").length > 0) {
+                    jsP.option.position = jsPanel.hintTop("jsPanel-hint-tl");
+                }
+            } else if (jsP.option.position.top === '0' && jsP.option.position.right === '0') {
+                jsP.addClass("jsPanel-hint-tr");
+                if ($(".jsPanel-hint-tr").length > 0) {
+                    jsP.option.position = jsPanel.hintTop("jsPanel-hint-tr");
+                }
+            }
+        }
+
+        /* option.selector - append jsPanel only to the first object in selector ------------------------------------ */
+        jsP.data("selector", jsP.option.selector);  // needed for exportPanels()
+        if (jsP.option.paneltype.type !== 'tooltip') {
+            jsP.appendTo(jsP.parentElmt);
+        }
+        if (jsP.option.paneltype.type === 'modal') {
+            jsP.css('zIndex', 10001);
+            if (jsP.option.paneltype.mode === 'extended') {
+                $('.jsPanel-backdrop').css('z-index', '9998');
+            }
+        } else {
+            if (!jsP.hasClass("jsPanel-modal")) {
+                jsP.css('z-index', jsPanel.setZi(jsP));
+            }
+        }
+
+        /* option.bootstrap & option.theme -------------------------------------------------------------------------- */
+        if (jsP.option.bootstrap) {
+            // check whether a bootstrap compatible theme is used and set option.theme accordingly
+            jsP.option.theme = jsPanel.isBootstrapTheme(jsP.option.bootstrap);
+            jsP.option.controls.iconfont = 'bootstrap';
+            jsP.alterClass('jsPanel-theme-*', 'panel panel-' + jsP.option.theme);
+            jsP.header.alterClass('jsPanel-theme-*', 'panel-heading');
+            jsP.header.title.addClass('panel-title');
+            jsP.content.alterClass('jsPanel-theme-*', 'panel-body');
+            jsP.footer.addClass('panel-footer');
+            // fix css problems for panels nested in other bootstrap panels
+            jsP.header.title.css('color', function () {
+                return jsP.header.css('color');
+            });
+            jsP.content.css('border-top-color', function () {
+                return jsP.header.css('border-top-color');
+            });
+        } else {
+            // activate normal non bootstrap themes
+            var components = [jsP, jsP.header, jsP.content, jsP.footer];
+            components.forEach(function(elmt){
+                $(elmt).alterClass('jsPanel-theme-*', 'jsPanel-theme-' + jsP.option.theme);
+            });
+        }
+
+        /* option.removeHeader; option.controls (buttons in header right) ------------------------------------------- */
+        if (jsP.option.removeHeader) {
+            jsP.header.remove();
+        } else {
+            jsPanel.configControls(jsP);
+        }
+
+        /* insert iconfonts if option.iconfont set (default is "jsglyph") */
+        if (jsP.option.controls.iconfont) {
+            jsPanel.configIconfont(jsP);
+        } else {
+            // if option.controls.iconfont === false restore old icon sprite
+            $('.jsPanel-btn-close, .jsPanel-btn-max, .jsPanel-btn-norm, .jsPanel-btn-min, .jsPanel-btn-small, .jsPanel-btn-smallrev', jsP.header.controls).empty();
+        }
+
+        /* option.toolbarHeader | default: false -------------------------------------------------------------------- */
+        if (jsP.option.toolbarHeader && jsP.option.removeHeader === false) {
+            if (typeof jsP.option.toolbarHeader === 'string') {
+                jsP.header.toolbar.append(jsP.option.toolbarHeader);
+            } else if ($.isFunction(jsP.option.toolbarHeader)) {
+                jsP.header.toolbar.append(jsP.option.toolbarHeader(jsP.header));
+            } else if ($.isArray(jsP.option.toolbarHeader)) {
+                jsPanel.configToolbar(jsP.option.toolbarHeader, jsP.header.toolbar, jsP);
+            }
+            // give toolbar the same font-family as title
+            jsP.header.toolbar.css("font-family", jsP.header.title.css("font-family"));
+        }
+
+        /* option.toolbarFooter | default: false -------------------------------------------------------------------- */
+        if (jsP.option.toolbarFooter) {
+            jsP.footer.css({
+                display: 'block'
+            });
+            if (typeof jsP.option.toolbarFooter === 'string') {
+                jsP.footer.append(jsP.option.toolbarFooter);
+            } else if ($.isFunction(jsP.option.toolbarFooter)) {
+                jsP.footer.append(jsP.option.toolbarFooter(jsP.footer));
+            } else if ($.isArray(jsP.option.toolbarFooter)) {
+                jsPanel.configToolbar(jsP.option.toolbarFooter, jsP.footer, jsP);
+            }
+            // give toolbar the same font-family as title
+            jsP.footer.css("font-family", jsP.header.title.css("font-family"));
+        }
+
+        /* option.rtl | default: false ------------------------------------------------------------------------------ */
+        if (jsP.option.rtl.rtl === true) {
+            jsPanel.setRTL(jsP, jsP.option.rtl.lang);
+        }
+
+        /* option.overflow  | default: 'hidden' --------------------------------------------------------------------- */
+        if (typeof jsP.option.overflow === 'string') {
+            jsP.content.css('overflow', jsP.option.overflow);
+        } else if ($.isPlainObject(jsP.option.overflow)) {
+            jsP.content.css({
+                'overflow-y': jsP.option.overflow.vertical,
+                'overflow-x': jsP.option.overflow.horizontal
+            });
+        }
+
+        /* option.draggable ----------------------------------------------------------------------------------------- */
+        if ($.isPlainObject(jsP.option.draggable)) {
+            // if jsPanel is childpanel
+            if (jsP.parent().hasClass('jsPanel-content')) {
+                jsP.option.draggable.containment = 'parent';
+            }
+            // merge draggable settings and apply
+            jsP.option.customdraggable = $.extend(true, {}, $.jsPanel.defaults.draggable, jsP.option.draggable);
+            jsP.draggable(jsP.option.customdraggable);
+        } else if (jsP.option.draggable === 'disabled') {
+            // reset cursor, draggable deactivated
+            $('.jsPanel-title, .jsPanel-ftr', jsP).css('cursor', 'inherit');
+            // jquery ui draggable initialize disabled to allow to query status
+            jsP.draggable({ disabled: true });
+        }
+
+        /* option.resizable ----------------------------------------------------------------------------------------- */
+        if ($.isPlainObject(jsP.option.resizable)) {
+            jsP.option.customresizable = $.extend(true, {}, $.jsPanel.defaults.resizable, jsP.option.resizable);
+            jsP.resizable(jsP.option.customresizable);
+        } else if (jsP.option.resizable === 'disabled') {
+            // jquery ui resizable initialize disabled to allow to query status
+            jsP.resizable({ disabled: true });
+            $('.ui-icon-gripsmall-diagonal-se', jsP).css({'background-image': 'none', 'text-indent': -9999});
+            $('.ui-resizable-handle', jsP).css({'cursor': 'inherit'});
+        }
+
+        /* option.content ------------------------------------------------------------------------------------------- */
+        // option.content can be any valid argument for jQuery.append()
+        if (jsP.option.content) {
+            jsP.content.append(jsP.option.content);
+            jsP.data("content", jsP.option.content);
+        }
+
+        /* option.load ---------------------------------------------------------------------------------------------- */
+        if ($.isPlainObject(jsP.option.load) && jsP.option.load.url) {
+            jsPanel.load(jsP);
+        }
+
+        /* option.ajax ---------------------------------------------------------------------------------------------- */
+        if ($.isPlainObject(jsP.option.ajax) && jsP.option.ajax.url) {
+            jsPanel.ajax(jsP);
+        }
+
+        /* option.size ---------------------------------------------------------------------------------------------- */
+        jsP.content.css({
+            width: jsP.option.size.width || 'auto',
+            height: jsP.option.size.height || 'auto'
+        });
+
+        // Important! limit title width; final adjustment follows later; otherwise title might be longer than panel width
+        jsP.header.title.css('width', jsP.content.width()-90);
+
+        /* option.iframe -------------------------------------------------------------------------------------------- */
+        // implemented after option.size because option.size.width/height are either "auto" or pixel values already
+        if ($.isPlainObject(jsP.option.iframe) && (jsP.option.iframe.src || jsP.option.iframe.srcdoc)) {
+            jsPanel.iframe(jsP);
+        }
+
+        /* option.position ------------------------------------------------------------------------------------------ */
+        if (jsP.option.paneltype.type !== 'tooltip') {
+            // value "center" not allowed for option.position.bottom & option.position.right -> use top and/or left
+            // finally calculate & position the jsPanel
+            jsPanel.calcPanelposition(jsP);
+        }
+
+        /* option.addClass ------------------------------------------------------------------------------------------ */
+        if (typeof jsP.option.addClass.header === 'string') {
+            jsP.header.addClass(jsP.option.addClass.header);
+        }
+        if (typeof jsP.option.addClass.content === 'string') {
+            jsP.content.addClass(jsP.option.addClass.content);
+        }
+        if (typeof jsP.option.addClass.footer === 'string') {
+            jsP.footer.addClass(jsP.option.addClass.footer);
+        }
+
+        // handlers for doubleclicks -----------------------------------------------------------------------------------
+        // dblclicks disabled for normal modals, hints and tooltips
+        if (jsP.option.paneltype.mode !== "default") {
+            if (jsP.option.dblclicks) {
+                if (jsP.option.dblclicks.title) {
+                    jsP.header.title.on('dblclick', function (e) {
+                        e.preventDefault();
+                        jsPanel.dblclickhelper(jsP.option.dblclicks.title, jsP);
+                    });
+                }
+                if (jsP.option.dblclicks.content) {
+                    jsP.content.on('dblclick', function (e) {
+                        e.preventDefault();
+                        jsPanel.dblclickhelper(jsP.option.dblclicks.content, jsP);
+                    });
+                }
+                if (jsP.option.dblclicks.footer) {
+                    jsP.footer.on('dblclick', function (e) {
+                        e.preventDefault();
+                        jsPanel.dblclickhelper(jsP.option.dblclicks.footer, jsP);
+                    });
+                }
+            }
+        }
+
+        /* option.show ---------------------------------------------------------------------------------------------- */
+        if (!jsP.option.show) {
+            jsP.css({
+                display: 'block',
+                opacity: 1
+            });
+            $(jsP).trigger('jspanelloaded', jsP.attr('id'))
+            $(jsP).trigger('jspanelstatechange', jsP.attr('id'));
+            jsP.option.size = {
+                width: jsP.outerWidth(),
+                height: jsP.outerHeight()
+            };
+        } else if (jsP.option.show.indexOf(" ") === -1) {
+            // if no space is found in "jsP.option.show" -> function anwenden
+            jsP[jsP.option.show]({
+                done: function () {
+                    // trigger custom event
+                    $(jsP).trigger('jspanelloaded', jsP.attr('id'));
+                    $(jsP).trigger('jspanelstatechange', jsP.attr('id'));
+                    jsP.option.size = {
+                        width: jsP.outerWidth(),
+                        height: jsP.outerHeight()
+                    };
+                }
+            });
+        } else {
+            // does not work with certain combinations of type of animation and positioning
+            jsP.css({
+                display: 'block',
+                opacity: 1
+            });
+            $(jsP).addClass(jsP.option.show)
+            $(jsP) .trigger('jspanelloaded', jsP.attr('id'))
+            $(jsP).trigger('jspanelstatechange', jsP.attr('id'));
+            jsP.option.size = {
+                width: jsP.outerWidth(),
+                height: jsP.outerHeight()
+            };
+        }
+
+        /* needed if a maximized panel in body is normalized again -------------------------------------------------- */
+        // don't put this under $('body').on('jspanelloaded', function () { ... }
+        jsP.verticalOffset = jsPanel.calcVerticalOffset(jsP) || 0;
+
+        /* replace bottom/right values with corresponding top/left values if necessary ------------------------------ */
+        jsPanel.replaceCSSBottomRight(jsP);
+
+        /* option.title | needs to be late in the file! ------------------------------------------------------------- */
+        jsP.header.title.empty().prepend(jsP.option.title);
+        jsPanel.resizeTitle(jsP);
+
+        /* reposition hints while scrolling window, must be after normalization of position ------------------------- */
+        if (jsP.option.paneltype.type === 'hint') {
+            jsPanel.reposHintsScroll(jsP);
+        }
+
+        /* reposition jsPanel appended to body while scrolling window ----------------------------------------------- */
+        if (jsP.parentElmtTagname === 'body' && (jsP.option.paneltype.type !== 'tooltip' || jsP.option.paneltype.type !== 'hint')) {
+            jsPanel.fixPosition(jsP);
+        }
+
+        /* resizestart & resizestop & dragstop callbacks ------------------------------------------------------------ */
+        if (!jsP.option.paneltype || jsP.option.paneltype.mode !== 'default') {
+            // not needed for modals, hints and tooltips
+            $(jsP).on("resizestart", function () {
+                $("iframe", jsP.content).css("display", "none"); // on test
+            });
+
+            $(jsP).on("resize", function () {
+                // jquery ui resize event is also fired when panel is maximized or normalized (on request of Gareth Bult)
+                jsPanel.resizeContent(jsP);
+                jsPanel.resizeTitle(jsP);
+            });
+
+            $(jsP).on("resizestop", function () {
+                jsP.option.size = {
+                    width: jsP.outerWidth(),
+                    height: jsP.outerHeight()
+                };
+                jsPanel.updateStateProps(jsP, "normalized");
+                $(jsP).trigger('jspanelnormalized', jsP.attr('id'));
+                $(jsP).trigger('jspanelstatechange', jsP.attr('id'));
+                // controls und title zurücksetzen
+                jsPanel.hideControls(".jsPanel-btn-norm, .jsPanel-btn-smallrev", jsP);
+                $("iframe", jsP.content).css("display", "block"); // on test
+            });
+
+            $(jsP).on("dragstart", function () {
+                // remove window.scroll handler, is added again on dragstop
+                $(window).off('scroll', jsP.jsPanelfixPos);
+                if (jsP.option.paneltype.mode === 'extended') {
+                    jsP.css('z-index', '10000');
+                }
+            });
+
+            $(jsP).on("dragstop", function () {
+                jsP.option.position = {
+                    top: jsP.css('top'),
+                    left: jsP.css('left')
+                };
+                jsP.verticalOffset = jsPanel.calcVerticalOffset(jsP) || 0;
+                if (jsP.parentElmtTagname === 'body') {
+                    jsPanel.fixPosition(jsP);
+                }
+            });
+
+            $(jsP).on( "jspanelminimized", function(){
+                jsPanel.hideControls(".jsPanel-btn-min, .jsPanel-btn-small, .jsPanel-btn-smallrev, .jsPanel-btn-hide", jsP);
+                jsPanel.updateStateProps(jsP, "minimized");
+                $(window).off('scroll', jsP.jsPanelfixPos);
+            });
+
+            $(jsP).on( "jspanelmaximized", function(){
+                jsPanel.resizeContent(jsP);
+                jsPanel.resizeTitle(jsP);
+                jsPanel.hideControls(".jsPanel-btn-max, .jsPanel-btn-smallrev", jsP);
+                jsPanel.updateStateProps(jsP, "maximized");
+                // additionally trigger the jQuery UI resize event (on request of Gareth Bult)
+                jsP.trigger("resize");
+            });
+
+            $(jsP).on( "jspanelnormalized", function(){
+                jsPanel.hideControls(".jsPanel-btn-norm, .jsPanel-btn-smallrev", jsP);
+                jsPanel.resizeTitle(jsP);
+                jsPanel.resizeContent(jsP);
+                jsPanel.updateStateProps(jsP, "normalized");
+                // additionally trigger the jQuery UI resize event (on request of Gareth Bult)
+                jsP.trigger("resize");
+            });
+
+        }
+
+        /* option.autoclose | default: false --------------------------------------- */
+        if (typeof jsP.option.autoclose === 'number' && jsP.option.autoclose > 0) {
+            jsPanel.autoclose(jsP);
+        }
+
+        /* tooltip corrections ----------------------------------------------------- */
+        if (jsP.option.paneltype.type === "tooltip" && (jsP.option.paneltype.position === "top" || jsP.option.paneltype.position === "bottom")) {
+            jsPanel.shiftTooltipHorizontal(jsP, jsP.option.paneltype.shiftwithin);
+        } else if (jsP.option.paneltype.position === "left" || jsP.option.paneltype.position === "right") {
+            jsPanel.shiftTooltipVertical(jsP, jsP.option.paneltype.shiftwithin);
+        }
+
+        /* option.panelstatus -------------------------------------------------------------------------------------------- */
+        if (jsP.option.panelstatus) {
+            switch (jsP.option.panelstatus) {
+                case "minimized":
+                    jsPanel.minimize(jsP);
+                    break;
+                case "maximized":
+                    jsPanel.maximize(jsP);
+                    break;
+                case ("smallified"):
+                    jsPanel.smallify(jsP);
+                    break;
+                case ("smallifiedMax"):
+                    jsPanel.maximize(jsP);
+                    jsPanel.smallify(jsP);
+                    break;
+            }
+        } else {
+            jsPanel.updateStateProps(jsP, "normalized");
+        }
+
+        /* jsP.option.callback --------------------------------------------------------- */
+        if ($.isFunction(jsP.option.callback)) {
+            jsP.option.callback.call(jsP, jsP);
+        } else if ($.isArray(jsP.option.callback)) {
+            jsP.option.callback.forEach(function(item){
+                if ($.isFunction(item)) {
+                    item.call(jsP, jsP);
+                }
+            });
+        }
+
+        return jsP;
+    };
+
+    /* jsPanel.defaults */
+    $.jsPanel.defaults = {
+        "addClass": {
+            header: false,
+            content: false,
+            footer: false
+        },
+        "ajax": {
+            autoload: true
+        },
+        "autoclose": false,
+        "bootstrap": false,
+        "callback": undefined,
+        "content": false,
+        "controls": {
+            buttons: true,
+            iconfont: 'jsglyph',
+            close: false,
+            confirmClose: false,
+            maximize: false,
+            minimize: false,
+            normalize: false,
+            smallify: false,
+            maxtoScreen: false
+        },
+        "custom": false,
+        "dblclicks": false,
+        "draggable": {
+            handle: 'div.jsPanel-hdr, div.jsPanel-ftr',
+            stack: '.jsPanel',
+            opacity: 0.7
+        },
+        "id": function () {
+            jsPanel.ID += 1;
+            return 'jsPanel-' + jsPanel.ID;
+        },
+        "iframe": false,
+        "load": false,
+        "maximizedMargin": {
+            top: 5,
+            right: 5,
+            bottom: 5,
+            left: 5
+        },
+        "offset": {
+            top: 0,
+            left: 0
+        },
+        "panelstatus": false,
+        "paneltype": false,
+        "overflow": 'hidden',
+        "position": 'auto',
+        "removeHeader": false,
+        "resizable": {
+            handles: 'n, e, s, w, ne, se, sw, nw',
+            autoHide: false,
+            minWidth: 150,
+            minHeight: 93
+        },
+        "rtl": false,
+        "selector": 'body',
+        "show": 'fadeIn',
+        "size": {
+            width: '400px',
+            height: '222px'
+        },
+        "template": false,
+        "theme": 'default',
+        "title": 'jsPanel',
+        "toolbarFooter": false,
+        "toolbarHeader": false
+    };
+
+    /*
+     * jQuery alterClass plugin
+     * Remove element classes with wildcard matching. Optionally add classes:
+     * $( '#foo' ).alterClass( 'foo-* bar-*', 'foobar' )
+     * Copyright (c) 2011 Pete Boere (the-echoplex.net)
+     * Free under terms of the MIT license: http://www.opensource.org/licenses/mit-license.php
+     */
+    $.fn.alterClass = function (removals, additions) {
+        var self = this,
+            patt;
+        if (removals.indexOf('*') === -1) {
+            // Use native jQuery methods if there is no wildcard matching
+            self.removeClass(removals);
+            return !additions ? self : self.addClass(additions);
+        }
+        patt = new RegExp('\\s' +
+            removals.replace(/\*/g, '[A-Za-z0-9-_]+').split(' ').join('\\s|\\s') +
+            '\\s', 'g');
+        self.each(function (i, it) {
+            var cn = ' ' + it.className + ' ';
+            while (patt.test(cn)) {
+                cn = cn.replace(patt, ' ');
+            }
+            it.className = $.trim(cn);
+        });
+        return !additions ? self : self.addClass(additions);
+    };
+
+    /* body click handler: remove all tooltips on click in body except click is inside tooltip */
+    $('body').click(function (e) {
+        var pID,
+            isTT = $(e.target).closest('.jsPanel-tt' ).length;
+        if (isTT < 1) {
+            $('.jsPanel-tt').each(function () {
+                pID = $(this).attr('id');
+                // if present remove tooltip wrapper and than remove tooltip
+                $('#' + pID).unwrap().remove();
+                $('body').trigger('jspanelclosed', pID);
+            });
+        }
+    });
+
+}(jQuery));
+
+/*
+  :: Number.isInteger() polyfill ::
+  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger
+*/
+if (!Number.isInteger) {
+    Number.isInteger = function isInteger(nVal) {
+        "use strict";
+        return typeof nVal === 'number' && isFinite(nVal) && nVal > -9007199254740992 && nVal < 9007199254740992 && Math.floor(nVal) === nVal;
+    };
+}
+
 /*!
  * angular-translate - v2.8.1 - 2015-10-01
  * 
@@ -12824,7 +15122,7 @@ b.id!=f.id&&d.push(f.id)}c.$element.val(d.join(c._valueSeparator)),c.$element.tr
  */
 "undefined"!=typeof module&&"undefined"!=typeof exports&&module.exports===exports&&(module.exports="ui.router"),function(a,b,c){"use strict";function d(a,b){return N(new(N(function(){},{prototype:a})),b)}function e(a){return M(arguments,function(b){b!==a&&M(b,function(b,c){a.hasOwnProperty(c)||(a[c]=b)})}),a}function f(a,b){var c=[];for(var d in a.path){if(a.path[d]!==b.path[d])break;c.push(a.path[d])}return c}function g(a){if(Object.keys)return Object.keys(a);var b=[];return M(a,function(a,c){b.push(c)}),b}function h(a,b){if(Array.prototype.indexOf)return a.indexOf(b,Number(arguments[2])||0);var c=a.length>>>0,d=Number(arguments[2])||0;for(d=0>d?Math.ceil(d):Math.floor(d),0>d&&(d+=c);c>d;d++)if(d in a&&a[d]===b)return d;return-1}function i(a,b,c,d){var e,i=f(c,d),j={},k=[];for(var l in i)if(i[l].params&&(e=g(i[l].params),e.length))for(var m in e)h(k,e[m])>=0||(k.push(e[m]),j[e[m]]=a[e[m]]);return N({},j,b)}function j(a,b,c){if(!c){c=[];for(var d in a)c.push(d)}for(var e=0;e<c.length;e++){var f=c[e];if(a[f]!=b[f])return!1}return!0}function k(a,b){var c={};return M(a,function(a){c[a]=b[a]}),c}function l(a){var b={},c=Array.prototype.concat.apply(Array.prototype,Array.prototype.slice.call(arguments,1));return M(c,function(c){c in a&&(b[c]=a[c])}),b}function m(a){var b={},c=Array.prototype.concat.apply(Array.prototype,Array.prototype.slice.call(arguments,1));for(var d in a)-1==h(c,d)&&(b[d]=a[d]);return b}function n(a,b){var c=L(a),d=c?[]:{};return M(a,function(a,e){b(a,e)&&(d[c?d.length:e]=a)}),d}function o(a,b){var c=L(a)?[]:{};return M(a,function(a,d){c[d]=b(a,d)}),c}function p(a,b){var d=1,f=2,i={},j=[],k=i,l=N(a.when(i),{$$promises:i,$$values:i});this.study=function(i){function n(a,c){if(s[c]!==f){if(r.push(c),s[c]===d)throw r.splice(0,h(r,c)),new Error("Cyclic dependency: "+r.join(" -> "));if(s[c]=d,J(a))q.push(c,[function(){return b.get(a)}],j);else{var e=b.annotate(a);M(e,function(a){a!==c&&i.hasOwnProperty(a)&&n(i[a],a)}),q.push(c,a,e)}r.pop(),s[c]=f}}function o(a){return K(a)&&a.then&&a.$$promises}if(!K(i))throw new Error("'invocables' must be an object");var p=g(i||{}),q=[],r=[],s={};return M(i,n),i=r=s=null,function(d,f,g){function h(){--u||(v||e(t,f.$$values),r.$$values=t,r.$$promises=r.$$promises||!0,delete r.$$inheritedValues,n.resolve(t))}function i(a){r.$$failure=a,n.reject(a)}function j(c,e,f){function j(a){l.reject(a),i(a)}function k(){if(!H(r.$$failure))try{l.resolve(b.invoke(e,g,t)),l.promise.then(function(a){t[c]=a,h()},j)}catch(a){j(a)}}var l=a.defer(),m=0;M(f,function(a){s.hasOwnProperty(a)&&!d.hasOwnProperty(a)&&(m++,s[a].then(function(b){t[a]=b,--m||k()},j))}),m||k(),s[c]=l.promise}if(o(d)&&g===c&&(g=f,f=d,d=null),d){if(!K(d))throw new Error("'locals' must be an object")}else d=k;if(f){if(!o(f))throw new Error("'parent' must be a promise returned by $resolve.resolve()")}else f=l;var n=a.defer(),r=n.promise,s=r.$$promises={},t=N({},d),u=1+q.length/3,v=!1;if(H(f.$$failure))return i(f.$$failure),r;f.$$inheritedValues&&e(t,m(f.$$inheritedValues,p)),N(s,f.$$promises),f.$$values?(v=e(t,m(f.$$values,p)),r.$$inheritedValues=m(f.$$values,p),h()):(f.$$inheritedValues&&(r.$$inheritedValues=m(f.$$inheritedValues,p)),f.then(h,i));for(var w=0,x=q.length;x>w;w+=3)d.hasOwnProperty(q[w])?h():j(q[w],q[w+1],q[w+2]);return r}},this.resolve=function(a,b,c,d){return this.study(a)(b,c,d)}}function q(a,b,c){this.fromConfig=function(a,b,c){return H(a.template)?this.fromString(a.template,b):H(a.templateUrl)?this.fromUrl(a.templateUrl,b):H(a.templateProvider)?this.fromProvider(a.templateProvider,b,c):null},this.fromString=function(a,b){return I(a)?a(b):a},this.fromUrl=function(c,d){return I(c)&&(c=c(d)),null==c?null:a.get(c,{cache:b,headers:{Accept:"text/html"}}).then(function(a){return a.data})},this.fromProvider=function(a,b,d){return c.invoke(a,null,d||{params:b})}}function r(a,b,e){function f(b,c,d,e){if(q.push(b),o[b])return o[b];if(!/^\w+(-+\w+)*(?:\[\])?$/.test(b))throw new Error("Invalid parameter name '"+b+"' in pattern '"+a+"'");if(p[b])throw new Error("Duplicate parameter name '"+b+"' in pattern '"+a+"'");return p[b]=new P.Param(b,c,d,e),p[b]}function g(a,b,c,d){var e=["",""],f=a.replace(/[\\\[\]\^$*+?.()|{}]/g,"\\$&");if(!b)return f;switch(c){case!1:e=["(",")"+(d?"?":"")];break;case!0:e=["?(",")?"];break;default:e=["("+c+"|",")?"]}return f+e[0]+b+e[1]}function h(e,f){var g,h,i,j,k;return g=e[2]||e[3],k=b.params[g],i=a.substring(m,e.index),h=f?e[4]:e[4]||("*"==e[1]?".*":null),j=P.type(h||"string")||d(P.type("string"),{pattern:new RegExp(h,b.caseInsensitive?"i":c)}),{id:g,regexp:h,segment:i,type:j,cfg:k}}b=N({params:{}},K(b)?b:{});var i,j=/([:*])([\w\[\]]+)|\{([\w\[\]]+)(?:\:((?:[^{}\\]+|\\.|\{(?:[^{}\\]+|\\.)*\})+))?\}/g,k=/([:]?)([\w\[\]-]+)|\{([\w\[\]-]+)(?:\:((?:[^{}\\]+|\\.|\{(?:[^{}\\]+|\\.)*\})+))?\}/g,l="^",m=0,n=this.segments=[],o=e?e.params:{},p=this.params=e?e.params.$$new():new P.ParamSet,q=[];this.source=a;for(var r,s,t;(i=j.exec(a))&&(r=h(i,!1),!(r.segment.indexOf("?")>=0));)s=f(r.id,r.type,r.cfg,"path"),l+=g(r.segment,s.type.pattern.source,s.squash,s.isOptional),n.push(r.segment),m=j.lastIndex;t=a.substring(m);var u=t.indexOf("?");if(u>=0){var v=this.sourceSearch=t.substring(u);if(t=t.substring(0,u),this.sourcePath=a.substring(0,m+u),v.length>0)for(m=0;i=k.exec(v);)r=h(i,!0),s=f(r.id,r.type,r.cfg,"search"),m=j.lastIndex}else this.sourcePath=a,this.sourceSearch="";l+=g(t)+(b.strict===!1?"/?":"")+"$",n.push(t),this.regexp=new RegExp(l,b.caseInsensitive?"i":c),this.prefix=n[0],this.$$paramNames=q}function s(a){N(this,a)}function t(){function a(a){return null!=a?a.toString().replace(/\//g,"%2F"):a}function e(a){return null!=a?a.toString().replace(/%2F/g,"/"):a}function f(){return{strict:p,caseInsensitive:m}}function i(a){return I(a)||L(a)&&I(a[a.length-1])}function j(){for(;w.length;){var a=w.shift();if(a.pattern)throw new Error("You cannot override a type's .pattern at runtime.");b.extend(u[a.name],l.invoke(a.def))}}function k(a){N(this,a||{})}P=this;var l,m=!1,p=!0,q=!1,u={},v=!0,w=[],x={string:{encode:a,decode:e,is:function(a){return null==a||!H(a)||"string"==typeof a},pattern:/[^/]*/},"int":{encode:a,decode:function(a){return parseInt(a,10)},is:function(a){return H(a)&&this.decode(a.toString())===a},pattern:/\d+/},bool:{encode:function(a){return a?1:0},decode:function(a){return 0!==parseInt(a,10)},is:function(a){return a===!0||a===!1},pattern:/0|1/},date:{encode:function(a){return this.is(a)?[a.getFullYear(),("0"+(a.getMonth()+1)).slice(-2),("0"+a.getDate()).slice(-2)].join("-"):c},decode:function(a){if(this.is(a))return a;var b=this.capture.exec(a);return b?new Date(b[1],b[2]-1,b[3]):c},is:function(a){return a instanceof Date&&!isNaN(a.valueOf())},equals:function(a,b){return this.is(a)&&this.is(b)&&a.toISOString()===b.toISOString()},pattern:/[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[1-2][0-9]|3[0-1])/,capture:/([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/},json:{encode:b.toJson,decode:b.fromJson,is:b.isObject,equals:b.equals,pattern:/[^/]*/},any:{encode:b.identity,decode:b.identity,equals:b.equals,pattern:/.*/}};t.$$getDefaultValue=function(a){if(!i(a.value))return a.value;if(!l)throw new Error("Injectable functions cannot be called at configuration time");return l.invoke(a.value)},this.caseInsensitive=function(a){return H(a)&&(m=a),m},this.strictMode=function(a){return H(a)&&(p=a),p},this.defaultSquashPolicy=function(a){if(!H(a))return q;if(a!==!0&&a!==!1&&!J(a))throw new Error("Invalid squash policy: "+a+". Valid policies: false, true, arbitrary-string");return q=a,a},this.compile=function(a,b){return new r(a,N(f(),b))},this.isMatcher=function(a){if(!K(a))return!1;var b=!0;return M(r.prototype,function(c,d){I(c)&&(b=b&&H(a[d])&&I(a[d]))}),b},this.type=function(a,b,c){if(!H(b))return u[a];if(u.hasOwnProperty(a))throw new Error("A type named '"+a+"' has already been defined.");return u[a]=new s(N({name:a},b)),c&&(w.push({name:a,def:c}),v||j()),this},M(x,function(a,b){u[b]=new s(N({name:b},a))}),u=d(u,{}),this.$get=["$injector",function(a){return l=a,v=!1,j(),M(x,function(a,b){u[b]||(u[b]=new s(a))}),this}],this.Param=function(a,b,d,e){function f(a){var b=K(a)?g(a):[],c=-1===h(b,"value")&&-1===h(b,"type")&&-1===h(b,"squash")&&-1===h(b,"array");return c&&(a={value:a}),a.$$fn=i(a.value)?a.value:function(){return a.value},a}function j(b,c,d){if(b.type&&c)throw new Error("Param '"+a+"' has two type configurations.");return c?c:b.type?b.type instanceof s?b.type:new s(b.type):"config"===d?u.any:u.string}function k(){var b={array:"search"===e?"auto":!1},c=a.match(/\[\]$/)?{array:!0}:{};return N(b,c,d).array}function m(a,b){var c=a.squash;if(!b||c===!1)return!1;if(!H(c)||null==c)return q;if(c===!0||J(c))return c;throw new Error("Invalid squash policy: '"+c+"'. Valid policies: false, true, or arbitrary string")}function p(a,b,d,e){var f,g,i=[{from:"",to:d||b?c:""},{from:null,to:d||b?c:""}];return f=L(a.replace)?a.replace:[],J(e)&&f.push({from:e,to:c}),g=o(f,function(a){return a.from}),n(i,function(a){return-1===h(g,a.from)}).concat(f)}function r(){if(!l)throw new Error("Injectable functions cannot be called at configuration time");var a=l.invoke(d.$$fn);if(null!==a&&a!==c&&!w.type.is(a))throw new Error("Default value ("+a+") for parameter '"+w.id+"' is not an instance of Type ("+w.type.name+")");return a}function t(a){function b(a){return function(b){return b.from===a}}function c(a){var c=o(n(w.replace,b(a)),function(a){return a.to});return c.length?c[0]:a}return a=c(a),H(a)?w.type.$normalize(a):r()}function v(){return"{Param:"+a+" "+b+" squash: '"+z+"' optional: "+y+"}"}var w=this;d=f(d),b=j(d,b,e);var x=k();b=x?b.$asArray(x,"search"===e):b,"string"!==b.name||x||"path"!==e||d.value!==c||(d.value="");var y=d.value!==c,z=m(d,y),A=p(d,x,y,z);N(this,{id:a,type:b,location:e,array:x,squash:z,replace:A,isOptional:y,value:t,dynamic:c,config:d,toString:v})},k.prototype={$$new:function(){return d(this,N(new k,{$$parent:this}))},$$keys:function(){for(var a=[],b=[],c=this,d=g(k.prototype);c;)b.push(c),c=c.$$parent;return b.reverse(),M(b,function(b){M(g(b),function(b){-1===h(a,b)&&-1===h(d,b)&&a.push(b)})}),a},$$values:function(a){var b={},c=this;return M(c.$$keys(),function(d){b[d]=c[d].value(a&&a[d])}),b},$$equals:function(a,b){var c=!0,d=this;return M(d.$$keys(),function(e){var f=a&&a[e],g=b&&b[e];d[e].type.equals(f,g)||(c=!1)}),c},$$validates:function(a){var d,e,f,g,h,i=this.$$keys();for(d=0;d<i.length&&(e=this[i[d]],f=a[i[d]],f!==c&&null!==f||!e.isOptional);d++){if(g=e.type.$normalize(f),!e.type.is(g))return!1;if(h=e.type.encode(g),b.isString(h)&&!e.type.pattern.exec(h))return!1}return!0},$$parent:c},this.ParamSet=k}function u(a,d){function e(a){var b=/^\^((?:\\[^a-zA-Z0-9]|[^\\\[\]\^$*+?.()|{}]+)*)/.exec(a.source);return null!=b?b[1].replace(/\\(.)/g,"$1"):""}function f(a,b){return a.replace(/\$(\$|\d{1,2})/,function(a,c){return b["$"===c?0:Number(c)]})}function g(a,b,c){if(!c)return!1;var d=a.invoke(b,b,{$match:c});return H(d)?d:!0}function h(d,e,f,g){function h(a,b,c){return"/"===p?a:b?p.slice(0,-1)+a:c?p.slice(1)+a:a}function m(a){function b(a){var b=a(f,d);return b?(J(b)&&d.replace().url(b),!0):!1}if(!a||!a.defaultPrevented){o&&d.url()===o;o=c;var e,g=j.length;for(e=0;g>e;e++)if(b(j[e]))return;k&&b(k)}}function n(){return i=i||e.$on("$locationChangeSuccess",m)}var o,p=g.baseHref(),q=d.url();return l||n(),{sync:function(){m()},listen:function(){return n()},update:function(a){return a?void(q=d.url()):void(d.url()!==q&&(d.url(q),d.replace()))},push:function(a,b,e){var f=a.format(b||{});null!==f&&b&&b["#"]&&(f+="#"+b["#"]),d.url(f),o=e&&e.$$avoidResync?d.url():c,e&&e.replace&&d.replace()},href:function(c,e,f){if(!c.validates(e))return null;var g=a.html5Mode();b.isObject(g)&&(g=g.enabled);var i=c.format(e);if(f=f||{},g||null===i||(i="#"+a.hashPrefix()+i),null!==i&&e&&e["#"]&&(i+="#"+e["#"]),i=h(i,g,f.absolute),!f.absolute||!i)return i;var j=!g&&i?"/":"",k=d.port();return k=80===k||443===k?"":":"+k,[d.protocol(),"://",d.host(),k,j,i].join("")}}}var i,j=[],k=null,l=!1;this.rule=function(a){if(!I(a))throw new Error("'rule' must be a function");return j.push(a),this},this.otherwise=function(a){if(J(a)){var b=a;a=function(){return b}}else if(!I(a))throw new Error("'rule' must be a function");return k=a,this},this.when=function(a,b){var c,h=J(b);if(J(a)&&(a=d.compile(a)),!h&&!I(b)&&!L(b))throw new Error("invalid 'handler' in when()");var i={matcher:function(a,b){return h&&(c=d.compile(b),b=["$match",function(a){return c.format(a)}]),N(function(c,d){return g(c,b,a.exec(d.path(),d.search()))},{prefix:J(a.prefix)?a.prefix:""})},regex:function(a,b){if(a.global||a.sticky)throw new Error("when() RegExp must not be global or sticky");return h&&(c=b,b=["$match",function(a){return f(c,a)}]),N(function(c,d){return g(c,b,a.exec(d.path()))},{prefix:e(a)})}},j={matcher:d.isMatcher(a),regex:a instanceof RegExp};for(var k in j)if(j[k])return this.rule(i[k](a,b));throw new Error("invalid 'what' in when()")},this.deferIntercept=function(a){a===c&&(a=!0),l=a},this.$get=h,h.$inject=["$location","$rootScope","$injector","$browser"]}function v(a,e){function f(a){return 0===a.indexOf(".")||0===a.indexOf("^")}function m(a,b){if(!a)return c;var d=J(a),e=d?a:a.name,g=f(e);if(g){if(!b)throw new Error("No reference point given for path '"+e+"'");b=m(b);for(var h=e.split("."),i=0,j=h.length,k=b;j>i;i++)if(""!==h[i]||0!==i){if("^"!==h[i])break;if(!k.parent)throw new Error("Path '"+e+"' not valid for state '"+b.name+"'");k=k.parent}else k=b;h=h.slice(i).join("."),e=k.name+(k.name&&h?".":"")+h}var l=z[e];return!l||!d&&(d||l!==a&&l.self!==a)?c:l}function n(a,b){A[a]||(A[a]=[]),A[a].push(b)}function p(a){for(var b=A[a]||[];b.length;)q(b.shift())}function q(b){b=d(b,{self:b,resolve:b.resolve||{},toString:function(){return this.name}});var c=b.name;if(!J(c)||c.indexOf("@")>=0)throw new Error("State must have a valid name");if(z.hasOwnProperty(c))throw new Error("State '"+c+"'' is already defined");var e=-1!==c.indexOf(".")?c.substring(0,c.lastIndexOf(".")):J(b.parent)?b.parent:K(b.parent)&&J(b.parent.name)?b.parent.name:"";if(e&&!z[e])return n(e,b.self);for(var f in C)I(C[f])&&(b[f]=C[f](b,C.$delegates[f]));return z[c]=b,!b[B]&&b.url&&a.when(b.url,["$match","$stateParams",function(a,c){y.$current.navigable==b&&j(a,c)||y.transitionTo(b,a,{inherit:!0,location:!1})}]),p(c),b}function r(a){return a.indexOf("*")>-1}function s(a){for(var b=a.split("."),c=y.$current.name.split("."),d=0,e=b.length;e>d;d++)"*"===b[d]&&(c[d]="*");return"**"===b[0]&&(c=c.slice(h(c,b[1])),c.unshift("**")),"**"===b[b.length-1]&&(c.splice(h(c,b[b.length-2])+1,Number.MAX_VALUE),c.push("**")),b.length!=c.length?!1:c.join("")===b.join("")}function t(a,b){return J(a)&&!H(b)?C[a]:I(b)&&J(a)?(C[a]&&!C.$delegates[a]&&(C.$delegates[a]=C[a]),C[a]=b,this):this}function u(a,b){return K(a)?b=a:b.name=a,q(b),this}function v(a,e,f,h,l,n,p,q,t){function u(b,c,d,f){var g=a.$broadcast("$stateNotFound",b,c,d);if(g.defaultPrevented)return p.update(),D;if(!g.retry)return null;if(f.$retry)return p.update(),E;var h=y.transition=e.when(g.retry);return h.then(function(){return h!==y.transition?A:(b.options.$retry=!0,y.transitionTo(b.to,b.toParams,b.options))},function(){return D}),p.update(),h}function v(a,c,d,g,i,j){function m(){var c=[];return M(a.views,function(d,e){var g=d.resolve&&d.resolve!==a.resolve?d.resolve:{};g.$template=[function(){return f.load(e,{view:d,locals:i.globals,params:n,notify:j.notify})||""}],c.push(l.resolve(g,i.globals,i.resolve,a).then(function(c){if(I(d.controllerProvider)||L(d.controllerProvider)){var f=b.extend({},g,i.globals);c.$$controller=h.invoke(d.controllerProvider,null,f)}else c.$$controller=d.controller;c.$$state=a,c.$$controllerAs=d.controllerAs,i[e]=c}))}),e.all(c).then(function(){return i.globals})}var n=d?c:k(a.params.$$keys(),c),o={$stateParams:n};i.resolve=l.resolve(a.resolve,o,i.resolve,a);var p=[i.resolve.then(function(a){i.globals=a})];return g&&p.push(g),e.all(p).then(m).then(function(a){return i})}var A=e.reject(new Error("transition superseded")),C=e.reject(new Error("transition prevented")),D=e.reject(new Error("transition aborted")),E=e.reject(new Error("transition failed"));return x.locals={resolve:null,globals:{$stateParams:{}}},y={params:{},current:x.self,$current:x,transition:null},y.reload=function(a){return y.transitionTo(y.current,n,{reload:a||!0,inherit:!1,notify:!0})},y.go=function(a,b,c){return y.transitionTo(a,b,N({inherit:!0,relative:y.$current},c))},y.transitionTo=function(b,c,f){c=c||{},f=N({location:!0,inherit:!1,relative:null,notify:!0,reload:!1,$retry:!1},f||{});var g,j=y.$current,l=y.params,o=j.path,q=m(b,f.relative),r=c["#"];if(!H(q)){var s={to:b,toParams:c,options:f},t=u(s,j.self,l,f);if(t)return t;if(b=s.to,c=s.toParams,f=s.options,q=m(b,f.relative),!H(q)){if(!f.relative)throw new Error("No such state '"+b+"'");throw new Error("Could not resolve '"+b+"' from state '"+f.relative+"'")}}if(q[B])throw new Error("Cannot transition to abstract state '"+b+"'");if(f.inherit&&(c=i(n,c||{},y.$current,q)),!q.params.$$validates(c))return E;c=q.params.$$values(c),b=q;var z=b.path,D=0,F=z[D],G=x.locals,I=[];if(f.reload){if(J(f.reload)||K(f.reload)){if(K(f.reload)&&!f.reload.name)throw new Error("Invalid reload state object");var L=f.reload===!0?o[0]:m(f.reload);if(f.reload&&!L)throw new Error("No such reload state '"+(J(f.reload)?f.reload:f.reload.name)+"'");for(;F&&F===o[D]&&F!==L;)G=I[D]=F.locals,D++,F=z[D]}}else for(;F&&F===o[D]&&F.ownParams.$$equals(c,l);)G=I[D]=F.locals,D++,F=z[D];if(w(b,c,j,l,G,f))return r&&(c["#"]=r),y.params=c,O(y.params,n),f.location&&b.navigable&&b.navigable.url&&(p.push(b.navigable.url,c,{$$avoidResync:!0,replace:"replace"===f.location}),p.update(!0)),y.transition=null,e.when(y.current);if(c=k(b.params.$$keys(),c||{}),f.notify&&a.$broadcast("$stateChangeStart",b.self,c,j.self,l).defaultPrevented)return a.$broadcast("$stateChangeCancel",b.self,c,j.self,l),p.update(),C;for(var M=e.when(G),P=D;P<z.length;P++,F=z[P])G=I[P]=d(G),M=v(F,c,F===b,M,G,f);var Q=y.transition=M.then(function(){var d,e,g;if(y.transition!==Q)return A;for(d=o.length-1;d>=D;d--)g=o[d],g.self.onExit&&h.invoke(g.self.onExit,g.self,g.locals.globals),g.locals=null;for(d=D;d<z.length;d++)e=z[d],e.locals=I[d],e.self.onEnter&&h.invoke(e.self.onEnter,e.self,e.locals.globals);return r&&(c["#"]=r),y.transition!==Q?A:(y.$current=b,y.current=b.self,y.params=c,O(y.params,n),y.transition=null,f.location&&b.navigable&&p.push(b.navigable.url,b.navigable.locals.globals.$stateParams,{$$avoidResync:!0,replace:"replace"===f.location}),f.notify&&a.$broadcast("$stateChangeSuccess",b.self,c,j.self,l),p.update(!0),y.current)},function(d){return y.transition!==Q?A:(y.transition=null,g=a.$broadcast("$stateChangeError",b.self,c,j.self,l,d),g.defaultPrevented||p.update(),e.reject(d))});return Q},y.is=function(a,b,d){d=N({relative:y.$current},d||{});var e=m(a,d.relative);return H(e)?y.$current!==e?!1:b?j(e.params.$$values(b),n):!0:c},y.includes=function(a,b,d){if(d=N({relative:y.$current},d||{}),J(a)&&r(a)){if(!s(a))return!1;a=y.$current.name}var e=m(a,d.relative);return H(e)?H(y.$current.includes[e.name])?b?j(e.params.$$values(b),n,g(b)):!0:!1:c},y.href=function(a,b,d){d=N({lossy:!0,inherit:!0,absolute:!1,relative:y.$current},d||{});var e=m(a,d.relative);if(!H(e))return null;d.inherit&&(b=i(n,b||{},y.$current,e));var f=e&&d.lossy?e.navigable:e;return f&&f.url!==c&&null!==f.url?p.href(f.url,k(e.params.$$keys().concat("#"),b||{}),{absolute:d.absolute}):null},y.get=function(a,b){if(0===arguments.length)return o(g(z),function(a){return z[a].self});var c=m(a,b||y.$current);return c&&c.self?c.self:null},y}function w(a,b,c,d,e,f){function g(a,b,c){function d(b){return"search"!=a.params[b].location}var e=a.params.$$keys().filter(d),f=l.apply({},[a.params].concat(e)),g=new P.ParamSet(f);return g.$$equals(b,c)}return!f.reload&&a===c&&(e===c.locals||a.self.reloadOnSearch===!1&&g(c,d,b))?!0:void 0}var x,y,z={},A={},B="abstract",C={parent:function(a){if(H(a.parent)&&a.parent)return m(a.parent);var b=/^(.+)\.[^.]+$/.exec(a.name);return b?m(b[1]):x},data:function(a){return a.parent&&a.parent.data&&(a.data=a.self.data=N({},a.parent.data,a.data)),a.data},url:function(a){var b=a.url,c={params:a.params||{}};if(J(b))return"^"==b.charAt(0)?e.compile(b.substring(1),c):(a.parent.navigable||x).url.concat(b,c);if(!b||e.isMatcher(b))return b;throw new Error("Invalid url '"+b+"' in state '"+a+"'")},navigable:function(a){return a.url?a:a.parent?a.parent.navigable:null},ownParams:function(a){var b=a.url&&a.url.params||new P.ParamSet;return M(a.params||{},function(a,c){b[c]||(b[c]=new P.Param(c,null,a,"config"))}),b},params:function(a){return a.parent&&a.parent.params?N(a.parent.params.$$new(),a.ownParams):new P.ParamSet},views:function(a){var b={};return M(H(a.views)?a.views:{"":a},function(c,d){d.indexOf("@")<0&&(d+="@"+a.parent.name),b[d]=c}),b},path:function(a){return a.parent?a.parent.path.concat(a):[]},includes:function(a){var b=a.parent?N({},a.parent.includes):{};return b[a.name]=!0,b},$delegates:{}};x=q({name:"",url:"^",views:null,"abstract":!0}),x.navigable=null,this.decorator=t,this.state=u,this.$get=v,v.$inject=["$rootScope","$q","$view","$injector","$resolve","$stateParams","$urlRouter","$location","$urlMatcherFactory"]}function w(){function a(a,b){return{load:function(c,d){var e,f={template:null,controller:null,view:null,locals:null,notify:!0,async:!0,params:{}};return d=N(f,d),d.view&&(e=b.fromConfig(d.view,d.params,d.locals)),e&&d.notify&&a.$broadcast("$viewContentLoading",d),e}}}this.$get=a,a.$inject=["$rootScope","$templateFactory"]}function x(){var a=!1;this.useAnchorScroll=function(){a=!0},this.$get=["$anchorScroll","$timeout",function(b,c){return a?b:function(a){return c(function(){a[0].scrollIntoView()},0,!1)}}]}function y(a,c,d,e){function f(){return c.has?function(a){return c.has(a)?c.get(a):null}:function(a){try{return c.get(a)}catch(b){return null}}}function g(a,b){var c=function(){return{enter:function(a,b,c){b.after(a),c()},leave:function(a,b){a.remove(),b()}}};if(j)return{enter:function(a,b,c){var d=j.enter(a,null,b,c);d&&d.then&&d.then(c)},leave:function(a,b){var c=j.leave(a,b);c&&c.then&&c.then(b)}};if(i){var d=i&&i(b,a);return{enter:function(a,b,c){d.enter(a,null,b),c()},leave:function(a,b){d.leave(a),b()}}}return c()}var h=f(),i=h("$animator"),j=h("$animate"),k={restrict:"ECA",terminal:!0,priority:400,transclude:"element",compile:function(c,f,h){return function(c,f,i){function j(){l&&(l.remove(),l=null),n&&(n.$destroy(),n=null),m&&(r.leave(m,function(){l=null}),l=m,m=null)}function k(g){var k,l=A(c,i,f,e),s=l&&a.$current&&a.$current.locals[l];if(g||s!==o){k=c.$new(),o=a.$current.locals[l];var t=h(k,function(a){r.enter(a,f,function(){n&&n.$emit("$viewContentAnimationEnded"),(b.isDefined(q)&&!q||c.$eval(q))&&d(a)}),j()});m=t,n=k,n.$emit("$viewContentLoaded"),n.$eval(p)}}var l,m,n,o,p=i.onload||"",q=i.autoscroll,r=g(i,c);c.$on("$stateChangeSuccess",function(){k(!1)}),c.$on("$viewContentLoading",function(){k(!1)}),k(!0)}}};return k}function z(a,b,c,d){return{restrict:"ECA",priority:-400,compile:function(e){var f=e.html();return function(e,g,h){var i=c.$current,j=A(e,h,g,d),k=i&&i.locals[j];if(k){g.data("$uiView",{name:j,state:k.$$state}),g.html(k.$template?k.$template:f);var l=a(g.contents());if(k.$$controller){k.$scope=e,k.$element=g;var m=b(k.$$controller,k);k.$$controllerAs&&(e[k.$$controllerAs]=m),g.data("$ngControllerController",m),g.children().data("$ngControllerController",m)}l(e)}}}}}function A(a,b,c,d){var e=d(b.uiView||b.name||"")(a),f=c.inheritedData("$uiView");return e.indexOf("@")>=0?e:e+"@"+(f?f.state.name:"")}function B(a,b){var c,d=a.match(/^\s*({[^}]*})\s*$/);if(d&&(a=b+"("+d[1]+")"),c=a.replace(/\n/g," ").match(/^([^(]+?)\s*(\((.*)\))?$/),!c||4!==c.length)throw new Error("Invalid state ref '"+a+"'");return{state:c[1],paramExpr:c[3]||null}}function C(a){var b=a.parent().inheritedData("$uiView");return b&&b.state&&b.state.name?b.state:void 0}function D(a,c){var d=["location","inherit","reload","absolute"];return{restrict:"A",require:["?^uiSrefActive","?^uiSrefActiveEq"],link:function(e,f,g,h){var i=B(g.uiSref,a.current.name),j=null,k=C(f)||a.$current,l="[object SVGAnimatedString]"===Object.prototype.toString.call(f.prop("href"))?"xlink:href":"href",m=null,n="A"===f.prop("tagName").toUpperCase(),o="FORM"===f[0].nodeName,p=o?"action":l,q=!0,r={relative:k,inherit:!0},s=e.$eval(g.uiSrefOpts)||{};b.forEach(d,function(a){a in s&&(r[a]=s[a])});var t=function(c){if(c&&(j=b.copy(c)),q){m=a.href(i.state,j,r);var d=h[1]||h[0];return d&&d.$$addStateInfo(i.state,j),null===m?(q=!1,!1):void g.$set(p,m)}};i.paramExpr&&(e.$watch(i.paramExpr,function(a,b){a!==j&&t(a)},!0),j=b.copy(e.$eval(i.paramExpr))),t(),o||f.bind("click",function(b){var d=b.which||b.button;if(!(d>1||b.ctrlKey||b.metaKey||b.shiftKey||f.attr("target"))){var e=c(function(){a.go(i.state,j,r)});b.preventDefault();var g=n&&!m?1:0;b.preventDefault=function(){g--<=0&&c.cancel(e)}}})}}}function E(a,b,c){return{restrict:"A",controller:["$scope","$element","$attrs",function(b,d,e){function f(){g()?d.addClass(i):d.removeClass(i)}function g(){for(var a=0;a<j.length;a++)if(h(j[a].state,j[a].params))return!0;return!1}function h(b,c){return"undefined"!=typeof e.uiSrefActiveEq?a.is(b.name,c):a.includes(b.name,c)}var i,j=[];i=c(e.uiSrefActiveEq||e.uiSrefActive||"",!1)(b),this.$$addStateInfo=function(b,c){var e=a.get(b,C(d));j.push({state:e||{name:b},params:c}),f()},b.$on("$stateChangeSuccess",f)}]}}function F(a){var b=function(b){return a.is(b)};return b.$stateful=!0,b}function G(a){var b=function(b){return a.includes(b)};return b.$stateful=!0,b}var H=b.isDefined,I=b.isFunction,J=b.isString,K=b.isObject,L=b.isArray,M=b.forEach,N=b.extend,O=b.copy;b.module("ui.router.util",["ng"]),b.module("ui.router.router",["ui.router.util"]),b.module("ui.router.state",["ui.router.router","ui.router.util"]),b.module("ui.router",["ui.router.state"]),b.module("ui.router.compat",["ui.router"]),p.$inject=["$q","$injector"],b.module("ui.router.util").service("$resolve",p),q.$inject=["$http","$templateCache","$injector"],b.module("ui.router.util").service("$templateFactory",q);var P;r.prototype.concat=function(a,b){var c={caseInsensitive:P.caseInsensitive(),strict:P.strictMode(),squash:P.defaultSquashPolicy()};return new r(this.sourcePath+a+this.sourceSearch,N(c,b),this)},r.prototype.toString=function(){return this.source},r.prototype.exec=function(a,b){function c(a){function b(a){return a.split("").reverse().join("")}function c(a){return a.replace(/\\-/g,"-")}var d=b(a).split(/-(?!\\)/),e=o(d,b);return o(e,c).reverse()}var d=this.regexp.exec(a);if(!d)return null;b=b||{};var e,f,g,h=this.parameters(),i=h.length,j=this.segments.length-1,k={};if(j!==d.length-1)throw new Error("Unbalanced capture group in route '"+this.source+"'");for(e=0;j>e;e++){g=h[e];var l=this.params[g],m=d[e+1];for(f=0;f<l.replace;f++)l.replace[f].from===m&&(m=l.replace[f].to);m&&l.array===!0&&(m=c(m)),k[g]=l.value(m)}for(;i>e;e++)g=h[e],k[g]=this.params[g].value(b[g]);return k},r.prototype.parameters=function(a){return H(a)?this.params[a]||null:this.$$paramNames},r.prototype.validates=function(a){return this.params.$$validates(a)},r.prototype.format=function(a){function b(a){return encodeURIComponent(a).replace(/-/g,function(a){return"%5C%"+a.charCodeAt(0).toString(16).toUpperCase()})}a=a||{};var c=this.segments,d=this.parameters(),e=this.params;if(!this.validates(a))return null;var f,g=!1,h=c.length-1,i=d.length,j=c[0];for(f=0;i>f;f++){var k=h>f,l=d[f],m=e[l],n=m.value(a[l]),p=m.isOptional&&m.type.equals(m.value(),n),q=p?m.squash:!1,r=m.type.encode(n);if(k){var s=c[f+1];if(q===!1)null!=r&&(j+=L(r)?o(r,b).join("-"):encodeURIComponent(r)),j+=s;else if(q===!0){var t=j.match(/\/$/)?/\/?(.*)/:/(.*)/;j+=s.match(t)[1]}else J(q)&&(j+=q+s)}else{if(null==r||p&&q!==!1)continue;L(r)||(r=[r]),r=o(r,encodeURIComponent).join("&"+l+"="),j+=(g?"&":"?")+(l+"="+r),g=!0}}return j},s.prototype.is=function(a,b){return!0},s.prototype.encode=function(a,b){return a},s.prototype.decode=function(a,b){return a},s.prototype.equals=function(a,b){return a==b},s.prototype.$subPattern=function(){var a=this.pattern.toString();return a.substr(1,a.length-2)},s.prototype.pattern=/.*/,s.prototype.toString=function(){return"{Type:"+this.name+"}"},s.prototype.$normalize=function(a){return this.is(a)?a:this.decode(a)},s.prototype.$asArray=function(a,b){function d(a,b){function d(a,b){return function(){return a[b].apply(a,arguments)}}function e(a){return L(a)?a:H(a)?[a]:[]}function f(a){switch(a.length){case 0:return c;case 1:return"auto"===b?a[0]:a;default:return a}}function g(a){return!a}function h(a,b){return function(c){c=e(c);var d=o(c,a);return b===!0?0===n(d,g).length:f(d)}}function i(a){return function(b,c){var d=e(b),f=e(c);if(d.length!==f.length)return!1;for(var g=0;g<d.length;g++)if(!a(d[g],f[g]))return!1;return!0}}this.encode=h(d(a,"encode")),this.decode=h(d(a,"decode")),this.is=h(d(a,"is"),!0),this.equals=i(d(a,"equals")),this.pattern=a.pattern,this.$normalize=h(d(a,"$normalize")),this.name=a.name,this.$arrayMode=b}if(!a)return this;if("auto"===a&&!b)throw new Error("'auto' array mode is for query parameters only");return new d(this,a)},b.module("ui.router.util").provider("$urlMatcherFactory",t),b.module("ui.router.util").run(["$urlMatcherFactory",function(a){}]),u.$inject=["$locationProvider","$urlMatcherFactoryProvider"],b.module("ui.router.router").provider("$urlRouter",u),v.$inject=["$urlRouterProvider","$urlMatcherFactoryProvider"],b.module("ui.router.state").value("$stateParams",{}).provider("$state",v),w.$inject=[],b.module("ui.router.state").provider("$view",w),b.module("ui.router.state").provider("$uiViewScroll",x),y.$inject=["$state","$injector","$uiViewScroll","$interpolate"],z.$inject=["$compile","$controller","$state","$interpolate"],b.module("ui.router.state").directive("uiView",y),b.module("ui.router.state").directive("uiView",z),D.$inject=["$state","$timeout"],E.$inject=["$state","$stateParams","$interpolate"],b.module("ui.router.state").directive("uiSref",D).directive("uiSrefActive",E).directive("uiSrefActiveEq",E),F.$inject=["$state"],G.$inject=["$state"],b.module("ui.router.state").filter("isState",F).filter("includedByState",G)}(window,window.angular);
 var app = angular.module('app',
-    ['ngRoute','angular-oauth2','app.controllers', 'app.services', 'app.filters', 'app.directives', 'ngAnimate',
+    ['ngRoute','ngMask','angular-oauth2','app.controllers', 'app.services', 'app.filters', 'app.directives', 'ngAnimate',
     'ui.bootstrap.modal',
     'http-auth-interceptor', 'angularUtils.directives.dirPagination','ui.bootstrap.dropdown', 'ui.router'
 ]);
@@ -12837,6 +15135,16 @@ angular.module('app.services',['ngResource']);
 app.provider('appConfig', ['$httpParamSerializerProvider', function($httpParamSerializerProvider){
     var config = {
         baseUrl: 'http://localhost:8000',
+
+        cliente: {
+            status:[
+                {value: 0, label: 'Inativo'},
+                {value: 1, label: 'Ativo'},
+                {value: 2, label: 'Bloqueado'}
+            ]
+        },
+
+
         utils:{
             transformRequest: function(data){
                 if(angular.isObject(data)){
@@ -12918,7 +15226,7 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
 
             //CLIENTES
             .when('/clientes',{
-                templateUrl: 'build/views/cliente/dashboard.html',
+                templateUrl: 'build/views/cliente/dashboard2.html',
                 controller: 'ClienteDashboardController',
                 title: 'Clientes'
             })
@@ -13033,10 +15341,20 @@ app.run(['$rootScope', '$location', '$http', 'OAuth', function($rootScope, $loca
 
 
     $rootScope.$on('$routeChangeStart', function(event,next,current){
+        //ESTA FUNCAO IRA VERIFICAR SE O A TELA DE CONCLUIR O CADASTRO DO CLIENTE FOI ACESSADA ATRAVÉS DA TELA DE CADASTRO
+        //EM CASO NEGATIVO, O USUÁRIO SERÁ LEVADO PARA A TELA DE LOGIN NOVAMENTE, INIBINDO ASSIM O ACESSO DIRETO A PAGINA
+        /*try{
+            if(next.$$route.originalPath === '/cadastro_concluir' && current.$$route.originalPath != '/cadastro'){
+                if(!OAuth.isAuthenticated()){
+                    $location.path('login');
+                }
+            }
+        } catch(Exception) {
+            $location.path('login');
+        }*/
+
         if(next.$$route.originalPath != '/login' && next.$$route.originalPath != '/cadastro' && next.$$route.originalPath != '/cadastro_concluir'){
             if(!OAuth.isAuthenticated()){
-
-                console.log("teste");
                 $location.path('login');
             }
         }
@@ -13071,6 +15389,8 @@ app.run(['$rootScope', '$location', '$http', 'OAuth', function($rootScope, $loca
 }]);
 angular.module('app.controllers')
 .controller('CadastroController', ['$scope','$rootScope','$location', '$http', 'Cadastro', 'Cliente', 'User', 'OAuth',function($scope,$rootScope,$location,$http,Cadastro,Cliente,User,OAuth){
+        $scope.usuarioExistente = 'form-group';
+
         $scope.user = {
             username: '',
             password: ''
@@ -13083,49 +15403,64 @@ angular.module('app.controllers')
 
         $scope.clientes = new Cliente();
         $scope.save = function(){
-
-            $http.get("cliente/usuario/" + usuario.value).success(function(response) {
-                if(response.id === "true"){
-                    toastr.options.progressBar = true;
-                    toastr.options.closeDuration = 300;
-                    toastr.error('Usuário já cadastrado no sistema, escolha outro usuário','Erro no cadastro');
-                } else {
-                    var request = $http({
-                        method: "post",
-                        url: '/cliente/novo',
-                        data: {
-                            nome: razao_social.value,
-                            cpf_cnpj: cnpj.value.replace(".","").replace(".","").replace("/","").replace("-",""),
-                            id_revendedor: '0',
-                            consultas_disponiveis: '50'
-                        },
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                    });
-
-                    request.success(function (data) {
-                        var requestUser = $http({
+            if($scope.form.$valid){
+                $http.get("cliente/usuario/" + usuario.value).success(function(response) {
+                    if(response.id === "true"){
+                        toastr.options.progressBar = true;
+                        toastr.options.closeDuration = 300;
+                        toastr.error('Usuário já cadastrado no sistema, escolha outro usuário','Erro no cadastro');
+                        $scope.usuarioExistente = 'form-group has-error';
+                    } else {
+                        var request = $http({
                             method: "post",
-                            url: '/cliente/'+data.id+'/novo_usuario',
+                            url: '/cliente/novo',
                             data: {
-                                name: usuario.value,
-                                email: usuario.value,
-                                password: bcrypt(senha.value),
-                                id_cliente: data.id, //ID DO CLIENTE PEGO APÓS A CRIAÇÃO DO MESMO
-                                status: '1', //STATUS DO USUARIO MARCADO COMO ATIVO
-                                tipo_usuario: '3' //USUÁRIO CLIENTE-MASTER
+                                nome: razao_social.value,
+                                cpf_cnpj: cnpj.value.replace(".","").replace(".","").replace("/","").replace("-",""),
+                                tipo_pessoa: 'PJ',
+                                contato: contato.value,
+                                logradouro: endereco.value,
+                                bairro: bairro.value,
+                                cidade: municipio.value,
+                                uf: uf.value,
+                                cep: cep.value.replace(".","").replace("-",""),
+                                telefone_1: numero_telefone_celular.value,
+                                telefone_2: numero_telefone_fixo.value,
+                                email_cobranca: email.value,
+                                numero_usuarios: '3',
+                                status: '1',
+                                id_revendedor: '0',
+                                consultas_disponiveis: '50'
                             },
                             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                         });
 
-                        requestUser.success(function (dataUser) {
-                            $location.path('login');
-                            toastr.options.progressBar = true;
-                            toastr.options.closeDuration = 300;
-                            toastr.success('Cliente/Usuario cadastrados com sucesso. Já é possível fazer login no sistema e testar nossa ferramenta!','Mensagem do Sistema');
+                        request.success(function (data) {
+                            var requestUser = $http({
+                                method: "post",
+                                url: '/cliente/'+data.id+'/novo_usuario',
+                                data: {
+                                    name: usuario.value,
+                                    email: usuario.value,
+                                    password: senha.value,
+                                    id_cliente: data.id, //ID DO CLIENTE PEGO APÓS A CRIAÇÃO DO MESMO
+                                    status: '1', //STATUS DO USUARIO MARCADO COMO ATIVO
+                                    tipo_usuario: '3' //USUÁRIO CLIENTE-MASTER
+                                },
+                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                            });
+
+                            requestUser.success(function (dataUser) {
+                                $location.path('login');
+                                toastr.options.progressBar = true;
+                                toastr.options.closeDuration = 300;
+                                toastr.success('Cliente/Usuario cadastrados com sucesso. Já é possível fazer login no sistema e testar nossa ferramenta!','Mensagem do Sistema');
+                            });
                         });
-                    });
-                }
-            });
+                    }
+                });
+            }
+
         }
 
         $scope.verificaCNPJ = function (){
@@ -13163,7 +15498,8 @@ angular.module('app.controllers')
         };
 
         function getCaptcha(){
-            $http.get('build/views/index.php').
+            $('#spinner').show();
+            $http.get('build/views/cadastro/cadastro_receita.php').
                 success(function(response) {
                     if(response.erro){
                         toastr.options.progressBar = true;
@@ -13174,12 +15510,15 @@ angular.module('app.controllers')
                         $scope.cookie = response.cookie;
                     }
                 });
+            $('#spinner').hide();
         }
 
         $scope.getInformacoes = function (){
+
+            $('#spinner').show();
             var request = $http({
                 method: "post",
-                url: 'build/views/index.php',
+                url: 'build/views/cadastro/cadastro_receita.php',
                 data: {
                     cnpj: $scope.cnpj,
                     captcha: captcha_cnpj.value,
@@ -13189,10 +15528,10 @@ angular.module('app.controllers')
             });
 
             request.success(function (data) {
-                if(data != ""){console.log('teste');
+                if(data != ""){
                     $rootScope.resultadoPesquisa = data;
                     $('.btn2').click();
-                    //console.log(data.nome_fantasia);
+                    //console.log($rootScope.resultadoPesquisa);
                     $location.path('cadastro_concluir');
                 } else {
                     toastr.options.progressBar = true;
@@ -13201,8 +15540,8 @@ angular.module('app.controllers')
                     getCaptcha();
                     captcha_cnpj.value = '';
                 }
-
             });
+            $('#spinner').hide();
         };
 
 
@@ -13257,6 +15596,18 @@ angular.module('app.controllers')
 
             return true;
         }
+
+        /*
+        $(document).ready(function(){
+            $("#form").validate({
+                rules: {
+                    senha: {
+                        required: true,
+                        minlength: 6
+                    }
+                }
+            });
+        });*/
     }]);
 angular.module('app.controllers')
     .controller('HomeController', ['$scope','$cookies',function($scope,$cookies){
@@ -13370,6 +15721,11 @@ angular.module('app.controllers')
                 return true;
         }
     }]);
+angular.module('app.filters').filter('dateBr',['$filter', function($filter){
+    return function(input) {
+        return $filter('date')(input, 'dd/MM/yyyy');
+    };
+}]);
 angular.module('app.directives')
     .directive('loadTemplate',
     ['$compile','$http','OAuth', function ($compile,$http,OAuth) {
@@ -13475,11 +15831,6 @@ angular.module('app.directives')
             }
         }
     }]);
-angular.module('app.filters').filter('dateBr',['$filter', function($filter){
-    return function(input) {
-        return $filter('date')(input, 'dd/MM/yyyy');
-    };
-}]);
 angular.module('app.services')
     .service('Cadastro', ['$resource', 'appConfig', function ($resource, appConfig) {
         return $resource(appConfig.baseUrl + '/cliente/cnpj/:id', {id: '@id'},{
@@ -13497,6 +15848,22 @@ angular.module('app.services')
 angular.module('app.services')
 .service('Cliente', ['$resource', '$filter', '$httpParamSerializer', 'appConfig', function ($resource,$filter,$httpParamSerializer,appConfig) {
         return $resource(appConfig.baseUrl + '/cliente/:id', {id: '@id'},{
+            query:{
+                isArray: false
+            },
+            update: {
+                method: 'PUT'
+            },
+            save:{
+                method: 'POST'
+            }
+
+        });
+    }]);
+
+angular.module('app.services')
+    .service('ClienteDashboard', ['$resource', '$filter', '$httpParamSerializer', 'appConfig', function ($resource,$filter,$httpParamSerializer,appConfig) {
+        return $resource(appConfig.baseUrl + '/cliente/dashboard/:id', {id: '@id'},{
             query:{
                 isArray: false
             },
@@ -13592,18 +15959,202 @@ angular.module('app.services')
         });
     }]);
 angular.module('app.controllers')
+    .controller('ClienteDashboardController', ['$scope','$uibModal','$cookies','$route', '$location', '$routeParams', 'Cliente', 'Usuario','ClienteDashboard'
+        ,function($scope,$uibModal,$cookies,$route,$location,$routeParams,Cliente,Usuario,ClienteDashboard){
+
+        //DECLARACAO DA VARIAVEL QUE IRA GUARDAR A INSTANCIA DO MODAL DE EXIBICAO
+        var modalInstance = [];
+
+        //DADOS DE USUÁRIO
+        $scope.usuarios = [];
+
+        //DADOS E CONFIGURACOES PARA EXIBICAO DO CLIENTE
+        $scope.cliente = [];
+        $scope.totalClientes = 0;
+        $scope.clientesPerPage = 13;
+        $scope.maxSize = 5;
+        $scope.bigTotalItems = 100000;
+
+        //INICIA A VIEW COM A PAGINA 1 SENDO A PRINCIPAL
+        $scope.pagination = {
+            current: 1
+        };
+
+        $scope.pageChanged = function(newPage){
+            getResultsPage(newPage);
+        };
+
+        //PEGO O USUARIO QUE ESTA CONECTADO NO SISTEMA E PASSO COMO PARAMETRO O ID PARA IDENTIFICAR O TIPO DE USUARIO E TRAZER A QUERY
+        //DE ACORDO COM O SEU TIPO
+        function getResultsPage(pageNumber){
+            $scope.tipo_usuario = $cookies.getObject('user');
+            ClienteDashboard.query({
+                id: $scope.tipo_usuario.id,
+                page: pageNumber,
+                orderBy: 'nome',
+                sortedBy: 'desc',
+                limit: $scope.clientesPerPage
+            }, function (response) {
+                $scope.clientes = response.data;
+                $scope.totalClientes = response.total;
+            });
+        }
+        getResultsPage(1);
+
+        //MODAL COM A OPCAO DE CONFIRMAR A EXCLUSAO DO CLIENTE OU CANCELAR A MESMA
+        $scope.excluirCliente = function(cliente){
+            swal({
+                    title: "Exclusão de Clientes",
+                    text: "Tem certeza que dezeja deletar o cliente \n"+cliente.nome,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",confirmButtonText: "Sim, deletar!",
+                    cancelButtonText: "Não, cancelar!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        swal("Deletado!", "O Cliente foi deletado com sucesso!", "success");
+                        $scope.cadastro = new Cliente();
+                        $scope.cadastro.$delete({id: cliente.id}).then(function(){
+                            $route.reload();
+                        });
+                    } else {
+                        swal("Cancelado", "O Cliente continua em sua base de dados ", "error");
+                    }
+                }
+            );
+        };
+
+        //ABRE O MODAL CHAMANDO A TELA DE EDICAO DO CLIENTE E PASSANDO O ID DO CLIENTE A SER EDITADO
+        $scope.editCliente = function(item) {
+            $scope.clienteEditar = new Cliente.get({id: item});
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl:'build/views/cliente/editar.html',
+                controller: 'ClienteEditar',
+                scope: $scope //passa o escopo deste controller para o novo controller, não sendo preciso um novo select no banco de dados
+            });
+
+            modalInstance.result.then(function(selectedItem) {
+            }, function() {
+                getResultsPage(1);
+            });
+        };
+
+        //ABRE O MODAL CHAMANDO A TELA DE EDICAO DO CLIENTE E PASSANDO O ID DO CLIENTE A SER EDITADO
+        $scope.editVendas = function(item) {
+            $scope.clienteEditar = new Cliente.get({id: item});
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl:'build/views/cliente/vendas.html',
+                controller: 'ClienteVendasSistema',
+                scope: $scope //passa o escopo deste controller para o novo controller, não sendo preciso um novo select no banco de dados
+            });
+
+            modalInstance.result.then(function(selectedItem) {
+            }, function() {});
+        };
+
+        //FUNCAO EM JS REFERENTE AO FILTRO DE SELECAO DO STATUS DO CLIENTE
+        $(".selecionarFiltro").select2({
+            placeholder: "Selecione o cliente",
+            allowClear: true
+        });
+
+        var config = {
+            '.chosen-select'           : {},
+            '.chosen-select-deselect'  : {allow_single_deselect:true},
+            '.chosen-select-no-single' : {disable_search_threshold:10},
+            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+            '.chosen-select-width'     : {width:"95%"}
+        };
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+            $('.footable').footable();
+
+    }]);
+
+
+//  -------------------------------------------------------------------------------------------------------------------------------------------
+
+//CONTROLLER DO MODAL QUE E ABERTO COM AS TELAS DE EDICAO DE CLIENTE
+angular.module('app.controllers')
+    .controller('ClienteEditar', function ($scope,Cliente,$modalInstance,appConfig) {
+
+    $scope.status = appConfig.cliente.status;
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.usuarioEditar.id);
+    };
+
+    //SE APERTADO O BOTAO CANCELAR, DA UM DISMISS NO MODAL QUE ESTA ABERTO
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+    //FUNÇAO DE SALVAR O CLIENTE E APOS CONCLUIDO FECHA O MODAL
+    $scope.saveCliente = function(){
+        if($scope.form.$valid){
+            $scope.clienteEditar.cpf_cnpj = $scope.clienteEditar.cpf_cnpj.replace(".","").replace(".","").replace("/","").replace("-","");
+            Cliente.update({id: $scope.clienteEditar.id}, $scope.clienteEditar, function(){
+                $modalInstance.dismiss();
+
+                toastr.options.progressBar = true;
+                toastr.options.closeDuration = 300;
+                toastr.success('O cliente foi atualizado com êxito!','Notificação de sistema');
+            });
+        }
+    }
+        $('.footable').footable();
+});
+
+//  -------------------------------------------------------------------------------------------------------------------------------------------
+
+//CONTROLLER DO MODAL QUE E ABERTO COM AS TELAS DE EDICAO DE USUARIO / TROCA DE SENHA / EDICAO DE CLIENTE
+angular.module('app.controllers')
+    .controller('ClienteVendasSistema', function ($scope,Cliente,$modalInstance) {
+        $scope.quantidade_usuarios = 1;
+
+        $scope.ok = function () {
+            $modalInstance.close($scope.usuarioEditar.id);
+        };
+
+        //SE APERTADO O BOTAO CANCELAR, DA UM DISMISS NO MODAL QUE ESTA ABERTO
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+        //FUNÇAO DE SALVAR O CLIENTE E APOS CONCLUIDO FECHA O MODAL
+        $scope.saveCliente = function(){
+            if($scope.form.$valid){
+                $scope.clienteEditar.cpf_cnpj = $scope.clienteEditar.cpf_cnpj.replace(".","").replace(".","").replace("/","").replace("-","");
+                Cliente.update({id: $scope.clienteEditar.id}, $scope.clienteEditar, function(){
+                    $modalInstance.dismiss();
+                    toastr.options.progressBar = true;
+                    toastr.options.closeDuration = 300;
+                    toastr.success('O cliente foi atualizado com êxito!','Notificação de sistema');
+                });
+            }
+        }
+
+        $('.footable').footable();
+    });
+angular.module('app.controllers')
     .controller('ClienteDashboardController', ['$scope','$uibModal', '$route', '$location', '$routeParams', 'Cliente', 'Usuario',function($scope,$uibModal,$route,$location,$routeParams,Cliente,Usuario){
         //DADOS DE USUÁRIO
         $scope.usuarios = [];
-        //$scope.usuarioEditar = [];
-        $scope.usuarioEditar = new Usuario.get({id: 6, idUsuario: 6});
         //DADOS DE CLIENTE
         $scope.cliente = [];
         $scope.totalClientes = 0;
-        $scope.clientesPerPage = 10;
+        $scope.clientesPerPage = 13;
 
         $scope.maxSize = 5;
-        $scope.bigTotalItems = 175;
+        $scope.bigTotalItems = 100000;
 
         $scope.pagination = {
             current: 1
@@ -13624,10 +16175,10 @@ angular.module('app.controllers')
             });
         };
 
-        $scope.excluirCliente = function(id_cliente){
+        $scope.excluirCliente = function(cliente){
             swal({
                     title: "Exclusão de Clientes",
-                    text: "Tem certeza que dezeja deletar o cliente \n"+$scope.cliente.nome,
+                    text: "Tem certeza que dezeja deletar o cliente \n"+cliente.nome,
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",confirmButtonText: "Sim, deletar!",
@@ -13638,7 +16189,7 @@ angular.module('app.controllers')
                     if (isConfirm) {
                         swal("Deletado!", "O Cliente foi deletado com sucesso!", "success");
                         $scope.cadastro = new Cliente();
-                        $scope.cadastro.$delete({id: id_cliente}).then(function(){
+                        $scope.cadastro.$delete({id: cliente.id}).then(function(){
                             $route.reload();
                         });
                     } else {
@@ -13685,6 +16236,22 @@ angular.module('app.controllers')
             modalInstance.result.then(function(selectedItem) {
             }, function() {
                 atualizarUsuarios();
+            });
+        };
+
+        $scope.editCliente = function(item) {
+            $scope.clienteEditar = new Cliente.get({id: item});
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl:'build/views/cliente/editar.html',
+                controller: 'ModalInstanceCtrl',
+                scope: $scope //passa o escopo deste controller para o novo controller, não sendo preciso um novo select no banco de dados
+            });
+
+            modalInstance.result.then(function(selectedItem) {
+            }, function() {
+
             });
         };
 
@@ -13744,7 +16311,7 @@ angular.module('app.controllers')
 
 //CONTROLLER DO MODAL QUE E ABERTO COM AS TELAS DE EDICAO DE USUARIO / TROCA DE SENHA / EDICAO DE CLIENTE
 angular.module('app.controllers')
-    .controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
+    .controller('ModalInstanceCtrl', function ($scope,Cliente,$modalInstance) {
 
     $scope.ok = function () {
         $modalInstance.close($scope.usuarioEditar.id);
@@ -13753,9 +16320,20 @@ angular.module('app.controllers')
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
+
+    //FUNÇAO DE SALVAR O CLIENTE
+    $scope.saveCliente = function(){
+        if($scope.form.$valid){
+            $scope.clienteEditar.cpf_cnpj = $scope.clienteEditar.cpf_cnpj.replace(".","").replace(".","").replace("/","").replace("-","");
+            Cliente.update({id: $scope.clienteEditar.id}, $scope.clienteEditar, function(){
+                $modalInstance.dismiss();
+                toastr.success('O cliente foi atualizado com êxito!','Notificação de sistema');
+            });
+        }
+    }
 });
 angular.module('app.controllers')
-    .controller('ClienteEditarController', ['$scope', '$location', '$routeParams' ,'Cliente',function($scope,$location,$routeParams,Cliente){
+    .controller('ClienteEditarController', ['$scope', '$location', '$routeParams' ,'Cliente',function($scope,$location,$routeParams,Cliente, $modalInstance){
         $scope.clientes = new Cliente.get({id: $routeParams.id});
 
         $scope.save = function(){
@@ -13765,6 +16343,15 @@ angular.module('app.controllers')
                 });
             }
         }
+
+        $scope.ok = function () {
+            $modalInstance.close($scope.clienteEditar.id);
+        };
+
+        $scope.cancel = function () {
+            console.log('teste');
+            $modalInstance.close();
+        };
     }]);
 angular.module('app.controllers')
     .controller('ClienteExcluirController', ['$scope', '$location', '$routeParams', 'Cliente',function($scope,$location,$routeParams,Cliente){
@@ -13826,45 +16413,6 @@ angular.module('app.controllers')
 
         $scope.cancel = function(){
             $location.path('/clientes');
-        }
-
-    }]);
-angular.module('app.controllers')
-    .controller('RevendedoresEditarController', ['$scope', '$location', '$routeParams' ,'Revendedores',function($scope,$location,$routeParams,Revendedores){
-        $scope.revendedores = new Revendedores.get({id: $routeParams.id});
-
-        $scope.save = function(){
-            if($scope.form.$valid){
-                Cliente.update({id: $scope.revendedores.id}, $scope.revendedores, function(){
-                    $location.path('/revendedores');
-                });
-            }
-        }
-    }]);
-angular.module('app.controllers')
-    .controller('RevendedoresExcluirController', ['$scope', '$location', '$routeParams', 'Revendedores',function($scope,$location,$routeParams,Revendedores){
-        $scope.revendedores = new Revendedores.get({id: $routeParams.id});
-
-        $scope.remove = function(){
-            $scope.revendedores.$delete().then(function(){
-                $location.path('/revendedores');
-            });
-        }
-    }]);
-angular.module('app.controllers')
-    .controller('RevendedoresListaController', ['$scope','Revendedores',function($scope,Revendedores){
-        $scope.revendedores = Revendedores.query();
-    }]);
-angular.module('app.controllers')
-    .controller('RevendedoresNovoController', ['$scope', '$location', 'Revendedores',function($scope,$location,Revendedores){
-        $scope.revendedores = new Revendedores();
-
-        $scope.save = function(){
-            if($scope.form.$valid){
-                $scope.revendedores.$save().then(function(){
-                    $location.path('/revendedores');
-                });
-            }
         }
 
     }]);
@@ -14005,6 +16553,45 @@ angular.module('app.controllers')
         };
         for (var selector in config) {
             $(selector).chosen(config[selector]);
+        }
+
+    }]);
+angular.module('app.controllers')
+    .controller('RevendedoresEditarController', ['$scope', '$location', '$routeParams' ,'Revendedores',function($scope,$location,$routeParams,Revendedores){
+        $scope.revendedores = new Revendedores.get({id: $routeParams.id});
+
+        $scope.save = function(){
+            if($scope.form.$valid){
+                Cliente.update({id: $scope.revendedores.id}, $scope.revendedores, function(){
+                    $location.path('/revendedores');
+                });
+            }
+        }
+    }]);
+angular.module('app.controllers')
+    .controller('RevendedoresExcluirController', ['$scope', '$location', '$routeParams', 'Revendedores',function($scope,$location,$routeParams,Revendedores){
+        $scope.revendedores = new Revendedores.get({id: $routeParams.id});
+
+        $scope.remove = function(){
+            $scope.revendedores.$delete().then(function(){
+                $location.path('/revendedores');
+            });
+        }
+    }]);
+angular.module('app.controllers')
+    .controller('RevendedoresListaController', ['$scope','Revendedores',function($scope,Revendedores){
+        $scope.revendedores = Revendedores.query();
+    }]);
+angular.module('app.controllers')
+    .controller('RevendedoresNovoController', ['$scope', '$location', 'Revendedores',function($scope,$location,Revendedores){
+        $scope.revendedores = new Revendedores();
+
+        $scope.save = function(){
+            if($scope.form.$valid){
+                $scope.revendedores.$save().then(function(){
+                    $location.path('/revendedores');
+                });
+            }
         }
 
     }]);

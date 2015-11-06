@@ -44,6 +44,8 @@ config.vendor_path_js = [
     config.bower_path + '/inspinia/js/plugins/chosen/chosen.jquery.js',
     config.bower_path + '/inspinia/js/plugins/toastr/toastr.min.js',
     config.bower_path + '/inspinia/js/plugins/validate/jquery.validate.min.js',
+    config.bower_path + '/inspinia/js/plugins/footable/footable.all.min.js',
+
     config.bower_path + '/jspanel/source/jquery.jspanel.js',
     config.bower_path + '/angular-translate/angular-translate.min.js',
     config.bower_path + '/angular-ui-router/release/angular-ui-router.min.js',
@@ -54,12 +56,12 @@ config.build_path_css = config.build_path + '/css';
 config.build_vendor_path_css = config.build_path_css + '/vendor';
 config.vendor_path_css = [
     config.bower_path + '/bootstrap/dist/css/bootstrap.min.css',
-    config.bower_path + '/bootstrap/dist/css/bootstrap-theme.min.css',
     config.bower_path + '/jspanel/source/jquery.jspanel.css',
     config.bower_path + '/inspinia/css/sweetalert.css',
     config.bower_path + '/inspinia/css/datepicker3.css',
     config.bower_path + '/inspinia/css/toastr.min.css',
     config.bower_path + '/inspinia/css/select2.min.css',
+    config.bower_path + '/inspinia/css/footable.core.css',
     config.bower_path + '/inspinia/css/chosen/chosen.css',
         config.bower_path + '/inspinia/css/chosen/chosen-sprite@2x.png',
 ];
@@ -125,10 +127,10 @@ gulp.task('clear-build-folder', function(){
 });
 
 gulp.task('default', ['clear-build-folder'], function(){
-    gulp.start('copy-styles', 'copy-scripts', 'copy-html', 'copy-font', 'copy-image');
+    gulp.start('copy-html', 'copy-font', 'copy-image');
     elixir(function(mix){
         mix.styles(config.vendor_path_css.concat([config.assets_path + '/css/**/*.css']),
-        'public/css/all.css', config.assets_path);
+            'public/css/all.css', config.assets_path);
         mix.scripts(config.vendor_path_js.concat([config.assets_path + '/js/**/*.js']),
             'public/js/all.js', config.assets_path);
         mix.version(['js/all.js', 'css/all.css']);

@@ -12,6 +12,16 @@ angular.module('app.services',['ngResource']);
 app.provider('appConfig', ['$httpParamSerializerProvider', function($httpParamSerializerProvider){
     var config = {
         baseUrl: 'http://localhost:8000',
+
+        cliente: {
+            status:[
+                {value: 0, label: 'Inativo'},
+                {value: 1, label: 'Ativo'},
+                {value: 2, label: 'Bloqueado'}
+            ]
+        },
+
+
         utils:{
             transformRequest: function(data){
                 if(angular.isObject(data)){

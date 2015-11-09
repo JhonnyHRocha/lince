@@ -26,11 +26,6 @@ class VendasController extends Controller
     public function __construct(VendasRepository $repository, VendasService $service, RevendedoresRepository $revendedoresRepository){
         $this->repository = $repository;
         $this->service = $service;
-        $this->revendedoresRepository = $revendedoresRepository;
-
-        $userId = Authorizer::getResourceOwnerId();
-        $revendedor = $this->revendedoresRepository->findWhere(['id_usuario' => $userId]);
-        $this->id_revendedor = $revendedor[0]['id'];
     }
 
     /**
@@ -40,7 +35,7 @@ class VendasController extends Controller
      */
     public function index()
     {
-        return $this->repository->findWhere(['id_vendedor' => $this->id_revendedor]);
+        return $this->repository->all();
         //return $this->repository->all();
     }
 
@@ -63,9 +58,6 @@ class VendasController extends Controller
      */
     public function show($id)
     {
-        if($this->verificarVendaOwner($id) == false){
-            return ['error' => 'Acesso Negado'];
-        };
         return $this->repository->find($id);
     }
 
@@ -78,10 +70,6 @@ class VendasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($this->verificarVendaOwner($id) == false){
-            return ['error' => 'Acesso Negado'];
-        };
-
         return $this->service->update($request->all(), $id);
     }
 
@@ -93,11 +81,12 @@ class VendasController extends Controller
      */
     public function destroy($id)
     {
-        if($this->verificarVendaOwner($id) == false){
-            return ['error' => 'Acesso Negado'];
-        };
-
         return $this->repository->delete($id);
+    }
+
+    public function selecionaVendasCliente($idCliente){
+        //return $this->repository->all();
+        return $this->repository->skipPresenter()->vendasCliente($idCliente);
     }
 
     private function verificarVendaOwner($vendaId){

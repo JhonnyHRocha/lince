@@ -201,7 +201,6 @@ app.run(['$rootScope', '$location', '$http', 'OAuth', function($rootScope, $loca
     $rootScope.isLoggedIn = function() {
         $http.get('/checklogin')
             .success(function(data) {
-                console.log(data);
                 if (data === true)
                     $scope.loggedIn = true;
                 else

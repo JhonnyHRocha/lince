@@ -132,6 +132,7 @@ class ClienteController extends Controller
         return $this->repository->skipPresenter()->clienteDashboard($idUsuario,$request->query->get('limit'));
     }
 
+
 /*
 Route::get('{id}/usuarios', 'ClienteController@clienteUsuarios');
 Route::post('{id}/usuarios', 'ClienteController@addClienteUsuario');

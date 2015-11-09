@@ -15,7 +15,6 @@ angular.module('app.controllers')
             if($scope.form.$valid){
                 OAuth.getAccessToken($scope.user).then(function() {
                     User.authenticated({},{}, function(data){
-                        console.log(data);
                         $cookies.putObject('user',data);
                         $location.path('home');
                     });

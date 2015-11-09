@@ -140,11 +140,7 @@
 		<script src="{{asset('build/js/controllers/login.js')}}"></script>
 		<script src="{{asset('build/js/controllers/loginModal.js')}}"></script>
 
-		<script src="{{asset('build/js/controllers/cliente/clienteDashboard.js')}}"></script>
-		<script src="{{asset('build/js/controllers/cliente/clienteLista.js')}}"></script>
-		<script src="{{asset('build/js/controllers/cliente/clienteNovo.js')}}"></script>
-		<script src="{{asset('build/js/controllers/cliente/clienteEditar.js')}}"></script>
-		<script src="{{asset('build/js/controllers/cliente/clienteExcluir.js')}}"></script>
+		<script src="{{asset('build/js/controllers/clienteController.js')}}"></script>
 
 		<script src="{{asset('build/js/controllers/usuario/usuarioDashboard.js')}}"></script>
 		<script src="{{asset('build/js/controllers/usuario/usuarioLista.js')}}"></script>
@@ -165,6 +161,7 @@
 
 		<!-- FILTROS -->
 		<script src="{{asset('build/js/filters/date-br.js')}}"></script>
+		<script src="{{asset('build/js/filters/price.js')}}"></script>
 
 		<!-- SERVICES -->
 		<script src="{{asset('build/js/services/oauthFixInterceptor.js')}}"></script>
@@ -173,6 +170,7 @@
 		<script src="{{asset('build/js/services/user.js')}}"></script>
 		<script src="{{asset('build/js/services/usuarioService.js')}}"></script>
 		<script src="{{asset('build/js/services/cadastro.js')}}"></script>
+		<script src="{{asset('build/js/services/venda.js')}}"></script>
 
 
 		<script>

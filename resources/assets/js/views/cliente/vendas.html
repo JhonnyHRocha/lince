@@ -10,9 +10,9 @@
                 <div class="ibox-title">
                     <h5>Adicionar nova venda para o cliente <strong>{{clienteEditar.nome}}</strong></h5>
                 </div>
-                <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="save()">
+                <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="saveVenda()">
                     <div class="ibox-content">
-                            <p>
+                            <!--<p>
                                 <strong>Tipo de venda</strong>
                                 <select class="form-control" name="status" ng-model="tipo_venda" required>
                                     <option value="1">Renovação</option>
@@ -20,20 +20,20 @@
                                     <option value="3">Listagem</option>
                                     <option value="4">Lote</option>
                                 </select>
-                            </p>
+                            </p>-->
                             <p>
                                 <strong>Pacote</strong>
-                                <select class="form-control" name="status" ng-model="pacote" required>
-                                    <option value="0">Ilimitado</option>
+                                <select class="form-control" name="pacote" id="pacote" required>
+                                    <option value="1" selected>Ilimitado</option>
                                 </select>
                             </p>
                             <p>
                                 <strong>Quantidade de Usuários</strong>
-                                <input type="text" ng-model="quantidade_usuarios"  class="form-control" name="usuarios" id="usuarios">
+                                <input type="text" ng-model="quantidade_usuarios" class="form-control" name="usuarios" id="usuarios">
                             </p>
                             <p>
                                 <strong>Valor total</strong>
-                                <input type="text" ng-model="quantidade_usuarios * (100.00) | currency:'R$ '" class="form-control" name="valor" id="valor" readonly="true">
+                                <input type="text" ng-model="totalVenda" class="form-control" name="valor" id="valor" readonly="true">
                             </p>
                         </div>
                     <div class="ibox-footer">
@@ -43,7 +43,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- LISTAGEM DAS ULTIMAS VENDAS REALIZADAS PARA O CLIENTE -->
     <div class="row">
@@ -57,70 +56,32 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
+                                <th>Venda</th>
                                 <th>Pacote</th>
-                                <th>Tipo</th>
                                 <th>Vendedor</th>
                                 <th>Usuários</th>
                                 <th>Valor</th>
                                 <th>Data da Venda</th>
-                                <th>Status</th>
+                                <th>Status de Pagamento</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
-
                         <tbody>
-                            <tr>
-                                <td>Ilimitado</td>
-                                <td>Renovação</td>
-                                <td>Jonathan Rocha</td>
-                                <td>3</td>
-                                <td>R$ 300,00</td>
-                                <td>05/11/2015</td>
-                                <td>Concluído</td>
-                                <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>Ilimitado</td>
-                                <td>Renovação</td>
-                                <td>Jonathan Rocha</td>
-                                <td>3</td>
-                                <td>R$ 300,00</td>
-                                <td>05/11/2015</td>
-                                <td>Concluído</td>
-                                <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>Ilimitado</td>
-                                <td>Renovação</td>
-                                <td>Jonathan Rocha</td>
-                                <td>3</td>
-                                <td>R$ 300,00</td>
-                                <td>05/11/2015</td>
-                                <td>Concluído</td>
-                                <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>Ilimitado</td>
-                                <td>Renovação</td>
-                                <td>Jonathan Rocha</td>
-                                <td>3</td>
-                                <td>R$ 300,00</td>
-                                <td>05/11/2015</td>
-                                <td>Concluído</td>
-                                <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>Ilimitado</td>
-                                <td>Renovação</td>
-                                <td>Jonathan Rocha</td>
-                                <td>3</td>
-                                <td>R$ 300,00</td>
-                                <td>05/11/2015</td>
-                                <td>Concluído</td>
+                            <tr ng-repeat="venda in vendas">
+                                <td>{{venda.id}}</td>
+                                <td>{{venda.pacote}}</td>
+                                <td>{{venda.nome}}</td>
+                                <td>{{venda.quantidade_usuarios}}</td>
+                                <td>{{venda.valor}}</td>
+                                <td>{{venda.data_venda | dateBr}}</td>
+                                <td>{{venda.status}}</td>
                                 <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
                             </tr>
                         </tbody>
                     </table>
+                    <div ng-show="!vendas.length">
+                        Não existem vendas para este cliente!
+                    </div>
                 </div>
             </div>
         </div>

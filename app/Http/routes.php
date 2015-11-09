@@ -54,6 +54,10 @@ Route::group(['middleware'=>'oauth'], function(){
         Route::delete('{id}/usuario/{usuarioID}', 'ClienteController@deletaClienteUsuario');
     });
 
+    Route::group(['prefix' => 'venda'], function(){
+        Route::get('vendas_cliente/{idCliente}', 'VendasController@selecionaVendasCliente');
+    });
+
 
 
 

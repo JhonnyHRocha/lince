@@ -23,6 +23,7 @@ class CreateVendasTable extends Migration
             $table->decimal('valor',8,2);
             $table->date('data_venda')->default(date("Y-m-d"));
             $table->integer('status_pagamento')->default(2);
+            $table->integer('tipo_pagamento')->default(0);
             $table->date('data_confirm_pgto')->nullable();
             $table->timestamps();
         });

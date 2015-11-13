@@ -127,6 +127,10 @@ class ClienteController extends Controller
         return $this->service->exibeTodosUsuarios();
     }
 
+    public function clienteListagem(Request $request){
+        return $this->repository->skipPresenter()->all(['id','nome']);
+    }
+
     //VERIFICA O TIPO DE USUARIO E RETORNA O SELECT DE ACORDO COM O TIPO DE USUARIO DELE
     public function selecionaClientesDashboard($idUsuario, Request $request){
         return $this->repository->skipPresenter()->clienteDashboard($idUsuario,$request->query->get('limit'));

@@ -44,7 +44,8 @@ class VendasRepositoryEloquent extends BaseRepository implements VendasRepositor
                     'vendas.data_venda','vendas.data_confirm_pgto',
                     DB::raw('(CASE WHEN vendas.status_pagamento = 0 THEN "Aguardando Confirmação"
                                    WHEN vendas.status_pagamento = 1 THEN "Pago"
-                                   WHEN vendas.status_pagamento = 2 THEN "Cancelado" END) AS status'))
+                                   WHEN vendas.status_pagamento = 2 THEN "Cancelado"
+                                   WHEN vendas.status_pagamento = 3 THEN "Não Compensado" END) AS status'))
             ->join('clientes','clientes.id','=','vendas.id_cliente')
             ->join('revendedores','revendedores.id','=','vendas.id_vendedor')
             ->join('pacotes','vendas.id_pacote','=','pacotes.id')
@@ -52,6 +53,73 @@ class VendasRepositoryEloquent extends BaseRepository implements VendasRepositor
             ->take(5)
             ->orderBy('vendas.id','desc')
             ->get();
+    }
+
+    public function vendasGeral($id_usuario){
+        //VERIFICA O TIPO DE USUARIO E RETORNA O SELECT DE ACORDO COM O TIPO DE USUARIO DELE
+        $tipo_usuario = DB::table('users')->select('users.tipo_usuario')->where('users.id','=',$id_usuario)->get();
+
+        if($tipo_usuario[0]->tipo_usuario === 1){
+            return DB::table('vendas')
+                ->select('vendas.id', 'clientes.nome as cliente', 'clientes.id as cliente_id', 'revendedores.nome as vendedor', 'revendedores.id as vendedor_id', 'pacotes.pacote','vendas.quantidade_usuarios',
+                    'vendas.quantidade_usuarios_adicionais','vendas.valor', 'vendas.data_venda','vendas.data_confirm_pgto',
+                    DB::raw('(CASE WHEN vendas.status_pagamento = 0 THEN "Aguardando Compensação"
+                                   WHEN vendas.status_pagamento = 1 THEN "Pago"
+                                   WHEN vendas.status_pagamento = 2 THEN "Não"
+                                   WHEN vendas.status_pagamento = 3 THEN "Não Compensado" END) AS status'))
+                ->join('clientes','clientes.id','=','vendas.id_cliente')
+                ->join('revendedores','revendedores.id','=','vendas.id_vendedor')
+                ->join('pacotes','vendas.id_pacote','=','pacotes.id')
+                ->orderBy('vendas.id','desc')
+                ->get();
+        } elseif($tipo_usuario[0]->tipo_usuario === 2) {
+            return DB::table('vendas')
+                ->select('vendas.id', 'clientes.nome as cliente', 'clientes.id as cliente_id', 'revendedores.nome as vendedor','pacotes.pacote','vendas.quantidade_usuarios','vendas.quantidade_usuarios_adicionais','vendas.valor',
+                    'vendas.data_venda','vendas.data_confirm_pgto',
+                    DB::raw('(CASE WHEN vendas.status_pagamento = 0 THEN "Aguardando Compensação"
+                                   WHEN vendas.status_pagamento = 1 THEN "Pago"
+                                   WHEN vendas.status_pagamento = 2 THEN "Não"
+                                   WHEN vendas.status_pagamento = 3 THEN "Não Compensado" END) AS status'))
+                ->join('clientes','clientes.id','=','vendas.id_cliente')
+                ->join('revendedores','revendedores.id','=','vendas.id_vendedor')
+                ->join('pacotes','vendas.id_pacote','=','pacotes.id')
+                ->where('vendas.id_cliente','=',$id_usuario)
+                ->orderBy('vendas.id','desc')
+                ->get();
+        } else {
+            return response()->json(['error' => 'Acesso Inválido']);
+        }
+    }
+
+    public function somatoriaValores($id_usuario){
+        //VERIFICA O TIPO DE USUARIO E RETORNA O SELECT DE ACORDO COM O TIPO DE USUARIO DELE
+        $tipo_usuario = DB::table('users')->select('users.tipo_usuario')->where('users.id','=',$id_usuario)->get();
+
+        if($tipo_usuario[0]->tipo_usuario === 1){
+            return DB::select(DB::raw("
+                SELECT	sum(valor) as valor, count(*) as quantidade, status_pagamento as status, MONTH(data_venda) as mes
+                FROM vendas
+                WHERE MONTH(data_venda) = MONTH(NOW()) OR MONTH(data_venda) = MONTH(NOW())-1
+                GROUP BY status_pagamento, MONTH(data_venda)
+                ORDER BY MONTH(data_venda), status_pagamento
+            "));
+        } elseif($tipo_usuario[0]->tipo_usuario === 2) {
+            return DB::table('vendas')
+                ->select('vendas.id', 'clientes.nome as cliente', 'clientes.id as cliente_id', 'revendedores.nome as vendedor','pacotes.pacote','vendas.quantidade_usuarios','vendas.quantidade_usuarios_adicionais','vendas.valor',
+                    'vendas.data_venda','vendas.data_confirm_pgto',
+                    DB::raw('(CASE WHEN vendas.status_pagamento = 0 THEN "Aguardando Compensação"
+                                   WHEN vendas.status_pagamento = 1 THEN "Pago"
+                                   WHEN vendas.status_pagamento = 2 THEN "Não"
+                                   WHEN vendas.status_pagamento = 3 THEN "Não Compensado" END) AS status'))
+                ->join('clientes','clientes.id','=','vendas.id_cliente')
+                ->join('revendedores','revendedores.id','=','vendas.id_vendedor')
+                ->join('pacotes','vendas.id_pacote','=','pacotes.id')
+                ->where('vendas.id_cliente','=',$id_usuario)
+                ->orderBy('vendas.id','desc')
+                ->get();
+        } else {
+            return response()->json(['error' => 'Acesso Inválido']);
+        }
     }
 
 }

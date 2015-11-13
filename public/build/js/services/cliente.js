@@ -29,3 +29,23 @@ angular.module('app.services')
 
         });
     }]);
+
+angular.module('app.services')
+    .service('ClienteListagem', ['$resource', '$filter', '$httpParamSerializer', 'appConfig', function ($resource,$filter,$httpParamSerializer,appConfig) {
+        return $resource(appConfig.baseUrl + '/cliente/listagem/0', {id: '@id'},{
+            query:{
+                isArray: false
+            },
+            get:{
+                method: 'GET',
+                isArray: true
+            },
+            update: {
+                method: 'PUT'
+            },
+            save:{
+                method: 'POST'
+            }
+
+        });
+    }]);

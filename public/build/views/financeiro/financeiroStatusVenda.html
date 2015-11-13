@@ -1,0 +1,30 @@
+<form class="form-horizontal" name="form" role="form" method="POST" ng-submit="salvarVenda()">
+    <div class="modal-header">
+        <h4 class="modal-title">Status de pagamento da venda: {{vendaEditar.id_venda}}</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label class="col-md-4 control-label">Tipo de pagamento</label>
+            <div class="col-md-6">
+                <select ng-model="vendaEditar.tipo_pagamento" ng-options="s.value as s.label for s in tipo_pagamento|orderBy:'value' " class="form-control" required></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label">Status do pagamento</label>
+            <div class="col-md-6">
+                <select ng-model="vendaEditar.status_pagamento" ng-options="s.value as s.label for s in status_pagamento|orderBy:'value' " class="form-control" required></select>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-6">
+                <a class="btn btn-outline btn-default" ng-click="cancel()">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Atualizar</button>
+            </div>
+        </div>
+    </div>
+</form>

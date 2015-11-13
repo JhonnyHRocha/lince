@@ -20,6 +20,7 @@ class Vendas extends Model implements Transformable
         'valor',
         'data_venda',
         'status_pagamento',
+        'tipo_pagamento',
         'data_confirm_pgto'
     ];
 

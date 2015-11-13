@@ -20,7 +20,19 @@ app.provider('appConfig', ['$httpParamSerializerProvider', function($httpParamSe
                 {value: 2, label: 'Bloqueado'}
             ]
         },
-
+        financeiro: {
+            tipo_pagamento:[
+                {value: 0, label: 'Nenhum'},
+                {value: 1, label: 'Boleto Bancário'},
+                {value: 2, label: 'Depósito em Conta'}
+            ],
+            status_pagamento:[
+                {value: 0, label: 'Aguardando Compensação'},
+                {value: 1, label: 'Pago'},
+                {value: 2, label: 'Não'},
+                {value: 3, label: 'Não Compensado'},
+            ]
+        },
 
         utils:{
             transformRequest: function(data){
@@ -103,30 +115,16 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
 
             //CLIENTES
             .when('/clientes',{
-                templateUrl: 'build/views/cliente/dashboard2.html',
+                templateUrl: 'build/views/cliente/clientes.html',
                 controller: 'ClienteDashboardController',
                 title: 'Gerenciamento de Clientes'
             })
-            .when('/clientes/dashboard',{
-                templateUrl: 'build/views/cliente/lista.html',
-                controller: 'ClienteListaController',
-                title: 'Clientes'
-            })
             .when('/clientes/novo',{
-                templateUrl: 'build/views/cliente/novo.html',
+                templateUrl: 'build/views/cliente/clientesNovo.html',
                 controller: 'ClienteNovoController',
                 title: 'Clientes'
             })
-            .when('/clientes/:id/editar',{
-                templateUrl: 'build/views/cliente/editar.html',
-                controller: 'ClienteEditarController',
-                title: 'Clientes'
-            })
-            .when('/clientes/:id/excluir',{
-                templateUrl: 'build/views/cliente/excluir.html',
-                controller: 'ClienteExcluirController',
-                title: 'Clientes'
-            })
+
             //USUARIOS DOS CLIENTES
             .when('/clientes/:id/usuario/:idUsuario',{
                 templateUrl: 'build/views/usuario/editar.html',
@@ -138,6 +136,19 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
                 controller: 'UsuarioNovoController',
                 title: 'Usuários'
             })
+
+            //FINANCEIRO
+            .when('/financeiro',{
+                templateUrl: 'build/views/financeiro/financeiro.html',
+                controller: 'FinanceiroController',
+                title: 'Controle Financeiro'
+            })
+            .when('/financeiro/novaVenda',{
+                templateUrl: 'build/views/financeiro/financeiroNovaVenda.html',
+                controller: 'FinanceiroNovaVenda',
+                title: 'Controle Financeiro - Nova venda'
+            })
+
             /*
             .when('/usuarios',{
                 templateUrl: 'build/views/usuario/dashboard.html',

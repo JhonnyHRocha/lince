@@ -41,6 +41,10 @@ angular.module('app.controllers')
             }
             getResultsPage(1);
 
+            $scope.filtro = function(pagina){
+                console.log($scope.filtered.length);
+            }
+
 
             //MODAL COM A OPCAO DE CONFIRMAR A EXCLUSAO DO CLIENTE OU CANCELAR A MESMA
             $scope.excluirCliente = function(cliente){
@@ -74,7 +78,7 @@ angular.module('app.controllers')
 
                 modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl:'build/views/cliente/editar.html',
+                    templateUrl:'build/views/cliente/clientesEditar.html',
                     controller: 'ModalClienteEditar',
                     scope: $scope //passa o escopo deste controller para o novo controller, não sendo preciso um novo select no banco de dados
                 });
@@ -95,7 +99,7 @@ angular.module('app.controllers')
 
                 modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl:'build/views/cliente/vendas.html',
+                    templateUrl:'build/views/cliente/clientesVendas.html',
                     controller: 'ModalVendas',
                     scope: $scope //passa o escopo deste controller para o novo controller, não sendo preciso um novo select no banco de dados
                 });
@@ -193,7 +197,8 @@ angular.module('app.controllers')
                         data_venda: new Date(),
                         id_vendedor: 0,//$scope.user.id,
                         quantidade_consultas: 10000,
-                        status_pagamento: 0,
+                        quantidade_usuarios: $scope.quantidade_usuarios,
+                        status_pagamento: 2,
                         valor: valor.value.replace("R$ ","").replace(",","")
                     },
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }

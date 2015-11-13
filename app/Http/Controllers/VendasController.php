@@ -35,7 +35,7 @@ class VendasController extends Controller
      */
     public function index()
     {
-        return $this->repository->all();
+        return $this->repository->skipPresenter()->vendasGeral(\Authorizer::getResourceOwnerId());
         //return $this->repository->all();
     }
 
@@ -74,6 +74,18 @@ class VendasController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function find(Request $request, $id)
+    {
+        return $this->service->update($request->all(), $id);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -89,8 +101,11 @@ class VendasController extends Controller
         return $this->repository->skipPresenter()->vendasCliente($idCliente);
     }
 
-    private function verificarVendaOwner($vendaId){
-
+    public function verificarVendaOwner($vendaId){
         return $this->repository->isOwner($vendaId,$this->id_revendedor);
+    }
+
+    public function somaValores(){
+        return $this->repository->somatoriaValores(\Authorizer::getResourceOwnerId());
     }
 }

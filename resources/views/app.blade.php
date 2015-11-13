@@ -75,8 +75,6 @@
 	</nav>-->
 
 		<load-template url="build/views/templates/menu_.html"></load-template>
-	<!--	<load-template url="build/views/templates/menu.html"></load-template>-->
-		<load-template url="build/views/templates/menu_.html"></load-template>
 
 		<div id="page-wrapper" class="gray-bg">
 
@@ -98,6 +96,14 @@
 	@if(Config::get('app.debug'))
 
 		<script src="{{asset('build/js/vendor/jquery.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/bootstrap.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/jquery.metisMenu.js')}}"></script>
+		<script src="{{asset('build/js/vendor/jquery.slimscroll.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/inspinia.js')}}"></script>
+		<script src="{{asset('build/js/vendor/pace.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/footable.all.min.js')}}"></script>
+
+
 		<script src="{{asset('build/js/vendor/angular.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular-route.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular-ui-router.min.js')}}"></script>
@@ -111,16 +117,10 @@
 		<script src="{{asset('build/js/vendor/query-string.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular-oauth2.min.js')}}"></script>
 
-		<script src="{{asset('build/js/vendor/bootstrap.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/http-auth-interceptor.js')}}"></script>
 		<script src="{{asset('build/js/vendor/dirPagination.js')}}"></script>
 
 		<script src="{{asset('build/js/vendor/jquery-ui-1.10.4.min.js')}}"></script>
-		<script src="{{asset('build/js/vendor/jquery.metisMenu.js')}}"></script>
-		<script src="{{asset('build/js/vendor/jquery.slimscroll.min.js')}}"></script>
-		<script src="{{asset('build/js/vendor/footable.all.min.js')}}"></script>
-		<script src="{{asset('build/js/vendor/inspinia.js')}}"></script>
-		<script src="{{asset('build/js/vendor/pace.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular-translate.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/jasny-bootstrap.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/sweetalert.min.js')}}"></script>
@@ -136,11 +136,12 @@
 		<!-- CONTROLLERS -->
 		<script src="{{asset('build/js/controllers/menu.js')}}"></script>
 		<script src="{{asset('build/js/controllers/home.js')}}"></script>
-		<script src="{{asset('build/js/controllers/cadastro.js')}}"></script>
 		<script src="{{asset('build/js/controllers/login.js')}}"></script>
 		<script src="{{asset('build/js/controllers/loginModal.js')}}"></script>
 
+		<script src="{{asset('build/js/controllers/cadastroController.js')}}"></script>
 		<script src="{{asset('build/js/controllers/clienteController.js')}}"></script>
+		<script src="{{asset('build/js/controllers/financeiroController.js')}}"></script>
 
 		<script src="{{asset('build/js/controllers/usuario/usuarioDashboard.js')}}"></script>
 		<script src="{{asset('build/js/controllers/usuario/usuarioLista.js')}}"></script>
@@ -170,7 +171,8 @@
 		<script src="{{asset('build/js/services/user.js')}}"></script>
 		<script src="{{asset('build/js/services/usuarioService.js')}}"></script>
 		<script src="{{asset('build/js/services/cadastro.js')}}"></script>
-		<script src="{{asset('build/js/services/venda.js')}}"></script>
+		<script src="{{asset('build/js/services/financeiroService.js')}}"></script>
+		<script src="{{asset('build/js/services/vendedorService.js')}}"></script>
 
 
 		<script>

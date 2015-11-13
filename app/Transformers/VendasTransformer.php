@@ -24,6 +24,7 @@ class VendasTransformer extends TransformerAbstract
             'valor' => $vendas->valor,
             'data_venda' => $vendas->data_venda,
             'status_pagamento' => $vendas->status_pagamento,
+            'tipo_pagamento' => $vendas->tipo_pagamento,
             'data_confirm_pgto' => $vendas->status_pagamento,
         ];
     }

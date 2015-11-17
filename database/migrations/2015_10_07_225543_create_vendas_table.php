@@ -20,7 +20,8 @@ class CreateVendasTable extends Migration
             $table->integer('quantidade_usuarios')->default(1);
             $table->integer('quantidade_usuarios_adicionais')->default(0);
             $table->bigInteger('quantidade_consultas');
-            $table->decimal('valor',8,2);
+            $table->decimal('valor',10,2);
+            $table->decimal('valor_desconto',10,2);
             $table->date('data_venda')->default(date("Y-m-d"));
             $table->integer('status_pagamento')->default(2);
             $table->integer('tipo_pagamento')->default(0);

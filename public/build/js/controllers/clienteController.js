@@ -1,6 +1,6 @@
 angular.module('app.controllers')
-    .controller('ClienteDashboardController', ['$scope','$uibModal','$cookies','$route', '$location', '$routeParams', '$http', '$filter', 'Cliente', 'Usuario','ClienteDashboard','VendasCliente'
-        ,function($scope,$uibModal,$cookies,$route,$location,$routeParams,$http,$filter,Cliente,Usuario,ClienteDashboard,VendasCliente){
+    .controller('ClienteDashboardController', ['$scope','$uibModal','$cookies','$route', '$location', '$routeParams', '$http', '$filter', 'Cliente', 'ClienteDashboard','VendasCliente'
+        ,function($scope,$uibModal,$cookies,$route,$location,$routeParams,$http,$filter,Cliente,ClienteDashboard,VendasCliente){
 
             //DECLARACAO DA VARIAVEL QUE IRA GUARDAR A INSTANCIA DO MODAL DE EXIBICAO
             var modalInstance = [];

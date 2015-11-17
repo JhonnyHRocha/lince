@@ -90,6 +90,7 @@
                                 <option value="">Todos</option>
                                 <option value="Não">Não</option>
                                 <option value="Pago">Pago</option>
+                                <option value="Não Compensado">Não Compensado</option>
                                 <option value="Aguardando Compensação">Aguardando Compensação</option>
                             </select>
                         </th>
@@ -130,6 +131,7 @@
                                                     <td>{{venda.status}}</td>
                                                     <td>
                                                         <div class="btn-group pull-right">
+                                                            <button ng-click="editarVenda(venda.id)" class="btn btn-outline btn-warning btn-xs" ng-show="venda.status == 'Não'"><i class="fa fa-edit"></i></button>
                                                             <button ng-click="geraBoleto(venda.id)" class="btn btn-outline btn-success btn-xs"><i class="fa fa-barcode"></i></button>
                                                             <button ng-click="statusVenda(venda.id)" data-toggle="modal" data-target="#modal" class="btn btn-default btn-xs"><i class="fa fa-check-square-o"></i></button>
                                                         </div>

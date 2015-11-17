@@ -78,4 +78,20 @@ class UsuariosController extends Controller
             return ['error' => $e->errorInfo];
         }
     }
+
+    public function listagemUsuariosCliente(){
+        return $this->repository->listagemUsuariosCliente(\Authorizer::getResourceOwnerId());
+    }
+
+    public function clienteUsuarios($id){
+        return $this->repository->isUsuario($id);
+    }
+
+    public function atualizaUsuario(Request $request, $idUsuario){
+        return $this->service->update($request->all(), $idUsuario);
+    }
+
+    public function atualizaSenha(Request $request, $id){
+        return $this->service->senha($request->all(), $id);
+    }
 }

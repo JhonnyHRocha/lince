@@ -50,6 +50,9 @@ label-config {
   border:1px solid red;
 }
 
+.selected {
+  background-color: #F5F5F6;
+}
 
 
 h1,

@@ -40,7 +40,7 @@ class VendasRepositoryEloquent extends BaseRepository implements VendasRepositor
 
     public function vendasCliente($idCliente){
         return DB::table('vendas')
-            ->select('vendas.id', 'clientes.nome as cliente', 'revendedores.nome','pacotes.pacote','vendas.quantidade_usuarios','vendas.quantidade_usuarios_adicionais','vendas.valor',
+            ->select('vendas.id', 'clientes.nome as cliente', 'revendedores.nome','pacotes.pacote','vendas.quantidade_usuarios','vendas.quantidade_usuarios_adicionais','vendas.valor','vendas.valor_desconto',
                     'vendas.data_venda','vendas.data_confirm_pgto',
                     DB::raw('(CASE WHEN vendas.status_pagamento = 0 THEN "Aguardando Confirmação"
                                    WHEN vendas.status_pagamento = 1 THEN "Pago"
@@ -62,7 +62,7 @@ class VendasRepositoryEloquent extends BaseRepository implements VendasRepositor
         if($tipo_usuario[0]->tipo_usuario === 1){
             return DB::table('vendas')
                 ->select('vendas.id', 'clientes.nome as cliente', 'clientes.id as cliente_id', 'revendedores.nome as vendedor', 'revendedores.id as vendedor_id', 'pacotes.pacote','vendas.quantidade_usuarios',
-                    'vendas.quantidade_usuarios_adicionais','vendas.valor', 'vendas.data_venda','vendas.data_confirm_pgto',
+                    'vendas.quantidade_usuarios_adicionais','vendas.valor','vendas.valor_desconto', 'vendas.data_venda','vendas.data_confirm_pgto',
                     DB::raw('(CASE WHEN vendas.status_pagamento = 0 THEN "Aguardando Compensação"
                                    WHEN vendas.status_pagamento = 1 THEN "Pago"
                                    WHEN vendas.status_pagamento = 2 THEN "Não"
@@ -75,7 +75,7 @@ class VendasRepositoryEloquent extends BaseRepository implements VendasRepositor
         } elseif($tipo_usuario[0]->tipo_usuario === 2) {
             return DB::table('vendas')
                 ->select('vendas.id', 'clientes.nome as cliente', 'clientes.id as cliente_id', 'revendedores.nome as vendedor','pacotes.pacote','vendas.quantidade_usuarios','vendas.quantidade_usuarios_adicionais','vendas.valor',
-                    'vendas.data_venda','vendas.data_confirm_pgto',
+                    'vendas.valor_desconto','vendas.data_venda','vendas.data_confirm_pgto',
                     DB::raw('(CASE WHEN vendas.status_pagamento = 0 THEN "Aguardando Compensação"
                                    WHEN vendas.status_pagamento = 1 THEN "Pago"
                                    WHEN vendas.status_pagamento = 2 THEN "Não"
@@ -106,7 +106,7 @@ class VendasRepositoryEloquent extends BaseRepository implements VendasRepositor
         } elseif($tipo_usuario[0]->tipo_usuario === 2) {
             return DB::table('vendas')
                 ->select('vendas.id', 'clientes.nome as cliente', 'clientes.id as cliente_id', 'revendedores.nome as vendedor','pacotes.pacote','vendas.quantidade_usuarios','vendas.quantidade_usuarios_adicionais','vendas.valor',
-                    'vendas.data_venda','vendas.data_confirm_pgto',
+                    'vendas.valor_desconto','vendas.data_venda','vendas.data_confirm_pgto',
                     DB::raw('(CASE WHEN vendas.status_pagamento = 0 THEN "Aguardando Compensação"
                                    WHEN vendas.status_pagamento = 1 THEN "Pago"
                                    WHEN vendas.status_pagamento = 2 THEN "Não"
@@ -122,4 +122,23 @@ class VendasRepositoryEloquent extends BaseRepository implements VendasRepositor
         }
     }
 
+    public function adicionaCredito(array $data, $idUsuario, $idCliente){
+        //VERIFICA O TIPO DE USUARIO E RETORNA O SELECT DE ACORDO COM O TIPO DE USUARIO DELE
+        $tipo_usuario = DB::table('users')->select('users.tipo_usuario')->where('users.id','=',$idUsuario)->get();
+
+        if($tipo_usuario[0]->tipo_usuario === 1){
+            return DB::select(DB::raw("
+                UPDATE clientes
+                SET numero_usuarios = " .$data['quantidade_usuarios']. ",
+                    data_contratacao = '" .$data['data_liberacao']. "',
+                    data_expiracao = '" .$data['data_expiracao']. "',
+                    consultas_contratado = " .$data['quantidade_consultas']. ",
+                    valor_mensal = " .$data['valor']. ",
+                    status = 1
+                WHERE clientes.id = " .$idCliente. "
+            "));
+        } else {
+            return response()->json(['error' => 'Acesso Inválido']);
+        }
+    }
 }

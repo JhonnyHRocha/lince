@@ -46,7 +46,6 @@ Route::group(['middleware'=>'oauth'], function(){
 
     Route::group(['prefix' => 'cliente'], function() {
         Route::get('dashboard/{idUsuario}', 'ClienteController@selecionaClientesDashboard');
-        Route::get('{id}/usuario', 'ClienteController@clienteUsuarios');
         Route::get('listagem/{usuarioID}', 'ClienteController@clienteListagem');
         Route::post('{id}/usuario', 'ClienteController@addClienteUsuario');
         Route::get('{id}/usuario/{usuarioID}', 'ClienteController@exibeClienteUsuario');
@@ -54,9 +53,17 @@ Route::group(['middleware'=>'oauth'], function(){
         Route::delete('{id}/usuario/{usuarioID}', 'ClienteController@deletaClienteUsuario');
     });
 
+    Route::group(['prefix' => 'usuario'], function(){
+        Route::get('listagem/usuarios_clientes', 'UsuariosController@listagemUsuariosCliente');
+        Route::get('cliente/{id}', 'UsuariosController@clienteUsuarios');
+        Route::put('cliente/{id}', 'UsuariosController@atualizaUsuario');
+        Route::put('atualiza_senha/{id}', 'UsuariosController@atualizaSenha');
+    });
+
     Route::group(['prefix' => 'venda'], function(){
         Route::get('vendas_cliente/{idCliente}', 'VendasController@selecionaVendasCliente');
         Route::get('soma_valores/geral', 'VendasController@somaValores');
+        Route::put('credito/{idCliente}', 'VendasController@creditoCliente');
     });
 
 

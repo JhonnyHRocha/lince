@@ -108,4 +108,8 @@ class VendasController extends Controller
     public function somaValores(){
         return $this->repository->somatoriaValores(\Authorizer::getResourceOwnerId());
     }
+
+    public function creditoCliente(Request $request, $idCliente){
+        return $this->repository->adicionaCredito($request->all(), \Authorizer::getResourceOwnerId(), $idCliente);
+    }
 }

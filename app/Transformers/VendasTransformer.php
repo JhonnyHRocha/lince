@@ -22,6 +22,7 @@ class VendasTransformer extends TransformerAbstract
             'quantidade_usuarios_adicionais' => $vendas->quantidade_usuarios_adicionais,
             'quantidade_consultas' => $vendas->quantidade_consultas,
             'valor' => $vendas->valor,
+            'valor_desconto' => $vendas->valor_desconto,
             'data_venda' => $vendas->data_venda,
             'status_pagamento' => $vendas->status_pagamento,
             'tipo_pagamento' => $vendas->tipo_pagamento,

@@ -85,7 +85,7 @@
                                                 <td>{{cliente.consultas_disponiveis}}</td>
                                                 <td>{{cliente.numero_usuarios}}</td>
                                                 <td>R$ {{cliente.valor_mensal}}</td>
-                                                <td>{{cliente.data_expiracao}}</td>
+                                                <td>{{cliente.data_expiracao | dateBr}}</td>
                                                 <td>{{cliente.revendedor}}</td>
                                                 <td class="client-status"><span class="label label-{{cliente.cor_status}}">{{cliente.status}}</span></td>
                                                 <td>

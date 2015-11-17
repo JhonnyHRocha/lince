@@ -103,10 +103,6 @@ class ClienteController extends Controller
             return response()->json(['id' => 'false']);
     }
 
-    public function clienteUsuarios($id){
-        return $this->service->isUsuario($id);
-    }
-
     public function addClienteUsuario(Request $request){
         $this->service->addUsuario($request->all());
     }

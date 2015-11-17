@@ -57,5 +57,4 @@ class ClienteRepositoryEloquent extends BaseRepository implements ClienteReposit
         }
     }
 
-
 }

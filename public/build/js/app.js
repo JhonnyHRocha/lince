@@ -33,7 +33,19 @@ app.provider('appConfig', ['$httpParamSerializerProvider', function($httpParamSe
                 {value: 3, label: 'Não Compensado'},
             ]
         },
-
+        usuario: {
+            tipo_usuario:[
+                {value: 0, label: 'Administrador'},
+                {value: 1, label: 'Revendedor'},
+                {value: 2, label: 'Usuário Master'},
+                {value: 3, label: 'Usuário'},
+            ],
+            status:[
+                {value: 0, label: 'Inativo'},
+                {value: 1, label: 'Ativo'},
+                {value: 2, label: 'Bloqueado'}
+            ]
+        },
         utils:{
             transformRequest: function(data){
                 if(angular.isObject(data)){
@@ -106,11 +118,21 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
             })
 
 
-            //HOME
-            .when('/home',{
-                templateUrl: 'build/views/home.html',
-                controller: 'HomeController',
-                title: 'Dashboard'
+            //INICIO
+            .when('/inicio',{
+                templateUrl: 'build/views/painel/inicioAdministrador.html',
+                controller: 'InicioAdministradorController',
+                title: 'Início'
+            })
+            .when('/inicio_revendedor',{
+                templateUrl: 'build/views/painel/inicioRevendedor.html',
+                controller: 'InicioRevendedorController',
+                title: 'Início'
+            })
+            .when('/inicio_cliente',{
+                templateUrl: 'build/views/painel/inicioCliente.html',
+                controller: 'InicioClienteController',
+                title: 'Início'
             })
 
             //CLIENTES
@@ -148,13 +170,19 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
                 controller: 'FinanceiroNovaVenda',
                 title: 'Controle Financeiro - Nova venda'
             })
-
-            /*
-            .when('/usuarios',{
-                templateUrl: 'build/views/usuario/dashboard.html',
-                controller: 'UsuarioDashboardController',
-                title: 'Usuários'
+            .when('/financeiro/editar/:id',{
+                templateUrl: 'build/views/financeiro/financeiroEditarVenda.html',
+                controller: 'FinanceiroEditarVenda',
+                title: 'Controle Financeiro - Edição de venda'
             })
+
+            //USUARIOS DE ACESSO AO SISTEMA
+            .when('/usuarios',{
+                templateUrl: 'build/views/usuario/usuarios.html',
+                controller: 'UsuarioController',
+                title: 'Gerenciamento de Usuários'
+            })
+            /*
             .when('/usuarios/dashboard',{
                 templateUrl: 'build/views/usuario/lista.html',
                 controller: 'UsuarioListaController',

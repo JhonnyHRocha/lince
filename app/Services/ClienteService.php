@@ -119,20 +119,6 @@ class ClienteService
         }
     }
 
-    public function isUsuario($clienteID){
-        try{
-            return $this->usuarioRepository->findWhere(['id_cliente' => $clienteID]);
-            //$usuario = $cliente = $this->usuarioRepository->skipPresenter()->find($clienteID);
-            //return $cliente;
-            //return response()->json(['data' => $usuario->usuarios]);
-        } catch(Exception $e){
-            return[
-                'error' => $e->errorInfo
-            ];
-        }
-        //return response()->json(['data' => $usuario->usuarios]);
-    }
-
     public function atualizaUsuario(array $data, $usuarioID){
         try{
             $this->usuarioValidator->with($data)->passesOrFail();

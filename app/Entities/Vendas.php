@@ -18,6 +18,7 @@ class Vendas extends Model implements Transformable
         'quantidade_usuarios_adicionais',
         'quantidade_consultas',
         'valor',
+        'valor_desconto',
         'data_venda',
         'status_pagamento',
         'tipo_pagamento',

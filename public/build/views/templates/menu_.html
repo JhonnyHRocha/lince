@@ -24,13 +24,30 @@
 
             </li>
 
-            <li ng-class="{active: $location.path() == '/home'}">
-                <a href="#/home">
+            <!-- BOTAO PARA A TELA DE INICIO QUE E EXIBIDO DE ACORDO COM O TIPO DE USUARIO LOGADO NO SISTEMA -->
+            <li ng-class="{active: $location.path() == '/inicio'}" ng-show="isAdmin()">
+                <a href="#/inicio">
                     <i class="fa fa-windows"></i>
                     <span class="nav-label">INÍCIO</span>
                 </a>
             </li>
 
+            <li ng-class="{active: $location.path() == '/inicio_revendedor'}" ng-show="isDealer()">
+                <a href="#/inicio_revendedor">
+                    <i class="fa fa-windows"></i>
+                    <span class="nav-label">INÍCIO</span>
+                </a>
+            </li>
+
+            <li ng-class="{active: $location.path() == '/inicio_cliente'}" ng-show="isClient()">
+                <a href="#/inicio_cliente">
+                    <i class="fa fa-windows"></i>
+                    <span class="nav-label">INÍCIO</span>
+                </a>
+            </li>
+
+
+            <!-- RESTANTE DO MENU -->
             <li ng-class="{active: $location.path() == '/consultas'}">
                 <a  href="#/consultas">
                     <i class="fa fa-desktop"></i>
@@ -45,7 +62,7 @@
                 </a>
             </li>
 
-            <li ng-class="{active: $location.path() == '/usuarios'}" ng-show="isClient()">
+            <li ng-class="{active: $location.path() == '/usuarios'}" ng-show="isAdmin() || isDealer() || isClient()">
                 <a ng-click="changeClass()" href="#/usuarios">
                     <i class="fa fa-home"></i>
                     <span class="nav-label">USUÁRIOS</span>
@@ -59,7 +76,7 @@
                 </a>
             </li>
 
-            <li ng-class="{active: $location.path() == '/financeiro'}" ng-show="isAdmin() || isDealer() || isClient()">
+            <li ng-class="{active: $location.path() == '/financeiro'}" ng-show="isAdmin() || isDealer()">
                 <a ng-click="changeClass()" href="#/financeiro">
                     <i class="fa fa-money"></i>
                     <span class="nav-label">FINANCEIRO</span>

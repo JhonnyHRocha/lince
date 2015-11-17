@@ -1,0 +1,268 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-xs-7">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <h2>Clientes</h2>
+                    <p>
+                        Listagem dos clientes que correspondem a sua carteira.
+                    </p>
+                    <div class="input-group">
+                        <table class="table table-striped table-hover">
+                            <tbody>
+                            <thead>
+                            <tr>
+                                <th><select class="selecionarFiltro" id="selectFiltroCliente" data-placeholder="CLIENTE" style="width:300px"
+                                            ng-model="filtro.nome" ng-options="cliente.nome as cliente.nome for cliente in listagemClientes">
+                                    </select>
+                                </th>
+                                <th><input type="text" placeholder="CNPJ" class="input form-control" ng-model="filtro.cpf_cnpj" style="width:180px"></th>
+                                <th><input type="text" placeholder="USUÁRIOS EM USO" class="input form-control" ng-model="filtro.quantidade_usuarios" ></th>
+                                <th><input type="text" placeholder="USUÁRIOS DISPONÍVEIS" class="input form-control" ng-model="filtro.usuarios_disponiveis" style="width:200px"></th>
+                            </tr>
+                            </thead>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="clients-list" style="height: 700px">
+                        <ul class="nav nav-tabs">
+                            <span class="pull-right small text-muted">{{listagemClientes.length}} Clientes</span>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="full-height-scroll">
+                                    <div class="table-responsive">
+                                        <td colspan="2">
+                                            <div class="table-scroll" style="height: 678px">
+                                                <table class="table table-striped table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Cliente</th>
+                                                        <th>CNPJ</th>
+                                                        <th>Usuários em uso</th>
+                                                        <th>Usuários disponíveis</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="cliente in listagemClientes | filter:filtro"  ng-class="{selected: cliente.id === idClienteSelecionado}">
+                                                        <td><a data-toggle="tab" ng-click="exibirUsuarios(cliente.id, cliente.nome, cliente.usuarios_disponiveis)" class="client-link">{{ cliente.nome }}</a></td>
+                                                        <td>{{cliente.cpf_cnpj}}</td>
+                                                        <td>{{cliente.quantidade_usuarios}}</td>
+                                                        <td>{{cliente.usuarios_disponiveis}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- LISTAGEM DOS USUARIOS -->
+        <div class="col-sm-5">
+            <div class="ibox ">
+                <div class="ibox-content">
+                    <div class="tab-content">
+                        <div id="contact-1" class="tab-pane active">
+
+                            <div class="row m-b-lg" ng-init="exibeUsuariosMensagem = true" ng-show="exibeUsuariosMensagem" style="height: 793px">
+                                </br></br></br></br></br></br></br></br>
+                                <div class="col-xs-12 text-center" style="margin-top:40%">
+                                    <h2>Selecione um cliente para exibir seus usuários</h2>
+                                </div>
+                            </div>
+
+                            <div ng-show="exibeUsuarios">
+                                <div class="row m-b-lg">
+                                    <div class="col-xs-12 text-center">
+                                        <h2>Usuários do cliente selecionado</h2>
+                                        <h2>{{nomeCliente}}</h2>
+
+                                        <a ng-show="habilitaBotaoAdicao" ng-click="adicionarUsu()">
+                                            <button class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-plus"></i> Novo usuário</button>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="client-detail" style="height: 716px">
+                                    <div class="full-height-scroll">
+                                        <div class="table-responsive">
+
+                                                <div class="table-scroll" style="height: 300px">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Usuário</th>
+                                                            <th>Login</th>
+                                                            <th>Tipo</th>
+                                                            <th>Dt. Expiração</th>
+                                                            <th>Status</th>
+                                                            <th>Ações</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="usuario in listagemUsuarios">
+                                                            <td>{{usuario.nome}}</td>
+                                                            <td>{{usuario.email}}</td>
+                                                            <td>{{usuario.tipo_usuario_label}}</td>
+                                                            <td>{{usuario.data_validade | dateBr}}</td>
+                                                            <td>{{usuario.status_label}}</td>
+                                                            <td>
+                                                                <div class="btn-group pull-right">
+                                                                    <button href="javascript:void(0)" ng-click="editarUsu(usuario)" class="btn btn-outline btn-default btn-xs"><i class="fa fa-edit"></i></button>
+                                                                    <button ng-click="excluirUsuario(usuario)" class="btn btn-danger btn-xs excluir"><i class="fa fa-trash"></i></button>
+                                                                    <button ng-click="habilitaAlterarSenha(usuario)" data-toggle="modal" data-target="#modal" class="btn btn-default btn-xs"><i class="fa fa-key"></i></button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div ng-show="!listagemUsuarios.length" class="text-center">
+                                                        Não existem usuários para este cliente!
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div ng-init="habilitaAdicao = false" ng-show="habilitaAdicao">
+                                        <hr/>
+                                        <strong>Novo usuário</strong>
+                                        <form class="form-horizontal" name="formAdicao" role="form" method="POST" ng-submit="salvarAdicao()">
+
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Nome do Usuário</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="nomeAdicao" name="nome" ng-model="usuarios.name" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="{{usuarioExistente}}">
+                                                <label class="col-md-4 control-label">Login</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="loginAdicao" name="usuario" ng-model="usuarios.email"  required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Senha</label>
+                                                <div class="col-md-6">
+                                                    <input type="password" name="password" id="password_fake" autocomplete="off" style="display: none;">
+                                                    <input type="password" class="form-control" id="passwordAdicao" name="senha" ng-model="usuarios.password" title="A senha deve conter 6 ou mais caracteres"
+                                                           pattern=".{6,100}" autocomplete="off" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Data de Validade</label>
+                                                <div class="col-md-6">
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        <input type="text" class="form-control" id="validadeAdicao" name="data_validade" ng-model="usuarios.data_validade">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-6 col-md-offset-4">
+                                                    <a class="btn btn-outline btn-default" ng-click="cancelarAdicao()">Cancelar</a>
+                                                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+
+                                    <div ng-init="habilitaEdicao = false" ng-show="habilitaEdicao">
+                                        <hr/>
+                                        <strong>Editar Usuário</strong>
+                                        <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="salvarEdicao()">
+                                            <input type="hidden" ng-model="editarUsuario.tipo_usuario">
+
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Nome do Usuário</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" name="nome" ng-model="editarUsuario.nome" tabindex="30" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Login</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" pattern="[a-zA-Z0-9-]+" class="form-control" name="login" ng-model="editarUsuario.email" tabindex="31" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Data de Validade</label>
+                                                <div class="col-md-6">
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                        <input type="text" class="form-control" name="data_validade" ng-model="editarUsuario.data_validade" tabindex="32" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" ng-class="{'has-error': !form.status.$valid && form.status.$touched}">
+                                                <label class="col-md-4 control-label">Status</label>
+                                                <div class="col-md-6">
+                                                    <select ng-model="editarUsuario.status" ng-options="s.value as s.label for s in status|orderBy:'value' " class="form-control" tabindex="33" required></select>
+                                                    <div ng-messages="form.status.$error" class="help-block" ng-show="form.status.$touched">
+                                                        <div ng-message="required">Campo Obrigatório</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-6 col-md-offset-6">
+                                                    <a class="btn btn-outline btn-default" ng-click="cancelarEdicao()">Cancelar</a>
+                                                    <button type="submit" class="btn btn-primary">Atualizar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div ng-init="habilitaNovaSenha = false" ng-show="habilitaNovaSenha">
+                                        <hr/>
+                                        Alterar senha do usuário: <strong>{{alterarSenhaUsuario.nome}}</strong> - Login: <strong>{{alterarSenhaUsuario.email}}</strong>
+                                        <br>
+                                        <br>
+                                        <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="salvarSenha(alterarSenhaUsuario.id)">
+                                            <div class="form-group" ng-class="{'has-error': !form.password.$valid && form.password.$touched}">
+                                                <label class="col-md-4 control-label">Nova Senha</label>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                                        <input type="password" class="form-control" name="password" id="password" title="A senha deve conter 6 ou mais caracteres"
+                                                               pattern=".{6,100}">
+                                                    </div>
+                                                    <div ng-messages="form.password.$error" class="help-block" ng-show="form.password.$touched">
+                                                        <div ng-message="required">Campo Obrigatório</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-6 col-md-offset-6">
+                                                    <a class="btn btn-outline btn-default" ng-click="cancelarAlterarSenha()">Cancelar</a>
+                                                    <button type="submit" class="btn btn-primary">Atualizar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

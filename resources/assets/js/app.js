@@ -182,15 +182,20 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
                 controller: 'UsuarioController',
                 title: 'Gerenciamento de Usuários'
             })
-            /*
-            .when('/usuarios/dashboard',{
-                templateUrl: 'build/views/usuario/lista.html',
-                controller: 'UsuarioListaController',
-                title: 'Usuários'
+            .when('/usuarios_cliente',{
+                templateUrl: 'build/views/usuario/usuariosCliente.html',
+                controller: 'UsuarioClienteController',
+                title: 'Gerenciamento de Usuários'
             })
             .when('/usuarios/novo',{
                 templateUrl: 'build/views/usuario/novo.html',
                 controller: 'UsuarioNovoController',
+                title: 'Usuários'
+            })
+            /*
+            .when('/usuarios/dashboard',{
+                templateUrl: 'build/views/usuario/lista.html',
+                controller: 'UsuarioListaController',
                 title: 'Usuários'
             })
 

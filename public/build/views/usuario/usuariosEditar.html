@@ -1,0 +1,92 @@
+<form class="form-horizontal" name="form" role="form" method="POST" ng-submit="save()">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Edição de Usuário</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group" ng-class="{'has-error': !form.nome.$valid && form.nome.$touched}">
+            <label class="col-md-4 control-label">Nome do Usuário</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="nome" ng-model="usuarioEditar.name" required>
+                <div ng-messages="form.nome.$error" class="help-block" ng-show="form.nome.$touched">
+                    <div ng-message="required">Campo Obrigatório</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': !form.login.$valid && form.login.$touched}">
+            <label class="col-md-4 control-label">Login</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="login" ng-model="usuarioEditar.email" required>
+                <div ng-messages="form.login.$error" class="help-block" ng-show="form.login.$touched">
+                    <div ng-message="required">Campo Obrigatório</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': !form.data_validade.$valid && form.data_validade.$touched}" id="data_1" ng-show="usuarioEditar.tipo_usuario >3">
+            <label class="col-md-4 control-label">Data de Validade</label>
+            <div class="col-md-6">
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" class="form-control" name="data_validade" ng-model="usuarioEditar.data_validade">
+                </div>
+                <div ng-messages="form.data_validade.$error" class="help-block" ng-show="form.data_validade.$touched">
+                    <div ng-message="required">Campo Obrigatório</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': !form.status.$valid && form.status.$touched}" ng-show="usuarioEditar.tipo_usuario >3">
+            <label class="col-md-4 control-label">Status</label>
+            <div class="col-md-6">
+                <select ng-model="usuarioEditar.status" ng-options="s.value as s.label for s in status|orderBy:'value' " class="form-control" required></select>
+                <div ng-messages="form.status.$error" class="help-block" ng-show="form.status.$touched">
+                    <div ng-message="required">Campo Obrigatório</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': !form.limiteConsulta.$valid && form.limiteConsulta.$touched}" ng-show="usuarioEditar.tipo_usuario >3">
+            <label class="col-md-4 control-label">Limite de Consultas</label>
+            <div class="col-md-6">
+
+                <div class="input-group m-b">
+                    <span class="input-group-addon">
+                        <input type="checkbox" id="ativaLimite" ng-model="usuarioEditar.teste" ng-checked="usuarioEditar.teste">
+                    </span>
+                    <input type="text" ng-model="usuarioEditar.limite_consultas" name="limiteConsulta" id="limiteConsulta" class="form-control" ng-readonly="!usuarioEditar.teste">
+                </div>
+
+                <!--<input type="text" class="form-control" name="quantidade_consultas">-->
+
+                <div ng-messages="form.limiteConsulta.$error" class="help-block" ng-show="form.limiteConsulta.$touched">
+                    <div ng-message="required">Campo Obrigatório</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-6">
+                <a class="btn btn-outline btn-default" ng-click="cancel()">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Atualizar</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    $('#data_1 .input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true,
+        format: "dd/mm/yyyy"
+    });
+</script>
+

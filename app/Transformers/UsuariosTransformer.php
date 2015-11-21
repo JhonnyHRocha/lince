@@ -22,6 +22,7 @@ class UsuariosTransformer extends TransformerAbstract
             'tipo_usuario'      => $usuario->tipo_usuario,
             'data_validade'     => $usuario->data_validade,
             'status'            => $usuario->status,
+            'limite_consultas'  => $usuario->limite_consultas
         ];
     }
 }

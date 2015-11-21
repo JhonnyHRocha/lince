@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password', 60);
             $table->smallInteger('status')->default('0');
             $table->date('data_validade')->nullable();
+            $table->smallInteger('limite_consultas')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

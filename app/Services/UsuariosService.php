@@ -30,8 +30,9 @@ class UsuariosService
     public function create(array $data){
         try{
             $this->validator->with($data)->passesOrFail();
+            $data['password'] = Hash::make($data['password']);
             return $this->repository->create($data);
-        } catch(ValidatorException $e){
+        } catch(ValidatorException $e) {
             return[
                 'error' => true,
                 'message' => $e->getMessageBag()

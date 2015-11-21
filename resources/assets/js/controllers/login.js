@@ -23,9 +23,10 @@ angular.module('app.controllers')
                             $location.path('inicio_revendedor');
                         else if(data.tipo_usuario === 3)
                             $location.path('inicio_cliente');
+                        else if(data.tipo_usuario === 4)
+                            $location.path('consultas');
                         else
                             console.log(data);
-
 
                     });
                 }, function(data2){

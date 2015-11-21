@@ -37,6 +37,8 @@ angular.module('app.controllers')
                 $scope.habilitaEdicao = true;
             if($scope.habilitaAdicao = true)
                 $scope.habilitaAdicao = false;
+            if($scope.habilitaNovaSenha = true)
+                $scope.habilitaNovaSenha = false;
 
             //AJUSTA A DATA DE VELIDADE PARA O FORMATO BRASILEIRO
             usuario.data_validade = $filter('date')(usuario.data_validade, 'dd/MM/yyyy');
@@ -73,6 +75,8 @@ angular.module('app.controllers')
                 $scope.habilitaAdicao = true;
             if($scope.habilitaEdicao = true)
                 $scope.habilitaEdicao = false;
+            if($scope.habilitaNovaSenha != true)
+                $scope.habilitaNovaSenha = false;
         };
 
         $scope.cancelarAdicao= function(){
@@ -162,7 +166,13 @@ angular.module('app.controllers')
         };
 
         $scope.habilitaAlterarSenha = function(usuario){
-            $scope.habilitaNovaSenha = true;
+            if($scope.habilitaAdicao = true)
+                $scope.habilitaAdicao = false;
+            if($scope.habilitaEdicao = true)
+                $scope.habilitaEdicao = false;
+            if($scope.habilitaNovaSenha != true)
+                $scope.habilitaNovaSenha = true;
+
             $scope.alterarSenhaUsuario = usuario;
             $scope.alterarSenhaUsuario.password = "";
         };
@@ -181,8 +191,6 @@ angular.module('app.controllers')
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             });
         };
-
-
 
         //FILTROS QUE UTILIZAM CAMPO SELECT (CLIENTE)
         $("#selectFiltroCliente").change(function () {
@@ -221,3 +229,215 @@ angular.module('app.controllers')
             $(selector).chosen(config[selector]);
         }
     }]);
+
+//CONTROLER DA TELA DE USUARIOS PELA VISUALIZACAO DO CLIENTE
+angular.module('app.controllers')
+    .controller('UsuarioClienteController', ['$scope','$filter','$http','$cookies','$uibModal','appConfig','Usuarios','UsuariosDisponiveis','UsuariosEditar',
+    function($scope,$filter,$http,$cookies,$uibModal,appConfig,Usuarios,UsuariosDisponiveis,UsuariosEditar){
+        $scope.usuarios = Usuarios.query({id: $cookies.getObject('user').id_cliente});
+        $scope.quantidadeUsuariosDisponiveis = UsuariosDisponiveis.query({id: $cookies.getObject('user').id_cliente});
+
+        $scope.editar = function (idUsuario) {
+            //console.log(idUsuario);
+
+        }
+
+        //MODAL COM A OPCAO DE CONFIRMAR A EXCLUSAO DO USUARIO OU CANCELAR A MESMA
+        $scope.excluirUsuario = function(usuario){
+            swal({
+                    title: "Exclusão de Usuário",
+                    text: "Tem certeza que dezeja deletar o usuário \n"+usuario.nome,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",confirmButtonText: "Sim, deletar!",
+                    cancelButtonText: "Não, cancelar!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        swal("Deletado!", "O Cliente foi deletado com sucesso!", "success");
+                        $scope.cadastro = new UsuariosEditar();
+                        $scope.cadastro.$delete({id: usuario.id}).then(function(){
+                            $scope.usuarios = Usuarios.query({id: $cookies.getObject('user').id_cliente});
+                            $scope.quantidadeUsuariosDisponiveis = UsuariosDisponiveis.query({id: $cookies.getObject('user').id_cliente});
+                        });
+                    } else {
+                        swal("Cancelado", "O usuário continua em sua base de dados ", "error");
+                    }
+                }
+            );
+        };
+
+        //ABRE O MODAL CHAMANDO A TELA DE EDICAO DO USUARIO, PASSANDO O ID DO MESMO
+        $scope.editarUsuario = function(item) {
+            $scope.usuarioEditar = UsuariosEditar.query({id: item});
+            $scope.quantidadeConsultas = $scope.usuarioEditar.limite_consultas;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl:'build/views/usuario/usuariosEditar.html',
+                controller: 'ModalEditarUsuario',
+                scope: $scope //passa o escopo deste controller para o novo controller, não sendo preciso um novo select no banco de dados
+            });
+
+            modalInstance.result.then(function(selectedItem) {
+            }, function() {
+                $scope.usuarios = Usuarios.query({id: $cookies.getObject('user').id_cliente});
+            });
+        };
+
+        //ABRE O MODAL CHAMANDO A TELA DE EDICAO DO USUARIO, PASSANDO O ID DO MESMO
+        $scope.editarSenha = function(item) {
+            $scope.alterarSenhaUsuario = UsuariosEditar.query({id: item});
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl:'build/views/usuario/usuariosNovaSenha.html',
+                controller: 'ModalNovaSenha',
+                scope: $scope //passa o escopo deste controller para o novo controller, não sendo preciso um novo select no banco de dados
+            });
+
+            modalInstance.result.then(function(selectedItem) {
+            }, function() {
+                $scope.usuarios = Usuarios.query({id: $cookies.getObject('user').id_cliente});
+            });
+        };
+
+        //ABRE O MODAL CHAMANDO A TELA DE ADICAO DO USUARIO
+        $scope.novoUsuario = function() {
+            modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl:'build/views/usuario/usuariosNovo.html',
+                controller: 'ModalNovoUsuario',
+                scope: $scope //passa o escopo deste controller para o novo controller, não sendo preciso um novo select no banco de dados
+            });
+
+            modalInstance.result.then(function(selectedItem) {
+            }, function() {
+                $scope.usuarios = Usuarios.query({id: $cookies.getObject('user').id_cliente});
+                $scope.quantidadeUsuariosDisponiveis = UsuariosDisponiveis.query({id: $cookies.getObject('user').id_cliente});
+            });
+        };
+
+    }]);
+
+
+//  -------------------------------------------------------------------------------------------------------------------------------------------
+//CONTROLLER DO MODAL QUE E ABERTO COM AS TELAS DE EDICAO DE USUARIO / TROCA DE SENHA / EDICAO DE CLIENTE
+angular.module('app.controllers')
+    .controller('ModalEditarUsuario', function ($scope,$window,$modalInstance,UsuariosEditar,appConfig) {
+        $scope.status = appConfig.usuario.status;
+
+        $scope.ok = function () {
+            $modalInstance.close($scope.usuarioEditar.id);
+        };
+
+        //SE APERTADO O BOTAO CANCELAR, DA UM DISMISS NO MODAL QUE ESTA ABERTO
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+        $scope.save = function(){
+            if($scope.form.$valid){
+                if($scope.usuarioEditar.teste === false)
+                    $scope.usuarioEditar.limite_consultas = 0;
+
+                UsuariosEditar.update({id: $scope.usuarioEditar.id}, $scope.usuarioEditar, function(){
+                    $modalInstance.dismiss();
+                    toastr.options.progressBar = true;
+                    toastr.options.closeDuration = 300;
+                    toastr.success('Usuário atualizado com sucesso.', 'Mensagem do Sistema');
+                });
+            }
+        };
+    });
+
+
+//  -------------------------------------------------------------------------------------------------------------------------------------------
+//CONTROLLER DO MODAL QUE E ABERTO COM AS TELAS DE EDICAO DE USUARIO / TROCA DE SENHA / EDICAO DE CLIENTE
+angular.module('app.controllers')
+    .controller('ModalNovaSenha', function ($scope,$window,$http,$modalInstance,UsuariosEditar,appConfig) {
+        $scope.status = appConfig.usuario.status;
+
+        $scope.ok = function () {
+            $modalInstance.close($scope.usuarioEditar.id);
+        };
+
+        //SE APERTADO O BOTAO CANCELAR, DA UM DISMISS NO MODAL QUE ESTA ABERTO
+        $scope.cancel = function () {
+            $modalInstance.dismiss();
+        };
+
+        $scope.salvarSenha = function (idUsuario) {
+            var requestUser = $http({
+                method: "put",
+                url: '/usuario/atualiza_senha/' + idUsuario,
+                data: {
+                    password: password.value
+                },
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            });
+
+            requestUser.success(function (dataUser) {
+                $modalInstance.dismiss();
+
+                //exibe mensagem de sucesso do cadastro do usuário
+                toastr.options.progressBar = true;
+                toastr.options.closeDuration = 300;
+                toastr.success('Usuário atualizado com sucesso.', 'Mensagem do Sistema');
+            });
+
+        };
+    });
+
+//  -------------------------------------------------------------------------------------------------------------------------------------------
+//CONTROLLER DO MODAL QUE E ABERTO COM AS TELAS DE EDICAO DE USUARIO / TROCA DE SENHA / EDICAO DE CLIENTE
+angular.module('app.controllers')
+    .controller('ModalNovoUsuario', function ($scope,$window,$http,$cookies,$modalInstance,appConfig,Usuario) {
+        $scope.usuarios = new Usuario();
+        $scope.status = appConfig.usuario.status;
+        $scope.usuarioExistente = 'form-group';
+
+        $scope.ok = function () {
+            $modalInstance.close($scope.usuarioEditar.id);
+        };
+
+        //SE APERTADO O BOTAO CANCELAR, DA UM DISMISS NO MODAL QUE ESTA ABERTO
+        $scope.cancel = function () {
+            $modalInstance.dismiss();
+        };
+
+        $scope.save = function(){
+            if($scope.form.$valid){
+                $http.get("cliente/usuario/" + $scope.usuarios.email).success(function(response) {
+                    if (response.id === "true") {
+                        toastr.options.progressBar = true;
+                        toastr.options.closeDuration = 300;
+                        toastr.error('Login já cadastrado no sistema, escolha outro nome de acesso para este usuário.', 'Erro no cadastro');
+                        $scope.usuarioExistente = 'form-group has-error';
+                    } else {
+                        $scope.usuarios.id_cliente = $cookies.getObject('user').id_cliente;
+                        $scope.usuarios.status = 1;
+
+                        $scope.usuarios.$save().then(function(){
+                            $modalInstance.dismiss();
+                            //exibe mensagem de sucesso do cadastro do usuário
+                            toastr.options.progressBar = true;
+                            toastr.options.closeDuration = 300;
+                            toastr.success('Usuário cadastrado com sucesso.', 'Mensagem do Sistema');
+                        });
+                    }
+                });
+            }
+        };
+
+        $('.input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format: "dd/mm/yyyy"
+        });
+    });

@@ -44,6 +44,16 @@ Route::group(['middleware'=>'oauth'], function(){
     Route::resource('usuario', 'UsuariosController', ['except'=> ['create', 'edit']]);
     //Route::resource('boleto/{id}/', 'BoletoController@index');
 
+    Route::group(['prefix' => 'inicio'], function() {
+        Route::get('vendas', 'InicioController@vendasUltimosMeses');
+        Route::get('cliente_status/{usuarioID}', 'InicioController@clienteStatus');
+        Route::get('ranking_vendas/{usuarioID}', 'InicioController@rankingVendas');
+        Route::get('historico_vendas/{clienteID}', 'InicioController@historicoVendasCliente');
+        Route::get('dados_geral/{clienteID}', 'InicioController@dadosGeralCliente');
+        Route::get('consultas_usuarios/{clienteID}', 'InicioController@rankingConsultasUsuarios');
+        Route::get('ultimas_consultas/{clienteID}', 'InicioController@ultimasConsultas');
+    });
+
     Route::group(['prefix' => 'cliente'], function() {
         Route::get('dashboard/{idUsuario}', 'ClienteController@selecionaClientesDashboard');
         Route::get('listagem/{usuarioID}', 'ClienteController@clienteListagem');
@@ -56,6 +66,7 @@ Route::group(['middleware'=>'oauth'], function(){
     Route::group(['prefix' => 'usuario'], function(){
         Route::get('listagem/usuarios_clientes', 'UsuariosController@listagemUsuariosCliente');
         Route::get('cliente/{id}', 'UsuariosController@clienteUsuarios');
+        Route::get('disponiveis/{id}', 'UsuariosController@usuariosDisponiveis');
         Route::put('cliente/{id}', 'UsuariosController@atualizaUsuario');
         Route::put('atualiza_senha/{id}', 'UsuariosController@atualizaSenha');
     });

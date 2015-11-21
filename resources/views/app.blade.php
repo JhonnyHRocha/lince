@@ -7,19 +7,18 @@
 	<title>Lince</title>
 
 	@if(Config::get('app.debug'))
-		<link href="{{ asset('build/css/bootstrap.min.css') }}" rel="stylesheet">
-		<link href="{{ asset('build/css/font-awesome.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/vendor/bootstrap.min.css') }}" rel="stylesheet">
+		<link href="{{ asset('build/css/vendor/font-awesome.css') }}" rel="stylesheet"/>
 		<link href="{{ asset('build/css/vendor/toastr.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/vendor/footable.core.css') }}" rel="stylesheet"/>
-		<link href="{{ asset('build/css/animate.css') }}" rel="stylesheet">
-		<link id="loadBefore" href="{{ asset('build/css/style.css') }}" rel="stylesheet">
+		<link href="{{ asset('build/css/vendor/animate.css') }}" rel="stylesheet">
+		<link id="loadBefore" href="{{ asset('build/css/vendor/style.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/vendor/sweetalert.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/vendor/datepicker3.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/vendor/select2.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('build/css/vendor/chosen.css') }}" rel="stylesheet">
-		<link href="{{ asset('build/css/flaticon.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/vendor/flaticon.css') }}" rel="stylesheet"/>
 		<link href="{{ asset('build/css/vendor/jquery.jspanel.css') }}" rel="stylesheet"/>
-
 	@else
 		<link href="{{ elixir('css/all.css') }}" rel="stylesheet"/>
 	@endif
@@ -131,6 +130,8 @@
 		<script src="{{asset('build/js/vendor/jquery.validate.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/jquery.jspanel.js')}}"></script>
 		<script src="{{asset('build/js/vendor/ngMask.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/morris.js')}}"></script>
+		<script src="{{asset('build/js/vendor/raphael-2.1.0.min.js')}}"></script>
 		<script src="{{asset('build/js/app.js')}}"></script>
 
 		<!-- CONTROLLERS -->
@@ -161,6 +162,7 @@
 		<script src="{{asset('build/js/directives/loadTemplate.js')}}"></script>
 		<script src="{{asset('build/js/directives/menu-activated.js')}}"></script>
 		<script src="{{asset('build/js/directives/modal.js')}}"></script>
+		<script src="{{asset('build/js/directives/chart.js')}}"></script>
 
 		<!-- FILTROS -->
 		<script src="{{asset('build/js/filters/date-br.js')}}"></script>
@@ -175,6 +177,7 @@
 		<script src="{{asset('build/js/services/cadastro.js')}}"></script>
 		<script src="{{asset('build/js/services/financeiroService.js')}}"></script>
 		<script src="{{asset('build/js/services/vendedorService.js')}}"></script>
+		<script src="{{asset('build/js/services/inicioService.js')}}"></script>
 
 
 		<script>

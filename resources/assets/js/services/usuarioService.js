@@ -100,7 +100,15 @@ angular.module('app.services')
 
         return $resource(appConfig.baseUrl + '/usuario/:id', {id: '@id'},{
             query:{
-                isArray: false
+                isArray: false,
+                transformResponse: function(data, headers){
+                    var o = appConfig.utils.transformResponse(data,headers);
+                    if(angular.isObject(o) && o.hasOwnProperty('data_validade')){
+                        o.data_validade = $filter('date')(o.data_validade, 'dd/MM/yyyy');
+                        o.teste = o.limite_consultas > 0 ? true : false ;
+                    }
+                    return o;
+                }
             },
             update: {
                 method: 'PUT',
@@ -117,6 +125,24 @@ angular.module('app.services')
                     return o;
                 }
 
+            }
+        });
+    }]);
+
+angular.module('app.services')
+    .service('UsuariosDisponiveis', ['$resource','$filter','$httpParamSerializer', 'appConfig', function ($resource,$filter,$httpParamSerializer,appConfig) {
+        return $resource(appConfig.baseUrl + '/usuario/disponiveis/:id', {id: '@id'}, {
+            query: {
+                isArray: true
+            }
+        });
+    }]);
+
+angular.module('app.services')
+    .service('Usuario', ['$resource','$filter','$httpParamSerializer', 'appConfig', function ($resource,$filter,$httpParamSerializer,appConfig) {
+        return $resource(appConfig.baseUrl + '/usuario/:id', {id: '@id'}, {
+            query: {
+                isArray: true
             }
         });
     }]);

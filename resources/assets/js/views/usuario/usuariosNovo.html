@@ -1,0 +1,82 @@
+<form class="form-horizontal" name="form" role="form" method="POST" ng-submit="save()">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Alterar Senha</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group" ng-class="{'has-error': !form.nome.$valid && form.nome.$touched}">
+            <label class="col-md-4 control-label">Nome do Usuário</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="nome" ng-model="usuarios.name" required>
+                <div ng-messages="form.nome.$error" class="help-block" ng-show="form.nome.$touched">
+                    <div ng-message="required">Campo Obrigatório</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="{{usuarioExistente}}" ng-class="{'has-error': !form.login.$valid && form.login.$touched}">
+            <label class="col-md-4 control-label">Login</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="login" ng-model="usuarios.email" required>
+                <div ng-messages="form.login.$error" class="help-block" ng-show="form.login.$touched">
+                    <div ng-message="required">Campo Obrigatório</div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group" ng-class="{'has-error': !form.password.$valid && form.password.$touched}">
+            <label class="col-md-4 control-label">Senha</label>
+            <div class="col-md-6">
+                <input type="password" class="form-control" ng-model="usuarios.password" title="A senha deve conter 6 ou mais caracteres"
+                       pattern=".{6,100}" required>
+                <div ng-messages="form.password.$error" class="help-block" ng-show="form.password.$touched">
+                    <div ng-message="required">Campo Obrigatório</div>
+                    <div ng-message="email">E-Mail Inválido</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': !form.data_validade.$valid && form.data_validade.$touched}" id="data_1">
+            <label class="col-md-4 control-label">Data de Validade</label>
+            <div class="col-md-6">
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" class="form-control" name="data_validade" ng-model="usuarios.data_validade">
+                </div>
+                <div ng-messages="form.data_validade.$error" class="help-block" ng-show="form.data_validade.$touched">
+                    <div ng-message="required">Campo Obrigatório</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': !form.limiteConsulta.$valid && form.limiteConsulta.$touched}">
+            <label class="col-md-4 control-label">Limite de Consultas</label>
+            <div class="col-md-6">
+
+                <div class="input-group m-b">
+                    <span class="input-group-addon">
+                        <input type="checkbox" id="ativaLimite" ng-model="ativaLimite">
+                    </span>
+                    <input type="text" ng-model="usuarios.limite_consultas" name="limiteConsulta" id="limiteConsulta" class="form-control" ng-readonly="!ativaLimite">
+                </div>
+
+                <!--<input type="text" class="form-control" name="quantidade_consultas">-->
+
+                <div ng-messages="form.limiteConsulta.$error" class="help-block" ng-show="form.limiteConsulta.$touched">
+                    <div ng-message="required">Campo Obrigatório</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-6">
+                <a class="btn btn-outline btn-default" ng-click="cancel()">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Adicionar</button>
+            </div>
+        </div>
+    </div>
+</form>

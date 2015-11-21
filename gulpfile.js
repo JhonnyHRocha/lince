@@ -45,6 +45,8 @@ config.vendor_path_js = [
     config.bower_path + '/inspinia/js/plugins/toastr/toastr.min.js',
     config.bower_path + '/inspinia/js/plugins/validate/jquery.validate.min.js',
     config.bower_path + '/inspinia/js/plugins/footable/footable.all.min.js',
+    config.bower_path + '/inspinia/js/plugins/morris/morris.js',
+    config.bower_path + '/inspinia/js/plugins/morris/raphael-2.1.0.min.js',
 
     config.bower_path + '/jspanel/source/jquery.jspanel.js',
     config.bower_path + '/angular-translate/angular-translate.min.js',
@@ -55,16 +57,21 @@ config.vendor_path_js = [
 config.build_path_css = config.build_path + '/css';
 config.build_vendor_path_css = config.build_path_css + '/vendor';
 config.vendor_path_css = [
-    config.bower_path + '/bootstrap/dist/css/bootstrap.min.css',
-    config.bower_path + '/jspanel/source/jquery.jspanel.css',
+    config.bower_path + '/inspinia/css/bootstrap.min.css',
+    config.bower_path + '/inspinia/css/toastr.min.css',
+    config.bower_path + '/inspinia/css/footable.core.css',
+    config.bower_path + '/inspinia/css/animate.css',
+    config.bower_path + '/inspinia/css/style.css',
+    config.bower_path + '/inspinia/css/font-awesome.css',
     config.bower_path + '/inspinia/css/sweetalert.css',
     config.bower_path + '/inspinia/css/datepicker3.css',
-    config.bower_path + '/inspinia/css/toastr.min.css',
     config.bower_path + '/inspinia/css/select2.min.css',
-    config.bower_path + '/inspinia/css/footable.core.css',
     config.bower_path + '/inspinia/css/chosen/chosen.css',
         config.bower_path + '/inspinia/css/chosen/chosen-sprite@2x.png',
+    config.bower_path + '/inspinia/css/flaticon.css',
+    config.bower_path + '/jspanel/source/jquery.jspanel.css',
 ];
+
 
 //CAMINHO DOS ARQUIVOS DE HTML E HTML DE TERCEIROS QUE VAO FICAR NA PASTA PUBLIC
 config.build_path_html = config.build_path + '/views';

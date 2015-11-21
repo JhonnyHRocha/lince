@@ -71,7 +71,7 @@ class UsuariosRepositoryEloquent extends BaseRepository implements UsuariosRepos
     public function isUsuario($clienteID){
         try{
             return DB::table('users')
-                    ->select('id','name as nome', 'email', 'tipo_usuario',
+                    ->select('users.id','name as nome', 'users.email', 'users.tipo_usuario','users.limite_consultas','clientes.numero_usuarios',
                                 DB::raw('(CASE
                                             WHEN tipo_usuario = 1 THEN "Administrador"
                                             WHEN tipo_usuario = 2 THEN "Revendedor"
@@ -79,11 +79,12 @@ class UsuariosRepositoryEloquent extends BaseRepository implements UsuariosRepos
                                             WHEN tipo_usuario = 4 THEN "Usuário"
                                           END) AS tipo_usuario_label'),
                                 DB::raw('(CASE
-                                            WHEN status = 0 THEN "Inativo"
-                                            WHEN status = 1 THEN "Ativo"
-                                            WHEN status = 2 THEN "Bloqueado"
+                                            WHEN users.status = 0 THEN "Inativo"
+                                            WHEN users.status = 1 THEN "Ativo"
+                                            WHEN users.status = 2 THEN "Bloqueado"
                                           END) AS status_label'),
-                                'status','password', 'data_validade')
+                                'users.status','password', 'data_validade')
+                    ->join('clientes', 'clientes.id', '=', 'users.id_cliente')
                     ->where(['id_cliente' => $clienteID])
                     ->get();
         } catch(Exception $e){
@@ -93,4 +94,5 @@ class UsuariosRepositoryEloquent extends BaseRepository implements UsuariosRepos
         }
         //return response()->json(['data' => $usuario->usuarios]);
     }
+
 }

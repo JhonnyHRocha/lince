@@ -1,0 +1,39 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+
+        <div class="col-xs-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <a ng-click="novoUsuario()" ng-show="quantidadeUsuariosDisponiveis[0].usuarios_disponiveis > 0 "><button class="btn btn-outline btn-primary pull-right"><i class="fa fa-plus"></i> Novo Usuário</button></a>
+                    <h3>Quantidade de usuários disponíveis: {{quantidadeUsuariosDisponiveis[0].usuarios_disponiveis}}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div ng-repeat="usuario in usuarios">
+            <div class="col-lg-3">
+                <div class="contact-box center-version">
+                    <a style="height: 170px">
+                        <h3 class="m-b-xs"><strong>{{usuario.nome}}</strong></h3>
+                        <div class="font-bold">{{usuario.tipo_usuario_label}}</div>
+                        <address class="m-t-md">
+                            <strong>Login: </strong>{{usuario.email}}<br>
+                            <strong>Status: </strong>{{usuario.status_label}}<br>
+                            <div ng-show="usuario.tipo_usuario > 3 && usuario.limite_consultas > 0"><strong>Limite de Consultas: </strong>{{usuario.limite_consultas}}<br></div>
+                            <div ng-show="usuario.tipo_usuario > 3 && usuario.data_validade != null"><strong>Data de validade: </strong>{{usuario.data_validade | dateBr}}<br></div>
+                        </address>
+                    </a>
+                    <div class="contact-box-footer">
+                        <div class="m-t-xs btn-group">
+                            <a class="btn btn-xs btn-success" ng-click="editarUsuario(usuario.id)"><i class="fa fa-edit"></i> Editar </a>
+                            <a class="btn btn-xs btn-danger" ng-show="usuario.tipo_usuario > 3" ng-click="excluirUsuario(usuario)"><i class="fa fa-trash"></i> Excluir </a>
+                            <a class="btn btn-xs btn-warning" ng-click="editarSenha(usuario.id)"><i class="fa fa-key"></i> Alterar Senha </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

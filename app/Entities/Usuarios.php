@@ -36,6 +36,7 @@ class Usuarios extends Model implements AuthenticatableContract,
         'password',
         'status',
         'data_validade',
+        'limite_consultas'
     ];
 
     /**

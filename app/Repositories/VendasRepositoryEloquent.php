@@ -62,7 +62,7 @@ class VendasRepositoryEloquent extends BaseRepository implements VendasRepositor
         if($tipo_usuario[0]->tipo_usuario === 1){
             return DB::table('vendas')
                 ->select('vendas.id', 'clientes.nome as cliente', 'clientes.id as cliente_id', 'revendedores.nome as vendedor', 'revendedores.id as vendedor_id', 'pacotes.pacote','vendas.quantidade_usuarios',
-                    'vendas.quantidade_usuarios_adicionais','vendas.valor','vendas.valor_desconto', 'vendas.data_venda','vendas.data_confirm_pgto',
+                    'vendas.quantidade_usuarios_adicionais','vendas.valor','vendas.valor_desconto', 'vendas.data_venda','vendas.data_confirm_pgto', 'vendas.status_pagamento as id_status',
                     DB::raw('(CASE WHEN vendas.status_pagamento = 0 THEN "Aguardando Compensação"
                                    WHEN vendas.status_pagamento = 1 THEN "Pago"
                                    WHEN vendas.status_pagamento = 2 THEN "Não"

@@ -3,6 +3,7 @@
 namespace Lince\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Lince\Entities\User;
 use Lince\Repositories\UsuariosRepository;
 use Lince\Services\UsuariosService;
@@ -93,5 +94,15 @@ class UsuariosController extends Controller
 
     public function atualizaSenha(Request $request, $id){
         return $this->service->senha($request->all(), $id);
+    }
+
+    public function usuariosDisponiveis($idCliente){
+        return DB::select(DB::raw("
+            SELECT  clientes.numero_usuarios,
+                    (SELECT COUNT(*) FROM users WHERE users.id_cliente = $idCliente ) AS quantidade_usuarios,
+                    (clientes.numero_usuarios - (SELECT COUNT(*) FROM users WHERE users.id_cliente = $idCliente)) AS usuarios_disponiveis
+            FROM clientes
+            WHERE clientes.id = $idCliente
+        "));
     }
 }

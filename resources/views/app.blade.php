@@ -139,18 +139,13 @@
 		<script src="{{asset('build/js/controllers/login.js')}}"></script>
 		<script src="{{asset('build/js/controllers/loginModal.js')}}"></script>
 
-
 		<script src="{{asset('build/js/controllers/inicioController.js')}}"></script>
 		<script src="{{asset('build/js/controllers/cadastroController.js')}}"></script>
 		<script src="{{asset('build/js/controllers/clienteController.js')}}"></script>
 		<script src="{{asset('build/js/controllers/financeiroController.js')}}"></script>
 		<script src="{{asset('build/js/controllers/usuarioController.js')}}"></script>
+		<script src="{{asset('build/js/controllers/relatorioController.js')}}"></script>
 
-		<script src="{{asset('build/js/controllers/usuario/usuarioDashboard.js')}}"></script>
-		<script src="{{asset('build/js/controllers/usuario/usuarioLista.js')}}"></script>
-		<script src="{{asset('build/js/controllers/usuario/usuarioNovo.js')}}"></script>
-		<script src="{{asset('build/js/controllers/usuario/usuarioEditar.js')}}"></script>
-		<script src="{{asset('build/js/controllers/usuario/usuarioExcluir.js')}}"></script>
 
 		<script src="{{asset('build/js/controllers/revendedor/revendedorLista.js')}}"></script>
 		<script src="{{asset('build/js/controllers/revendedor/revendedorNovo.js')}}"></script>

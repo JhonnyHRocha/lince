@@ -25,21 +25,21 @@
             </li>
 
             <!-- BOTAO PARA A TELA DE INICIO QUE E EXIBIDA DE ACORDO COM O TIPO DE USUARIO LOGADO NO SISTEMA -->
-            <li ng-class="{active: $location.path() == '/inicio'}" ng-show="isAdmin()">
+            <li ng-click="desabilitaRelatorio()" ng-class="{active: $location.path() == '/inicio'}" ng-show="isAdmin()">
                 <a href="#/inicio">
                     <i class="fa fa-windows"></i>
                     <span class="nav-label">INÍCIO</span>
                 </a>
             </li>
 
-            <li ng-class="{active: $location.path() == '/inicio_revendedor'}" ng-show="isDealer()">
+            <li ng-click="desabilitaRelatorio()" ng-class="{active: $location.path() == '/inicio_revendedor'}" ng-show="isDealer()">
                 <a href="#/inicio_revendedor">
                     <i class="fa fa-windows"></i>
                     <span class="nav-label">INÍCIO</span>
                 </a>
             </li>
 
-            <li ng-class="{active: $location.path() == '/inicio_cliente'}" ng-show="isClient()">
+            <li ng-click="desabilitaRelatorio()" ng-class="{active: $location.path() == '/inicio_cliente'}" ng-show="isClient()">
                 <a href="#/inicio_cliente">
                     <i class="fa fa-windows"></i>
                     <span class="nav-label">INÍCIO</span>
@@ -48,7 +48,7 @@
 
 
             <!-- CONSULTAS -->
-            <li ng-class="{active: $location.path() == '/consultas'}">
+            <li ng-click="desabilitaRelatorio()" ng-class="{active: $location.path() == '/consultas'}">
                 <a  href="#/consultas">
                     <i class="fa fa-desktop"></i>
                     <span class="nav-label" size="14px">CONSULTAS</span>
@@ -56,7 +56,7 @@
             </li>
 
             <!-- CLIENTES -->
-            <li ng-class="{active: $location.path() == '/clientes'}" ng-show="isAdmin() || isDealer()">
+            <li ng-click="desabilitaRelatorio()" ng-class="{active: $location.path() == '/clientes'}" ng-show="isAdmin() || isDealer()">
                 <a href="#/clientes">
                     <i class="fa fa-edit"></i>
                     <span class="nav-label">CLIENTES</span>
@@ -64,14 +64,14 @@
             </li>
 
             <!-- BOTAO PARA A TELA DE USUARIOS QUE E EXIBIDA DE ACORDO COM O TIPO DE USUARIO LOGADO NO SISTEMA -->
-            <li ng-class="{active: $location.path() == '/usuarios'}" ng-show="isAdmin() || isDealer()">
+            <li ng-click="desabilitaRelatorio()" ng-class="{active: $location.path() == '/usuarios'}" ng-show="isAdmin() || isDealer()">
                 <a ng-click="changeClass()" href="#/usuarios">
                     <i class="fa fa-home"></i>
                     <span class="nav-label">USUÁRIOS</span>
                 </a>
             </li>
 
-            <li ng-class="{active: $location.path() == '/usuarios_cliente'}" ng-show="isClient()">
+            <li ng-click="desabilitaRelatorio()" ng-class="{active: $location.path() == '/usuarios_cliente'}" ng-show="isClient()">
                 <a ng-click="changeClass()" href="#/usuarios_cliente">
                     <i class="fa fa-home"></i>
                     <span class="nav-label">USUÁRIOS</span>
@@ -79,11 +79,15 @@
             </li>
 
             <!-- RELATORIOS -->
-            <li ng-class="{active: $location.path() == '/relatorios'}" ng-show="isAdmin() || isDealer() || isClient()">
-                <a ng-click="changeClass()" href="#/relatorios">
+            <li ng-click="ativaRelatorio()" ng-class="{active: menuRelatorios === true || $location.path() == '/relatorios/vendas' || $location.path() == '/relatorios/consultas' }" ng-show="isAdmin() || isDealer() || isClient()">
+                <a ng-click="changeClass()" href="">
                     <i class="fa fa-file-pdf-o"></i>
-                    <span class="nav-label">RELATÓRIOS</span>
+                    <span class="nav-label">RELATÓRIOS</span><span class="fa arrow"></span>
                 </a>
+                    <ul class="nav nav-second-level collapse" ng-class="{in: menuRelatorios === true  || $location.path() == '/relatorios/vendas' || $location.path() == '/relatorios/consultas'}">
+                        <li ui-sref-active="active"><a ng-href="#/relatorios/consultas">CONSULTAS</a></li>
+                        <li ui-sref-active="active"><a ng-href="#/relatorios/vendas">VENDAS</a></li>
+                    </ul>
             </li>
 
             <!-- FINANCEIRO -->
@@ -93,6 +97,8 @@
                     <span class="nav-label">FINANCEIRO</span>
                 </a>
             </li>
+
+
 
 
         </ul>

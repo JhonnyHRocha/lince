@@ -2,6 +2,7 @@ angular.module('app.controllers')
     .controller('MenuController', ['$scope','$cookies', '$location',function($scope,$cookies,$location){
         $scope.user = $cookies.getObject('user');
         $scope.$location = $location;
+        $scope.menuRelatorios = false;
 
         $scope.isAdmin = function isAdmin(){
             if($scope.user.tipo_usuario == 1)
@@ -24,9 +25,24 @@ angular.module('app.controllers')
         };
 
         $scope.isLogged = function(){
-            if($scope.$location.$$path == "/login" || $scope.$location.$$path == "/cadastro" || $scope.$location.$$path == "/cadastro_concluir" )
+            if($scope.$location.$$path == "/login" || $scope.$location.$$path == "/cadastro" || $scope.$location.$$path == "/cadastro_concluir" ){
                 return false;
-            else
+            }
+            else{
                 return true;
+            }
+        };
+
+        $scope.ativaRelatorio = function () {
+            if($scope.menuRelatorios === false)
+                $scope.menuRelatorios = true;
+            else
+                $scope.menuRelatorios = false
         }
+
+        $scope.desabilitaRelatorio = function () {
+            if($scope.menuRelatorios === true)
+                $scope.menuRelatorios = false;
+        }
+        
     }]);

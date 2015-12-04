@@ -77,6 +77,11 @@ Route::group(['middleware'=>'oauth'], function(){
         Route::put('credito/{idCliente}', 'VendasController@creditoCliente');
     });
 
+    Route::group(['prefix' => 'relatorio'], function() {
+        Route::get('consultas', 'RelatoriosController@consultas');
+        Route::get('vendas', 'RelatoriosController@vendas');
+    });
+
 
 
 

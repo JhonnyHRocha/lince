@@ -14,6 +14,16 @@
  *   version 2.3
  *
 */
+
+.corLogin{
+  background: #3B3B3B;
+}
+
+.corSistema{
+  background: #F3F3F4;
+}
+
+
 upper {
     text-transform: uppercase;
     font-size: 15px;

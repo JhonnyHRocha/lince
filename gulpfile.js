@@ -47,6 +47,7 @@ config.vendor_path_js = [
     config.bower_path + '/inspinia/js/plugins/footable/footable.all.min.js',
     config.bower_path + '/inspinia/js/plugins/morris/morris.js',
     config.bower_path + '/inspinia/js/plugins/morris/raphael-2.1.0.min.js',
+    config.bower_path + '/inspinia/js/plugins/iCheck/icheck.min.js',
 
     config.bower_path + '/jspanel/source/jquery.jspanel.js',
     config.bower_path + '/angular-translate/angular-translate.min.js',

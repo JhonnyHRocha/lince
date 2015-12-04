@@ -46,6 +46,13 @@ app.provider('appConfig', ['$httpParamSerializerProvider', function($httpParamSe
                 {value: 2, label: 'Bloqueado'}
             ]
         },
+        relatorios: {
+            tipo_consulta:[
+                {value: 0, label: 'CPF / CNPJ'},
+                {value: 1, label: 'Endereço'},
+                {value: 2, label: 'Telefone'}
+            ]
+        },
         utils:{
             transformRequest: function(data){
                 if(angular.isObject(data)){
@@ -98,7 +105,8 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
             //LOGIN
             .when('/login',{
                 templateUrl: 'build/views/login.html',
-                controller: 'LoginController'
+                controller: 'LoginController',
+                data: { pageTitle: 'Login', specialClass: 'gray-bg' }
             })
             .when('/logout',{
                 resolve: {
@@ -194,10 +202,25 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
             })
 
             //RELATORIOS
-            .when('/relatorios',{
-                templateUrl: 'build/views/relatorio/relatorios.html',
-                controller: 'RelatorioController',
-                title: 'Relatórios'
+            .when('/relatorios/vendas',{
+                templateUrl: 'build/views/relatorio/relatorios_vendas.html',
+                controller: 'RelatorioVendasController',
+                title: 'Relatório - Vendas'
+            })
+            .when('/relatorios/consultas',{
+                templateUrl: 'build/views/relatorio/relatorios_consultas.html',
+                controller: 'RelatorioConsultasController',
+                title: 'Relatório - Consultas'
+            })
+
+
+
+
+            //CONSULTAS
+            .when('/consultas',{
+                templateUrl: 'build/views/consulta/consultas.html',
+                controller: 'ConsultaController',
+                title: 'Consultas'
             })
 
             //REVENDEDORES
@@ -235,7 +258,7 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
         });
 }]);
 
-app.run(['$rootScope', '$location', '$http', 'OAuth', function($rootScope, $location, $http, OAuth) {
+app.run(['$rootScope', '$location', '$http', 'OAuth','$state', function($rootScope, $location, $http, OAuth) {
 
     $rootScope.isLoggedIn = function() {
         $http.get('/checklogin')

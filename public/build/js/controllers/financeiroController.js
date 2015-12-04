@@ -38,7 +38,7 @@ angular.module('app.controllers')
             forceParse: false,
             calendarWeeks: true,
             autoclose: true,
-            format: "yyyy-mm-dd"
+            format: 'yyyy-mm-dd'
         });
 
         //FUNCAO EM JS REFERENTE AO FILTRO DE SELECAO DO STATUS DO CLIENTE

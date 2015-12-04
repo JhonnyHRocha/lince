@@ -33,7 +33,7 @@
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 </head>
-<body >
+<body ng-controller="MenuController" ng-class="{corLogin: ($location.path() == '/login') || ($location.path() == '/cadastro') }">
 	<div id="wrapper">
 	<!--<nav class="navbar navbar-default">
 		<div class="container-fluid">
@@ -75,7 +75,7 @@
 
 		<load-template url="build/views/templates/menu_.html"></load-template>
 
-		<div id="page-wrapper" class="gray-bg">
+		<div id="page-wrapper" ng-style="{corLogin: ($location.path() == '/login')}">
 
 			<!-- Page wrapper -->
 			<div ng-include="'build/views/templates/topnavbar.html'"></div>
@@ -95,6 +95,7 @@
 	@if(Config::get('app.debug'))
 
 		<script src="{{asset('build/js/vendor/jquery.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/jquery-ui-1.10.4.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/bootstrap.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/jquery.metisMenu.js')}}"></script>
 		<script src="{{asset('build/js/vendor/jquery.slimscroll.min.js')}}"></script>
@@ -119,7 +120,6 @@
 		<script src="{{asset('build/js/vendor/http-auth-interceptor.js')}}"></script>
 		<script src="{{asset('build/js/vendor/dirPagination.js')}}"></script>
 
-		<script src="{{asset('build/js/vendor/jquery-ui-1.10.4.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/angular-translate.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/jasny-bootstrap.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/sweetalert.min.js')}}"></script>
@@ -132,6 +132,7 @@
 		<script src="{{asset('build/js/vendor/ngMask.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/morris.js')}}"></script>
 		<script src="{{asset('build/js/vendor/raphael-2.1.0.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/icheck.min.js')}}"></script>
 		<script src="{{asset('build/js/app.js')}}"></script>
 
 		<!-- CONTROLLERS -->
@@ -145,6 +146,7 @@
 		<script src="{{asset('build/js/controllers/financeiroController.js')}}"></script>
 		<script src="{{asset('build/js/controllers/usuarioController.js')}}"></script>
 		<script src="{{asset('build/js/controllers/relatorioController.js')}}"></script>
+		<script src="{{asset('build/js/controllers/consultaController.js')}}"></script>
 
 
 		<script src="{{asset('build/js/controllers/revendedor/revendedorLista.js')}}"></script>
@@ -158,6 +160,8 @@
 		<script src="{{asset('build/js/directives/menu-activated.js')}}"></script>
 		<script src="{{asset('build/js/directives/modal.js')}}"></script>
 		<script src="{{asset('build/js/directives/chart.js')}}"></script>
+		<script src="{{asset('build/js/directives/exportCSV.js')}}"></script>
+		<script src="{{asset('build/js/directives/sideNavigation.js')}}"></script>
 
 		<!-- FILTROS -->
 		<script src="{{asset('build/js/filters/date-br.js')}}"></script>
@@ -188,5 +192,5 @@
 	@else
 		<script src="{{elixir('js/all.js')}}"></script>
 	@endif
-</body>
+</>
 </html>

@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'suporte@linceconsultadedados.com.br', 'name' => 'Suporte Lince Consulta de Dados'],
 
     /*
     |--------------------------------------------------------------------------

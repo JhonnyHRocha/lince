@@ -33,7 +33,8 @@
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 </head>
-<body ng-controller="MenuController" ng-class="{corLogin: ($location.path() == '/login') || ($location.path() == '/cadastro') }">
+<body ng-controller="MenuController" ng-class="{corLogin: ($location.path() == '/login') || ($location.path() == '/cadastro')
+	|| ($location.path() == '/confirmar_cadastro') || ($location.path() == '/redefinir_senha') }">
 	<div id="wrapper">
 	<!--<nav class="navbar navbar-default">
 		<div class="container-fluid">
@@ -162,6 +163,7 @@
 		<script src="{{asset('build/js/directives/chart.js')}}"></script>
 		<script src="{{asset('build/js/directives/exportCSV.js')}}"></script>
 		<script src="{{asset('build/js/directives/sideNavigation.js')}}"></script>
+		<script src="{{asset('build/js/directives/geral.js')}}"></script>
 
 		<!-- FILTROS -->
 		<script src="{{asset('build/js/filters/date-br.js')}}"></script>

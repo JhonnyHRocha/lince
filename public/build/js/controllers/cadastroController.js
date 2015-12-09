@@ -41,7 +41,8 @@ angular.module('app.controllers')
                                 numero_usuarios: '3',
                                 status: '1',
                                 id_revendedor: '0',
-                                consultas_disponiveis: '50'
+                                consultas_disponiveis: '50',
+                                token: makeid()
                             },
                             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                         });
@@ -62,10 +63,17 @@ angular.module('app.controllers')
                             });
 
                             requestUser.success(function (dataUser) {
+                                //SOLICITA ENVIO DE EMAIL PARA O USUARIO COM CONFIRMACAO DO EMAIL
+                                var requestUser = $http({
+                                    method: "post",
+                                    url: '/email/cadastro/'+data.id,
+                                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                                });
+
                                 $location.path('login');
                                 toastr.options.progressBar = true;
                                 toastr.options.closeDuration = 300;
-                                toastr.success('Cliente/Usuario cadastrados com sucesso. Já é possível fazer login no sistema e testar nossa ferramenta!','Mensagem do Sistema');
+                                toastr.success('Cliente/Usuario cadastrados com sucesso. Verifique seu e-mail para ativar sua conta!','Mensagem do Sistema');
                             });
                         });
                     }
@@ -79,6 +87,8 @@ angular.module('app.controllers')
             var valor = cpf_cnpj.value;
             valor = valor.replace(/[^\d]+/g,"");
             if(valor.length < 14){
+                toastr.options.progressBar = true;
+                toastr.options.closeDuration = 300;
                 toastr.error('Preencha corretamente o campo CNPJ!','Erro no cadastro');
                 return false;
             }
@@ -139,7 +149,13 @@ angular.module('app.controllers')
             });
 
             request.success(function (data) {
-                if(data != ""){
+                //console.log(data);53758108000104
+                if(data.situacao_cadastral === "SUSPENSA"){
+                    $('#myModal').modal('hide');
+                    toastr.options.progressBar = true;
+                    toastr.options.closeDuration = 300;
+                    toastr.error('CNPJ Suspenso! Informe um CNPJ válido e ATIVO para ter acesso ao sistema.','Erro no cadastro');
+                } else if(data != ""){
                     $rootScope.resultadoPesquisa = data;
                     $('.btn2').click();
                     //console.log($rootScope.resultadoPesquisa);
@@ -208,15 +224,77 @@ angular.module('app.controllers')
             return true;
         }
 
-        /*
-        $(document).ready(function(){
-            $("#form").validate({
-                rules: {
-                    senha: {
-                        required: true,
-                        minlength: 6
-                    }
-                }
-            });
-        });*/
+        //CRIA TOKEN RANDOMICO PARA CONFIRMACAO DA CONTA DO USUARIO
+        function makeid()
+        {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for( var i=0; i < 30; i++ )
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return text;
+        }
+
     }]);
+
+
+//*************************************************************************
+//--------------------------------------------------------------------------- CONFIRMACAO DO CADASTRO DO USUARIO -----------------------------------------------------------------------------------
+angular.module('app.controllers')
+    .controller('ConfirmarCadastroController', ['$scope','$location','$http',function($scope,$location,$http){
+        $scope.cnpj = ($location.search()).cnpj;
+        $scope.token = ($location.search()).id;
+
+        if($scope.cnpj && $scope.token)
+            $http.get("/email/cadastro?cnpj="+$scope.cnpj+"&token="+$scope.token).success(function(response) {
+                $scope.resultado = response;
+            });
+        else
+            $location.path('login');
+    }]);
+
+//*************************************************************************
+//--------------------------------------------------------------------------- REDEFINICAO DA SENHA DO USUARIO -------------------------------------------------------------------------------------
+angular.module('app.controllers')
+    .controller('RedefinirSenhaController', ['$scope','$location','$http',function($scope,$location,$http){
+        $scope.usuario = ($location.search()).usuario;
+
+        $scope.atualizarSenha = function(){
+            if($scope.form.$valid){
+                if($scope.senha != $scope.re_senha){
+                    toastr.options.progressBar = true;
+                    toastr.options.closeDuration = 500;
+                    toastr.error('As senhas não conferem.', 'Mensagem do Sistema');
+                } else {
+                    $http.get("/email/token?usuario="+$scope.usuario+"&token="+$scope.token+"&senha="+$scope.senha).success(function(response) {
+                        if(response.mensagem === 'Invalido'){
+                            toastr.options.progressBar = true;
+                            toastr.options.closeDuration = 500;
+                            toastr.error('Token inválido! Confirme o token recebido por e-mail para prosseguir.', 'Mensagem do Sistema');
+                        } else if (response.mensagem === 'Valido') {
+                            $location.path('login');
+                            //exibe mensagem de sucesso do cadastro do usuário
+                            toastr.options.progressBar = true;
+                            toastr.options.closeDuration = 500;
+                            toastr.success('Senha redefinida com sucesso! Agora você já pode se logar.', 'Mensagem do Sistema');
+                        }
+                    });
+                }
+            }
+        };
+
+        //if($scope.usuario)
+        //    console.log("teste");
+
+            //$http.get("/email/senha?cnpj="+$scope.cnpj+"&token="+$scope.token).success(function(response) {
+            //    $scope.resultado = response;
+            //});
+        //else
+        //    $location.path('login');
+    }]);
+
+
+
+
+

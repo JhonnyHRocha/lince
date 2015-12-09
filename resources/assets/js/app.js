@@ -93,6 +93,8 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
         $httpProvider.defaults.transformRequest = appConfigProvider.config.utils.transformRequest;
         $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
 
+        $httpProvider.interceptors.splice(0,1);
+        $httpProvider.interceptors.splice(0,1);
         $httpProvider.interceptors.push('oauthFixInterceptor');
 
         $routeProvider
@@ -123,6 +125,16 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
             .when('/cadastro_concluir',{
                 templateUrl: 'build/views/cadastro/cadastro_concluir.html',
                 controller: 'CadastroController'
+            })
+            .when('/confirmar_cadastro',{
+                templateUrl: 'build/views/cadastro/confirmar.html',
+                controller: 'ConfirmarCadastroController',
+                data: { pageTitle: 'Confirmar Cadastro', specialClass: 'gray-bg' }
+            })
+            .when('/redefinir_senha',{
+                templateUrl: 'build/views/cadastro/redefinir_senha.html',
+                controller: 'RedefinirSenhaController',
+                data: { pageTitle: 'Confirmar Cadastro', specialClass: 'gray-bg' }
             })
 
 
@@ -250,16 +262,17 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
             grantPath: 'oauth/access_token'
         });
 
+        //REMOVER QUANDO ESTIVER EM PRODUCAO
         OAuthTokenProvider.configure({
             name: 'token',
             options: {
                 secure: false
             }
         });
+
 }]);
 
 app.run(['$rootScope', '$location', '$http', 'OAuth','$state', function($rootScope, $location, $http, OAuth) {
-
     $rootScope.isLoggedIn = function() {
         $http.get('/checklogin')
             .success(function(data) {
@@ -291,7 +304,8 @@ app.run(['$rootScope', '$location', '$http', 'OAuth','$state', function($rootSco
             $location.path('login');
         }*/
 
-        if(next.$$route.originalPath != '/login' && next.$$route.originalPath != '/cadastro' && next.$$route.originalPath != '/cadastro_concluir'){
+        if(next.$$route.originalPath != '/login' && next.$$route.originalPath != '/cadastro' && next.$$route.originalPath != '/cadastro_concluir'
+            && next.$$route.originalPath != '/confirmar_cadastro' && next.$$route.originalPath != '/redefinir_senha'){
             if(!OAuth.isAuthenticated()){
                 $location.path('login');
             }

@@ -2,9 +2,11 @@
     <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
             <span minimaliza-sidebar></span>
-            <div class="col-sm-12">
-                <h1 class="h3">{{ pageTitle }}</h1>
-            </div>
+            <form role="search" class="navbar-form-custom" method="post">
+                <div class="form-group">
+                    <input type="text" value="{{ pageTitle }}" style="width: 1000px; color: #3B3B3B; font-size:24px;" class="form-control" readonly id="top-search">
+                </div>
+            </form>
         </div>
         <ul class="nav navbar-top-links navbar-right">
             <li>

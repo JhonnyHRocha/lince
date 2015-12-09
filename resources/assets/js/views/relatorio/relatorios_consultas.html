@@ -6,7 +6,7 @@
         </div>
         <div class="ibox-content">
             <div class="row">
-                <div class="col-xs-3">
+                <div class="col-xs-2">
                     <div class="form-group" id="data_5" >
                         <label class="font-noraml">Período</label>
                         <div class="input-daterange input-group" id="datepicker">
@@ -34,14 +34,25 @@
                     </div>
                 </div>
 
-                <div class="col-xs-3">
+                <div class="col-xs-2">
                     <label class="font-noraml"><input type="checkbox" class="i-checks">Tipo de Consulta</label>
                     <div class="form-group">
-                        <select class="selecionarFiltro form-control" id="tipoConsulta" data-placeholder="Tipo de Consulta" style="width:300px" ng-model="parametroTipoConsulta">
+                        <select class="selecionarFiltro form-control" id="tipoConsulta" data-placeholder="Tipo de Consulta" style="width:200px" ng-model="parametroTipoConsulta">
                             <option value="">Todos</option>
                             <option value="0">CPF / CNPJ</option>
                             <option value="1">Endereço</option>
                             <option value="2">Telefone</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <label class="font-noraml"><input type="checkbox" class="i-checks">Status</label>
+                    <div class="form-group">
+                        <select class="selecionarFiltro form-control" id="status" data-placeholder="Status de Consulta" style="width:200px" ng-model="parametroStatus">
+                            <option value="">Todos</option>
+                            <option value="1">Encontrado</option>
+                            <option value="0">Não Encontrado</option>
                         </select>
                     </div>
                 </div>
@@ -72,6 +83,7 @@
                                                 <th class="text-center">Parâmetros</th>
                                                 <th class="text-center">Tipo de Consulta</th>
                                                 <th class="text-center">Data da Consulta</th>
+                                                <th class="text-center">Status</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -81,6 +93,7 @@
                                                 <td class="text-center">{{relatorio.parametro}}</td>
                                                 <td class="text-center">{{relatorio.tipo}}</td>
                                                 <td class="text-center">{{relatorio.data | dateBr }}</td>
+                                                <td class="text-center">{{relatorio.status }}</td>
                                             </tr>
                                             </tbody>
                                         </table>

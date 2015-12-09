@@ -37,6 +37,7 @@ class CreateClientesTable extends Migration
             $table->integer('id_revendedor')->nullable();
             $table->integer('consultas_contratado')->nullable();
             $table->integer('consultas_disponiveis')->nullable();
+            $table->string('token', 15)->nullable();
             $table->timestamps();
         });
     }

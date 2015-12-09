@@ -16,7 +16,6 @@ config.build_path_js = config.build_path + '/js';
 config.build_vendor_path_js = config.build_path_js + '/vendor';
 config.vendor_path_js = [
     config.bower_path + '/jquery/dist/jquery.min.js',
-    config.bower_path + '/bootstrap/dist/js/bootstrap.min.js',
     config.bower_path + '/angular/angular.min.js',
     config.bower_path + '/angular-route/angular-route.min.js',
     config.bower_path + '/angular-resource/angular-resource.min.js',
@@ -32,6 +31,7 @@ config.vendor_path_js = [
     config.bower_path + '/ngMask/dist/ngMask.min.js',
 
     //INSPINIA
+    config.bower_path + '/inspinia/js/bootstrap.min.js',
     config.bower_path + '/inspinia/js/jquery-ui-1.10.4.min.js',
     config.bower_path + '/inspinia/js/plugins/metisMenu/jquery.metisMenu.js',
     config.bower_path + '/inspinia/js/plugins/slimscroll/jquery.slimscroll.min.js',

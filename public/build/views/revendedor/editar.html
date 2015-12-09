@@ -11,7 +11,7 @@
                             <label class="col-md-4 control-label">Revendedor</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="nome" ng-model="revendedores.nome" required>
-                                <div ng-messages="form.nome.$error" class="help-block" ng-show="form.nome.$touched">
+                                <div ng-messages="form.nome.$error" class="help-block" ng-show="form.nome.$touched  && form.nome.$invalid">
                                     <div ng-message="required">Campo Obrigatório</div>
                                 </div>
                             </div>
@@ -21,7 +21,7 @@
                             <label class="col-md-4 control-label">E-Mail</label>
                             <div class="col-md-6">
                                 <input type="email" class="form-control" name="email" ng-model="revendedores.email" required>
-                                <div ng-messages="form.email.$error" class="help-block" ng-show="form.email.$touched">
+                                <div ng-messages="form.email.$error" class="help-block" ng-show="form.email.$touched  && form.email.$invalid">
                                     <div ng-message="required">Campo Obrigatório</div>
                                     <div ng-message="email">E-Mail Inválido</div>
                                 </div>
@@ -32,7 +32,7 @@
                             <label class="col-md-4 control-label">Consultas Disponíveis</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="consultas_disponiveis" ng-model="revendedores.consultas_disponiveis" required>
-                                <div ng-messages="form.consultas_disponiveis.$error" class="help-block" ng-show="form.consultas_disponiveis.$touched">
+                                <div ng-messages="form.consultas_disponiveis.$error" class="help-block" ng-show="form.consultas_disponiveis.$touched  && form.consultas_disponiveis.$invalid">
                                     <div ng-message="required">Campo Obrigatório</div>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                             <label class="col-md-4 control-label">ID do Usuário de Acesso</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="id_usuario" ng-model="revendedores.id_usuario" required>
-                                <div ng-messages="form.id_usuario.$error" class="help-block" ng-show="form.id_usuario.$touched">
+                                <div ng-messages="form.id_usuario.$error" class="help-block" ng-show="form.id_usuario.$touched && form.id_usuario.$invalid">
                                     <div ng-message="required">Campo Obrigatório</div>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                             <label class="col-md-4 control-label">Status</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="status" ng-model="revendedores.status" value="1" required>
-                                <div ng-messages="form.status.$error" class="help-block" ng-show="form.status.$touched">
+                                <div ng-messages="form.status.$error" class="help-block" ng-show="form.status.$touched  && form.status.$invalid">
                                     <div ng-message="required">Campo Obrigatório</div>
                                 </div>
                             </div>

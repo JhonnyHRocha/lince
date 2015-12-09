@@ -16,6 +16,7 @@ class RelatoriosController extends Controller
         $usuario = $request->query->get('usuario');
         $cliente = $request->query->get('cliente');
         $tipo_consulta = $request->query->get('tipo_consulta');
+        $status = $request->query->get('status');
         $query = "";
 
         if($dataInicio)
@@ -28,6 +29,8 @@ class RelatoriosController extends Controller
             $query .= " AND consultas.id_cliente = '$cliente' ";
         if($tipo_consulta)
             $query .= " AND consultas.tipo_consulta = '$tipo_consulta' ";
+        if($status)
+            $query .= " AND consultas.status = '$status' ";
 
         return DB::select(DB::raw("
             SELECT  clientes.nome as cliente,
@@ -39,12 +42,17 @@ class RelatoriosController extends Controller
                       WHEN consultas.tipo_consulta = 0 THEN 'CPF / CNPJ'
                       WHEN consultas.tipo_consulta = 1 THEN 'Endereço'
                       WHEN consultas.tipo_consulta = 2 THEN 'Telefone'
-                    END AS tipo
+                    END AS tipo,
+                    CASE
+                      WHEN consultas.status = 0 THEN 'Não Encontrado'
+                      WHEN consultas.status = 1 THEN 'Encontrado'
+                    END AS status
             FROM consultas
             LEFT JOIN clientes ON clientes.id = consultas.id_cliente
             LEFT JOIN users ON users.id = consultas.id_usuario
             WHERE 1 = 1
             $query
+            ORDER BY consultas.data_consulta DESC
         "));
     }
 
@@ -74,6 +82,7 @@ class RelatoriosController extends Controller
                     pacotes.pacote,
                     vendas.quantidade_usuarios,
                     vendas.valor,
+                    vendas.valor_desconto,
                     vendas.data_venda,
                     vendas.status_pagamento,
                     CASE
@@ -84,11 +93,13 @@ class RelatoriosController extends Controller
                     END AS status,
                     vendas.tipo_pagamento,
                     vendas.data_confirm_pgto,
-                    (SELECT SUM(valor) FROM vendas WHERE 1 = 1 $query) as total
+                    (SELECT SUM(valor) FROM vendas WHERE 1 = 1 $query) as total,
+                    boleto.id AS boleto
             FROM vendas
             JOIN clientes ON clientes.id = vendas.id_cliente
             JOIN revendedores ON revendedores.id = vendas.id_vendedor
             JOIN pacotes ON pacotes.id = vendas.id_pacote
+            LEFT JOIN boleto ON boleto.id_venda = vendas.id
             WHERE 1 = 1
             $query
         "));

@@ -1,6 +1,6 @@
 angular.module('app.services')
     .service('oauthFixInterceptor', 
-    ['$q', '$rootScope', 'OAuthToken', function oauthInterceptor($q, $rootScope, OAuthToken) {
+    ['$q', '$rootScope', 'OAuthToken', function ($q, $rootScope, OAuthToken) {
         return {
             request: function(config) {
                 if (OAuthToken.getAuthorizationHeader()) {
@@ -19,6 +19,7 @@ angular.module('app.services')
                     $rootScope.$emit("oauth:error", {rejection: rejection, deferred: deferred});
                     return deferred.promise;
                 }
+
                 return $q.reject(rejection);
             }
         };

@@ -18,6 +18,8 @@ angular.module('app.controllers')
             var f = $scope.parametroDataFinal.slice(0, 10).split('/');
             var e = document.getElementById("tipoConsulta");
             var tipoConsulta = e.options[e.selectedIndex].value;
+            var s = document.getElementById("status");
+            var status = s.options[s.selectedIndex].value;
 
             var query = "inicio="+i[2] +'-'+ i[1] +'-'+ ("00"+i[0]).slice(-2) + "&fim=" + f[2] +'-'+ f[1] +'-'+ ("00"+f[0]).slice(-2);
             if($scope.parametroUsuario)
@@ -25,8 +27,11 @@ angular.module('app.controllers')
             if($scope.parametroCliente)
                 query = query + "&cliente=" + $scope.parametroCliente;
             if(tipoConsulta !== "? object:31 ?" & tipoConsulta !== "")
-                query = query + "&tipo_consulta" + tipoConsulta;
+                query = query + "&tipo_consulta=" + tipoConsulta;
+            if(status !== "? object:31 ?" & status !== "")
+                query = query + "&status=" + status;
 
+            console.log(query);
             $http.get("/relatorio/consultas?" + query).success(function(response) {
                 $scope.relatorios = response;
             });

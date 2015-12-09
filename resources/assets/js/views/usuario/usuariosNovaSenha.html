@@ -13,7 +13,7 @@
                     <input type="password" class="form-control" name="password" id="password" title="A senha deve conter 6 ou mais caracteres"
                            pattern=".{6,100}">
                 </div>
-                <div ng-messages="form.password.$error" class="help-block" ng-show="form.password.$touched">
+                <div ng-messages="form.password.$error" class="help-block" ng-show="form.password.$touched  && form.password.$invalid">
                     <div ng-message="required">Campo Obrigatório</div>
                 </div>
             </div>

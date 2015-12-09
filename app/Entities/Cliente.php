@@ -36,6 +36,7 @@ class Cliente extends Model implements Transformable
         'id_revendedor',
         'consultas_contratado',
         'consultas_disponiveis',
+        'token'
     ];
 
     public function users(){

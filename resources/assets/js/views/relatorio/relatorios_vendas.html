@@ -77,7 +77,9 @@
                                                 <th class="text-center">Pacote</th>
                                                 <th class="text-center">Quantidade de Usuários</th>
                                                 <th class="text-center">Valor</th>
+                                                <th class="text-center">Valor Desconto</th>
                                                 <th class="text-center">Data da Venda</th>
+                                                <th class="text-center">Boleto</th>
                                                 <th class="text-center">Status</th>
                                             </tr>
                                         </thead>
@@ -89,7 +91,9 @@
                                                 <td class="text-center">{{relatorio.pacote}}</td>
                                                 <td class="text-center">{{relatorio.quantidade_usuarios}}</td>
                                                 <td class="text-center">{{relatorio.valor | currency:"R$ "}}</td>
+                                                <td class="text-center">{{relatorio.valor_desconto | currency:"R$ "}}</td>
                                                 <td class="text-center">{{relatorio.data_venda | dateBr}}</td>
+                                                <td class="text-center">{{relatorio.boleto}}</td>
                                                 <td class="text-center">{{relatorio.status}}</td>
                                             </tr>
                                         </tbody>

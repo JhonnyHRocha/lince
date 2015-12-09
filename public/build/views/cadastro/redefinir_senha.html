@@ -1,0 +1,35 @@
+<div class="middle-box text-center loginscreen animated fadeInDown">
+    <div>
+        <div>
+
+            <h1 class="logo-name"><img src="build/images/logo.png" alt=""/></h1>
+
+        </div>
+        <h3 style="color: #ffffff;">Redefinir senha do usuário abaixo</h3>
+
+        <div class="alert alert-danger" ng-show="error.error">
+            Ocorreram erros durante a tentativa de login.<br><br>
+            <div><strong>{{ error.message }}</strong></div>
+        </div>
+
+        <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="atualizarSenha()">
+            <div class="form-group">
+                <input type="text" style="text-align:center;" class="form-control" placeholder="Usuário" required ng-model="usuario" readonly>
+            </div>
+            <div class="form-group">
+                <input type="text" style="text-align:center;" class="form-control" placeholder="Token" required ng-model="token" tabindex="1" >
+            </div>
+            <div class="form-group">
+                <input type="password" pattern=".{6,10}" title="A senha deve conter mais de 6 caracteres" style="text-align:center;" class="form-control" placeholder="Senha" required ng-model="senha" tabindex="2">
+            </div>
+            <div class="form-group">
+                <input type="password" pattern=".{6,10}" title="A senha deve conter mais de 6 caracteres" style="text-align:center;" class="form-control" placeholder="Redigite a senha" required ng-model="re_senha" tabindex="2">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn block full-width m-b" style="background: #FBCA24; color: #ffffff;width:300px;">Alterar senha</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+

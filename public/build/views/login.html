@@ -65,22 +65,31 @@
         <h3 style="color: #ffffff;">Bem vindo ao sistema Lince</h3>
 
         <div class="alert alert-danger" ng-show="error.error">
-            <strong>Whoops!</strong> Ocorreram erros durante a tentativa de login.<br><br>
-            <div>{{ error.message }}</div>
+            {{ error.descritivo }}<br><br>
+            <div><strong>{{ error.message }}</strong></div>
         </div>
 
         <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="login()">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Usuário" required ng-model="user.username" tabindex="1">
+                <input type="text" class="form-control" placeholder="Usuário" required ng-model="user.username" tabindex="1" >
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" placeholder="Senha" required ng-model="user.password" tabindex="2">
             </div>
-            <button type="submit" class="btn block full-width m-b" style="background: #FBCA24; color: #ffffff;">Entrar</button>
+            <div class="form-group">
+                <button type="submit" class="btn block full-width m-b" style="background: #FBCA24; color: #ffffff;width:300px;">Entrar</button>
+            </div>
 
-            <a href="#"><small>Esqueceu a senha?</small></a>
-            <p class="text-muted text-center"><small style="color: #ffffff;">Ainda não possui uma conta?</small></p>
-            <a class="btn btn-sm btn-white btn-block" ng-href="#/cadastro">Criar uma conta</a>
+
+            <div class="form-group">
+                <a ng-click="esqueceuSenha()"><small>Esqueceu a senha?</small></a>
+                <p class="text-muted text-center"><small style="color: #ffffff;">Ainda não possui uma conta?</small></p>
+                <a class="btn btn-sm btn-white btn-block" ng-href="#/cadastro">Criar uma conta</a>
+                <input type="hidden" name="acesso" id="acesso" ng-model="acesso">
+            </div>
+
         </form>
     </div>
 </div>
+
+

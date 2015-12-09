@@ -23,10 +23,10 @@
                                         <tbody>
                                             <thead>
                                                 <tr>
-                                                    <th><input type="text" placeholder="Nome" class="input form-control" ng-model="nomeCliente"></th>
-                                                    <th><input type="text" placeholder="CNPJ" class="input form-control" ng-model="cnpjCliente"></th>
-                                                    <th><input type="text" placeholder="Cidade" class="input form-control" ng-model="cidadeCliente"></th>
-                                                    <th><input type="text" placeholder="UF" class="input form-control" ng-model="ufCliente"></th>
+                                                    <th><input type="text" placeholder="Nome" class="input form-control" ng-model="nomeCliente" style="width:330px"></th>
+                                                    <th><input type="text" placeholder="CNPJ" class="input form-control" ng-model="cnpjCliente" style="width:145px"></th>
+                                                    <th><input type="text" placeholder="Cidade" class="input form-control" ng-model="cidadeCliente" style="width:145px"></th>
+                                                    <th><input type="text" placeholder="UF" class="input form-control" ng-model="ufCliente" style="width:45px"></th>
                                                     <th><input type="text" placeholder="Consultas Disp." class="input form-control" ng-model="consultasCliente"></th>
                                                     <th><input type="text" placeholder="Num. Usuários" class="input form-control" ng-model="usuariosCliente"></th>
                                                     <th><input type="text" placeholder="Valor Mensal" class="input form-control" ng-model="valorCliente"></th>
@@ -78,10 +78,10 @@
                                             | filter:{nome:nomeCliente, cpf_cnpj:cnpjCliente, cidade:cidadeCliente, uf:ufCliente, consultas_disponiveis:consultasCliente, numero_usuarios:usuariosCliente,
                                                 valor_mensal:valorCliente, data_expiracao:validadeCliente, id_revendedor:revendedorCliente, status:statusCliente})
                                             | orderBy: predicate | itemsPerPage: clientesPerPage " total-items="totalClientes">
-                                                <td><a data-toggle="tab" ng-click="editCliente(cliente.id)" class="client-link">{{ cliente.nome }}</a></td>
-                                                <td>{{cliente.cpf_cnpj}}</td>
-                                                <td>{{cliente.cidade}}</td>
-                                                <td>{{cliente.uf}}</td>
+                                                <td><a data-toggle="tab" ng-click="editCliente(cliente.id)" class="client-link" style="width:350px">{{ cliente.nome }}</a></td>
+                                                <td style="width:145px">{{cliente.cpf_cnpj}}</td>
+                                                <td style="width:145px">{{cliente.cidade}}</td>
+                                                <td style="width:45px">{{cliente.uf}}</td>
                                                 <td>{{cliente.consultas_disponiveis}}</td>
                                                 <td>{{cliente.numero_usuarios}}</td>
                                                 <td>R$ {{cliente.valor_mensal}}</td>

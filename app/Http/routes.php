@@ -11,6 +11,7 @@
 |
 */
 
+use \Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     return view('app');
@@ -22,6 +23,17 @@ Route::post('oauth/access_token', function() {
 
 Route::get('boleto/{id}/', 'BoletoController@index');
 
+
+Route::group(['prefix' => 'email'], function() {
+    Route::post('cadastro/{id}', 'EmailController@emailCadastro');
+    Route::get('cadastro', 'EmailController@confirmarCadastro');
+    Route::get('senha', 'EmailController@emailSenha');
+    Route::get('token', 'EmailController@verificaToken');
+});
+
+Route::get('confirmar', function () {
+    return view('email/redefinir_senha');
+});
 
 
 //FUNCOES DE REGISTRO DO CLIENTE / USUARIO SEM SER PRECISO ESTAR LOGADO NO SISTEMA

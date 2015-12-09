@@ -1,7 +1,7 @@
 <nav class="navbar-default navbar-static-side" role="navigation" ng-controller="MenuController" ng-app="app">
     <div class="sidebar-collapse">
         <ul side-navigation class="nav metismenu" id="side-menu">
-            <img src="build/images/logo.png" alt=""/>
+            <img src="build/images/logo.png" alt="" id="logoMenu"/>
             <li class="nav-header">
                 <div class="uib-dropdown profile-element" uib-dropdown>
                     <a class="uib-dropdown-toggle" uib-dropdown-toggle href>
@@ -13,13 +13,13 @@
                             </span>
                     </a>
                     <ul class="uib-dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="#/logout">Alterar Senha</a></li>
-                        <li><a href="#/logout">Cadastro</a></li>
-                        <li><a href="#/logout">Logout</a></li>
+                        <li><a ng-click="editarSenha(user.id)"><i class="fa fa-key"></i> Alterar Senha</a></li>
+                        <li><a ng-click="editCliente(user.id_cliente)"><i class="fa fa-user"></i> Cadastro</a></li>
+                        <li><a href="#/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
                     </ul>
                 </div>
                 <div class="logo-element">
-                    IN+
+                    Lince
                 </div>
 
             </li>

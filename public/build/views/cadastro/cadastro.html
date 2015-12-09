@@ -2,22 +2,21 @@
     <div>
         <div>
 
-            <h1 class="logo-name"><img src="build/images/logo2.png" alt=""/></h1>
+            <h1 class="logo-name"><img src="build/images/logo.png" alt=""/></h1>
 
         </div>
-        <h3>Registre-se!</h3>
-        <p>Informe o CNPJ de sua empresa no campo abaixo</p>
+        <h3 style="color: #ffffff;">Registre-se!</h3>
+        <p style="color: #ffffff;">Informe o CNPJ de sua empresa no campo abaixo</p>
         <form class="m-t" role="form" name="form1"  onsubmit="return verificaCNPJ();">
             <div class="form-group">
-                <input type="text" name="cpf_cnpj" id="cpf_cnpj" class="form-control" data-mask="99.999.999/9999-99" placeholder="CNPJ *">
+                <input type="text" name="cpf_cnpj" id="cpf_cnpj" class="form-control" data-mask="99.999.999/9999-99" ng-model="cadastroCNPJ" placeholder="CNPJ *">
             </div>
 
-            <input type="button" name="btn" value="Cadastrar" id="submitBtn" ng-click="verificaCNPJ()" class="btn btn-primary block full-width m-b" />
+            <input type="button" name="btn" value="Cadastrar" id="submitBtn" ng-click="verificaCNPJ()" class="btn btn-warning block full-width m-b" style="background: #FBCA24; color: #ffffff;" />
 
-            <p class="text-muted text-center"><small>Já possui uma conta?</small></p>
+            <p class="text-muted text-center" style="color: #ffffff;"><small>Já possui uma conta?</small></p>
             <a class="btn btn-sm btn-white btn-block" ng-href="#/login">Login</a>
         </form>
-        <p class="m-t"> <small>JHR Desenvolvimentos &copy; 2015</small> </p>
     </div>
 </div>
 
@@ -40,7 +39,6 @@
                     <label>CNPJ</label><br />
                     <input name="cnpj" id="cnpj" type="text" maxlength="14" value="{{cnpj}}" required readonly="true"/><br />
                     <label>Captcha</label><br />
-
 
                     <div id="spinner" class="spiner-example" style="display:none;">
                         <div class="sk-spinner sk-spinner-circle">

@@ -3746,6 +3746,21 @@ code {
   border-style: solid solid none;
   border-width: 1px 0px;
 }
+.ibox-content2 {
+  background-color: #F3F3F4;
+  color: inherit;
+  padding: 15px 20px 20px 20px;
+  border-color: #e7eaec;
+  border-image: none;
+  border-style: solid solid none;
+  border-width: 1px 0px;
+  border-radius: 0px 30px;
+  top:50%;
+  left:50%;
+  margin-left:-150px;
+  margin-top:-150px;
+  text-align:center;
+}
 .ibox-footer {
   color: inherit;
   border-top: 1px solid #e7eaec;
@@ -4413,12 +4428,29 @@ body.mini-navbar.fixed-sidebar .logo-element {
   margin: 0 auto;
   padding-top: 40px;
 }
+.middle-box2 {
+  max-width: 700px;
+  z-index: 100;
+  left: 48%;
+  margin-top: -50px;
+  margin-left: -100px;
+  padding-top: 40px;
+  border-radius: 0px 30px;
+}
 .lockscreen.middle-box {
   width: 200px;
   padding-top: 110px;
 }
 .loginscreen.middle-box {
   width: 300px;
+  position: fixed;
+  top: 10%;
+  left: 48%;
+  margin-top: -50px;
+  margin-left: -100px;
+}
+.confirmarEmail {
+  width: 500px;
   position: fixed;
   top: 10%;
   left: 48%;

@@ -9,7 +9,7 @@
             <label class="col-md-4 control-label">Nome do Usuário</label>
             <div class="col-md-6">
                 <input type="text" class="form-control" name="nome" ng-model="usuarios.name" required>
-                <div ng-messages="form.nome.$error" class="help-block" ng-show="form.nome.$touched">
+                <div ng-messages="form.nome.$error" class="help-block" ng-show="form.nome.$touched  && form.nome.$invalid">
                     <div ng-message="required">Campo Obrigatório</div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
             <label class="col-md-4 control-label">Login</label>
             <div class="col-md-6">
                 <input type="text" class="form-control" name="login" ng-model="usuarios.email" required>
-                <div ng-messages="form.login.$error" class="help-block" ng-show="form.login.$touched">
+                <div ng-messages="form.login.$error" class="help-block" ng-show="form.login.$touched  && form.login.$invalid">
                     <div ng-message="required">Campo Obrigatório</div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
             <div class="col-md-6">
                 <input type="password" class="form-control" ng-model="usuarios.password" title="A senha deve conter 6 ou mais caracteres"
                        pattern=".{6,100}" required>
-                <div ng-messages="form.password.$error" class="help-block" ng-show="form.password.$touched">
+                <div ng-messages="form.password.$error" class="help-block" ng-show="form.password.$touched  && form.password.$invalid">
                     <div ng-message="required">Campo Obrigatório</div>
                     <div ng-message="email">E-Mail Inválido</div>
                 </div>
@@ -45,7 +45,7 @@
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     <input type="text" class="form-control" name="data_validade" ng-model="usuarios.data_validade">
                 </div>
-                <div ng-messages="form.data_validade.$error" class="help-block" ng-show="form.data_validade.$touched">
+                <div ng-messages="form.data_validade.$error" class="help-block" ng-show="form.data_validade.$touched  && form.data_validade.$invalid">
                     <div ng-message="required">Campo Obrigatório</div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
 
                 <!--<input type="text" class="form-control" name="quantidade_consultas">-->
 
-                <div ng-messages="form.limiteConsulta.$error" class="help-block" ng-show="form.limiteConsulta.$touched">
+                <div ng-messages="form.limiteConsulta.$error" class="help-block" ng-show="form.limiteConsulta.$touched  && form.limiteConsulta.$invalid">
                     <div ng-message="required">Campo Obrigatório</div>
                 </div>
             </div>

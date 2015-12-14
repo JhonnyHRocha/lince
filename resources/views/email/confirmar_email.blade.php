@@ -1,16 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en" ng-app="app">
 <head>
-    <link href="http://69.64.57.205:8010/lince/bootstrap.min.css" rel="stylesheet" />
-    <link href="http://69.64.57.205:8010/lince/style.css" rel="stylesheet" />
-
+    <link href="http://app.linceconsultadedados.com.br:8010/lince/bootstrap.min.css" rel="stylesheet" />
+    <link href="http://app.linceconsultadedados.com.br:8010/lince/style.css" rel="stylesheet" />
 </head>
 
 <body style="background: #3B3B3B">
 
 </br></br></br>
 <div align="middle" >
-    <img class="img-responsive" src="http://69.64.57.205:8010/lince/logo.png"/>
+    <img class="img-responsive" src="http://app.linceconsultadedados.com.br:8010/lince/logo.png"/>
 </div>
 </br></br>
 
@@ -45,7 +44,7 @@
                                     <tr>
                                         <td class="content-block aligncenter">
                                             <br>
-                                            <a href="http://localhost:8000/#/confirmar_cadastro?cnpj={{$cnpj}}&id={{$token}}">
+                                            <a href="http://app.linceconsultadedados.com.br/#/confirmar_cadastro?cnpj={{$cnpj}}&id={{$token}}">
                                                 <button class="btn block full-width m-b" style="background: #FBCA24; color: #ffffff;">CLIQUE AQUI PARA CONFIRMAR SEU E-MAIL</button>
                                             </a>
                                         </td>

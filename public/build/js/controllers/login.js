@@ -20,6 +20,10 @@ angular.module('app.controllers')
                             $scope.error.error = true;
                             $scope.error.descritivo = "Ocorreram erros durante a tentativa de login.";
                             $scope.error.message = "Usuário expirado. Contate seu usuário master ou vendedor.";
+                        } else if(data.status === 3){
+                            $scope.error.error = true;
+                            $scope.error.descritivo = "Ocorreram erros durante a tentativa de login.";
+                            $scope.error.message = "Necessário verificar o e-mail para poder logar-se no sistema.";
                         } else {
                             $cookies.putObject('user',data);
 
@@ -50,11 +54,19 @@ angular.module('app.controllers')
                 toastr.options.closeDuration = 500;
                 toastr.error("Preencha o campo 'Usuário' com o usuário a ter sua senha recuperada!",'Notificação de sistema');
             } else {
+                $scope.error.error = true;
+                $scope.error.descritivo = "Enviando e-mail...";
+
                 $http.get("/email/senha?usuario="+$scope.user.username).success(function(response) {
                     $scope.resultado = response;
+                    console.log($scope.resultado);
 
                     $scope.error.error = true;
-                    $scope.error.descritivo = "Ocorreram erros na solicitação.";
+                    if($scope.resultado.mensagem.indexOf("Foi enviado um e-mail") > -1)
+                        $scope.error.descritivo = "Informação do sistema";
+                    else
+                        $scope.error.descritivo = "Ocorreram erros na solicitação.";
+
                     $scope.error.message = $scope.resultado.mensagem;
 
                     //toastr.options.progressBar = true;

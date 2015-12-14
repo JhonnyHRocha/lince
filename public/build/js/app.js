@@ -1,7 +1,7 @@
 var app = angular.module('app',
     ['ngRoute','ngMask','angular-oauth2','app.controllers', 'app.services', 'app.filters', 'app.directives', 'ngAnimate',
-    'ui.bootstrap.modal',
-    'http-auth-interceptor', 'angularUtils.directives.dirPagination','ui.bootstrap.dropdown', 'ui.router'
+    'ui.bootstrap.modal','ui.bootstrap',
+        'http-auth-interceptor', 'angularUtils.directives.dirPagination','ui.bootstrap.dropdown', 'ui.router'
 ]);
 
 angular.module('app.controllers',['ngMessages','angular-oauth2']);
@@ -43,7 +43,8 @@ app.provider('appConfig', ['$httpParamSerializerProvider', function($httpParamSe
             status:[
                 {value: 0, label: 'Inativo'},
                 {value: 1, label: 'Ativo'},
-                {value: 2, label: 'Bloqueado'}
+                {value: 2, label: 'Bloqueado'},
+                {value: 3, label: 'Confirmar E-Mail'}
             ]
         },
         relatorios: {
@@ -222,6 +223,11 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
             .when('/relatorios/consultas',{
                 templateUrl: 'build/views/relatorio/relatorios_consultas.html',
                 controller: 'RelatorioConsultasController',
+                title: 'Relatório - Consultas'
+            })
+            .when('/relatorio_cliente',{
+                templateUrl: 'build/views/relatorio/relatorio_cliente.html',
+                controller: 'RelatorioConsultasClienteController',
                 title: 'Relatório - Consultas'
             })
 

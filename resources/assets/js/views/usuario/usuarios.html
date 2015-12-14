@@ -37,6 +37,7 @@
                                                 <table class="table table-striped table-hover">
                                                     <thead>
                                                     <tr>
+                                                        <th>ID</th>
                                                         <th>Cliente</th>
                                                         <th>CNPJ</th>
                                                         <th>Usuários em uso</th>
@@ -45,6 +46,7 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr ng-repeat="cliente in listagemClientes | filter:filtro"  ng-class="{selected: cliente.id === idClienteSelecionado}">
+                                                        <td>{{cliente.id}}</td>
                                                         <td><a data-toggle="tab" ng-click="exibirUsuarios(cliente.id, cliente.nome, cliente.usuarios_disponiveis)" class="client-link">{{ cliente.nome }}</a></td>
                                                         <td>{{cliente.cpf_cnpj}}</td>
                                                         <td>{{cliente.quantidade_usuarios}}</td>

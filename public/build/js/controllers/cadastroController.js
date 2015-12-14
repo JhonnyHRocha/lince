@@ -38,7 +38,7 @@ angular.module('app.controllers')
                                 telefone_1: numero_telefone_celular.value,
                                 telefone_2: numero_telefone_fixo.value,
                                 email_cobranca: email.value,
-                                numero_usuarios: '3',
+                                numero_usuarios: '1',
                                 status: '1',
                                 id_revendedor: '0',
                                 consultas_disponiveis: '50',
@@ -56,7 +56,7 @@ angular.module('app.controllers')
                                     email: usuario.value,
                                     password: senha.value,
                                     id_cliente: data.id, //ID DO CLIENTE PEGO APÓS A CRIAÇÃO DO MESMO
-                                    status: '1', //STATUS DO USUARIO MARCADO COMO ATIVO
+                                    status: '3', //STATUS DO USUARIO MARCADO COMO CONFIRMAR E-MAIL
                                     tipo_usuario: '3' //USUÁRIO CLIENTE-MASTER
                                 },
                                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }

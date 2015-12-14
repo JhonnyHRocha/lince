@@ -61,7 +61,6 @@ angular.module('app.controllers')
         $scope.dadosGeral = InicioDadosGerals.query({id: $cookies.getObject('user').id_cliente});
         $scope.ultimasConsultas = InicioUltimasConsultas.query({id: $cookies.getObject('user').id_cliente});
 
-
         $scope.geraBoleto = function($id_venda) {
             $window.open('boleto/' + $id_venda, '_blank');
         };
@@ -125,7 +124,7 @@ angular.module('app.controllers')
                     toastr.options.closeDuration = 300;
                     toastr.success('A venda foi atualizada com êxito!','Notificação de sistema');
 
-                    if($scope.vendaEditar.status_pagamento <= 1 ){
+                    if($scope.vendaEditar.status_pagamento === 1 ){
                         var data = new Date();
                         var request = $http({
                             method: "put",
@@ -196,13 +195,13 @@ angular.module('app.controllers')
                         quantidade_usuarios: $scope.quantidade_usuarios,
                         quantidade_consultas: 10000,
                         status_pagamento: 2,
-                        valor: valor.value.replace("R$ ","").replace(",","")
+                        valor: valor.value.replace("R$ ","").replace(".","").replace(",",".")
                     },
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 });
 
                 request.success(function (data) {
-
+                    $modalInstance.dismiss('');
                     toastr.options.progressBar = true;
                     toastr.options.closeDuration = 300;
                     toastr.success('Plano renovado! Aguardando confirmação de pagamento.','Notificação de sistema');

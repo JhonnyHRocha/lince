@@ -29,6 +29,7 @@ class Cliente extends Model implements Transformable
         'skype',
         'numero_usuarios',
         'valor_mensal',
+        'id_venda',
         'data_contratacao',
         'data_expiracao',
         'observacao',

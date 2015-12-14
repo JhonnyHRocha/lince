@@ -118,7 +118,7 @@ angular.module('app.controllers')
                     toastr.options.closeDuration = 300;
                     toastr.success('A venda foi atualizada com êxito!','Notificação de sistema');
 
-                    if($scope.vendaEditar.status_pagamento <= 1 ){
+                    if($scope.vendaEditar.status_pagamento === 1 ){
                         var data = new Date();
                         var request = $http({
                             method: "put",
@@ -182,8 +182,8 @@ angular.module('app.controllers')
 
         $scope.salvarVenda = function(){
             if($scope.form.$valid){
-                $scope.venda.valor = valor.value.replace('R$ ','').replace(',','').replace(',','').replace(',','');
-                $scope.descontoMax = $scope.valorDescontoMaximo.replace('R$ ','').replace(',','').replace(',','').replace(',','');
+                $scope.venda.valor = valor.value.replace('R$ ','').replace(".","").replace(",",".");
+                $scope.descontoMax = $scope.valorDescontoMaximo.replace('R$ ','').replace(".","").replace(",",".");
 
                 if(parseFloat($scope.venda.valor_desconto) > parseFloat($scope.descontoMax)){
                     $scope.descontoExcedido = 'form-group has-error';
@@ -202,7 +202,7 @@ angular.module('app.controllers')
         };
 
         $scope.removeMonetario = function(){
-            $scope.venda.valor_desconto = $scope.venda.valor_desconto.replace('R$ ','').replace(',','').replace(',','').replace(',','');
+            $scope.venda.valor_desconto = $scope.venda.valor_desconto.replace('R$ ','').replace(".","").replace(",",".");
         };
 
         $scope.adicionaMonetario = function(){
@@ -238,7 +238,6 @@ angular.module('app.controllers')
             $scope.desconto = $scope.valor_desconto;
             $scope.totalVenda = $filter("currency")($scope.quantidade_usuarios * $scope.valorUsuario - $scope.desconto);
             $scope.totalVenda = $scope.totalVenda.replace("$","R$ ");
-
         });
 
         $scope.ok = function () {
@@ -254,7 +253,7 @@ angular.module('app.controllers')
         $scope.salvarVenda = function(){
             $scope.vendasNovo = new Venda();
             if($scope.form.$valid){
-                $scope.descontoMax = $scope.valorDescontoMaximo.replace('R$ ','').replace(',','').replace(',','').replace(',','');
+                $scope.descontoMax = $scope.valorDescontoMaximo.replace('R$ ','').replace(".","").replace(",",".");
                 if(parseFloat($scope.desconto) > parseFloat($scope.descontoMax)){
                     $scope.descontoExcedido = 'form-group has-error';
                     toastr.options.progressBar = true;
@@ -272,8 +271,8 @@ angular.module('app.controllers')
                             quantidade_usuarios: $scope.quantidade_usuarios,
                             quantidade_consultas: 10000,
                             status_pagamento: 2,
-                            valor: valor.value.replace("R$ ","").replace(",",""),
-                            valor_desconto: desconto.value.replace("R$ ","").replace(",","")
+                            valor: valor.value.replace('R$ ','').replace(".","").replace(",","."),
+                            valor_desconto: desconto.value.replace('R$ ','').replace(".","").replace(",",".")
                         },
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                     });

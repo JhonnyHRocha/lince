@@ -30,6 +30,7 @@ class CreateClientesTable extends Migration
             $table->string('skype', 40)->nullable();
             $table->smallInteger('numero_usuarios')->default(0);
             $table->decimal('valor_mensal',8,2)->default('0.00');
+            $table->integer('id_venda')->nullable();
             $table->date('data_contratacao')->nullable();
             $table->date('data_expiracao')->nullable();
             $table->text('observacao')->nullable();

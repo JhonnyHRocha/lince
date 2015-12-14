@@ -146,6 +146,7 @@ function minimalizaSidebar($timeout) {
                     // Hide menu in order to smoothly turn on when maximize menu
                     $('#side-menu').hide();
                     $('#logoMenu').show();
+                    $('#logoMenu2').hide();
                     // For smoothly turn on menu
                     setTimeout(
                         function () {
@@ -163,6 +164,7 @@ function minimalizaSidebar($timeout) {
                     // Remove all inline style from jquery fadeIn function to reset menu state
                     $('#side-menu').removeAttr('style');
                     $('#logoMenu').hide();
+                    $('#logoMenu2').show();
                 }
 
                 //if($('body').hasClass('mini-navbar'))

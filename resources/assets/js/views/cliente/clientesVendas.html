@@ -63,7 +63,6 @@
                                 <th>Valor</th>
                                 <th>Data da Venda</th>
                                 <th>Status de Pagamento</th>
-                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,10 +71,9 @@
                                 <td>{{venda.pacote}}</td>
                                 <td>{{venda.nome}}</td>
                                 <td>{{venda.quantidade_usuarios}}</td>
-                                <td>{{venda.valor}}</td>
+                                <td>{{venda.valor | currency:"R$ "}}</td>
                                 <td>{{venda.data_venda | dateBr}}</td>
                                 <td>{{venda.status}}</td>
-                                <td><a href=""><i class="fa fa-check text-navy"></i></a></td>
                             </tr>
                         </tbody>
                     </table>

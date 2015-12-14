@@ -6,13 +6,13 @@
             </div>
             <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="salvarVenda()">
                 <div class="ibox-content">
-                    <div class="form-group" ng-class="{'has-error': !form.cliente.$valid && form.cliente.$touched}">
+                    <div class="form-group" ng-class="{'has-error': !form.cliente.$valid}">
                         <label class="col-md-4 control-label">Cliente</label>
                         <div class="col-md-6">
                             <select class="selecionarFiltro form-control" name="cliente" ng-model="clientes.id" ng-options="cliente.id as cliente.nome for cliente in clientes" required></select>
                         </div>
                     </div>
-                    <div class="form-group" ng-class="{'has-error': !form.pacote.$valid && form.pacote.$touched}">
+                    <div class="form-group">
                         <label class="col-md-4 control-label">Pacote</label>
                         <div class="col-md-6">
                             <select class="form-control" name="pacote" id="pacote" required>
@@ -20,20 +20,20 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group" ng-class="{'has-error': !form.usuarios.$valid && form.usuarios.$touched}">
+                    <div class="form-group" ng-class="{'has-error': !form.usuarios.$valid}">
                         <label class="col-md-4 control-label">Quantidade de Usuários</label>
                         <div class="col-md-6">
                             <input type="text" ng-model="quantidade_usuarios" class="form-control" name="usuarios" id="usuarios" required>
                         </div>
                     </div>
-                    <div class="{{descontoExcedido}}" ng-class="{'has-error': !form.desconto.$valid && form.desconto.$touched}">
+                    <div class="{{descontoExcedido}}" ng-class="{'has-error': !form.desconto.$valid}">
                         <label class="col-md-4 control-label">Desconto</label>
                         <div class="col-md-6">
                             <input type="text" ng-model="valor_desconto" class="form-control" name="desconto" id="desconto">
                         </div>
                         <div class="col-md-2" style="font-style: italic; color:red;">*Desconto Máximo: {{valorDescontoMaximo}}</div>
                     </div>
-                    <div class="form-group" ng-class="{'has-error': !form.valor.$valid && form.valor.$touched}">
+                    <div class="form-group" ng-class="{'has-error': !form.valor.$valid}">
                         <label class="col-md-4 control-label">Valor total</label>
                         <div class="col-md-6">
                             <input type="text" ng-model="totalVenda" class="form-control" name="valor" id="valor" readonly="true">

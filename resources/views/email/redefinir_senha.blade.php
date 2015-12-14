@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en" ng-app="app">
 <head>
-    <link href="http://69.64.57.205:8010/lince/bootstrap.min.css" rel="stylesheet" />
-    <link href="http://69.64.57.205:8010/lince/style.css" rel="stylesheet" />
+    <link href="http://app.linceconsultadedados.com.br:8010/lince/bootstrap.min.css" rel="stylesheet" />
+    <link href="http://app.linceconsultadedados.com.br:8010/lince/style.css" rel="stylesheet" />
 
 </head>
 
@@ -10,7 +10,7 @@
 
 </br></br></br>
 <div align="middle" >
-    <img class="img-responsive" src="http://69.64.57.205:8010/lince/logo.png"/>
+    <img class="img-responsive" src="http://app.linceconsultadedados.com.br:8010/lince/logo.png"/>
 </div>
 </br></br>
 
@@ -41,7 +41,7 @@
                                     <tr>
                                         <td class="content-block aligncenter">
                                             <br>
-                                            <a href="http://localhost:8000/#/redefinir_senha?usuario={{$login}}">
+                                            <a href="http://app.linceconsultadedados.com.br/#/redefinir_senha?usuario={{$login}}">
                                                 <button class="btn block full-width m-b" style="background: #FBCA24; color: #ffffff;">CLIQUE AQUI PARA REDEFINIR SUA SENHA</button>
                                             </a>
                                         </td>

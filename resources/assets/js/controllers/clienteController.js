@@ -199,7 +199,7 @@ angular.module('app.controllers')
                         quantidade_consultas: 10000,
                         quantidade_usuarios: $scope.quantidade_usuarios,
                         status_pagamento: 2,
-                        valor: valor.value.replace("R$ ","").replace(",","")
+                        valor: valor.value.replace('R$ ','').replace(".","").replace(",",".")
                     },
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 });

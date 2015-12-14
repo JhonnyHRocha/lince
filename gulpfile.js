@@ -37,6 +37,7 @@ config.vendor_path_js = [
     config.bower_path + '/inspinia/js/plugins/slimscroll/jquery.slimscroll.min.js',
     config.bower_path + '/inspinia/js/plugins/pace/pace.min.js',
     config.bower_path + '/inspinia/js/inspinia.js',
+    config.bower_path + '/inspinia/js/plugins/mask/jquery.mask.min.js',
     config.bower_path + '/inspinia/js/plugins/jasny/jasny-bootstrap.min.js',
     config.bower_path + '/inspinia/js/plugins/sweetalert/sweetalert.min.js',
     config.bower_path + '/inspinia/js/plugins/datapicker/bootstrap-datepicker.js',

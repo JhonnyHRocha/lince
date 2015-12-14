@@ -116,12 +116,10 @@ class InicioController extends Controller
 
         if($tipo_usuario[0]->tipo_usuario === 1) {
             return DB::select(DB::raw("
-                SELECT	COUNT(*) as clientes,
-                        status,
-		                CONCAT(ROUND(( (COUNT(*)/(SELECT COUNT(*) FROM clientes)) * 100),2),'%') AS porcentagem,
-		                (SELECT COUNT(*)-1 FROM revendedores) AS revendedores
-                FROM clientes
-                GROUP BY status
+                SELECT  (SELECT COUNT(*) FROM clientes WHERE status = 0) AS inativo,
+                        (SELECT COUNT(*) FROM clientes WHERE status = 1) AS ativo,
+                        (SELECT COUNT(*) FROM clientes WHERE status = 2) AS bloqueado,
+                        (SELECT COUNT(*)-1 FROM revendedores) AS revendedores
             "));
         } else {
             return response()->json(['error' => 'Acesso Inválido']);
@@ -176,18 +174,22 @@ class InicioController extends Controller
         return DB::select(DB::raw("
             SELECT	clientes.id,
                     clientes.numero_usuarios,
-                    COUNT(consultas.id) AS consultas,
+                    (SELECT COUNT(consultas.id) FROM consultas WHERE consultas.id_cliente = clientes.id AND MONTH(data_consulta) = MONTH(NOW())) AS consultas,
                     CASE
-                        WHEN data_expiracao < NOW() || data_expiracao IS NULL THEN ''
+                        WHEN data_expiracao < NOW() || data_expiracao IS NULL THEN 'Não Possui'
                         WHEN data_expiracao >= NOW() THEN 'Ilimitado'
                     END AS pacote,
                     clientes.valor_mensal,
                     CASE
                         WHEN data_expiracao < NOW() || data_expiracao IS NULL THEN ''
                         WHEN data_expiracao >= NOW() THEN data_expiracao
-                    END AS data_expiracao
+                    END AS data_expiracao,
+                    CASE
+                        WHEN data_expiracao IS NULL  THEN ''
+                        WHEN data_expiracao < NOW()  THEN 'Expirado'
+                        WHEN data_expiracao >= NOW() THEN datediff(data_expiracao,NOW())
+                    END AS dias_expiracao
             FROM clientes
-            LEFT JOIN consultas ON consultas.id_cliente = clientes.id AND MONTH(data_consulta) = MONTH(NOW())
             WHERE clientes.id = $idCliente
         "));
     }

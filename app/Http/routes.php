@@ -94,7 +94,10 @@ Route::group(['middleware'=>'oauth'], function(){
         Route::get('vendas', 'RelatoriosController@vendas');
     });
 
-
+    Route::group(['prefix' => 'consulta'], function() {
+        Route::post('cpf_cnpj', 'ConsultasController@cpf_cnpj');
+        Route::get('email', 'ConsultasController@email');
+    });
 
 
     //EXEMPLO DE CHECAGEM PELO middleware

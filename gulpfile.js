@@ -50,6 +50,9 @@ config.vendor_path_js = [
     config.bower_path + '/inspinia/js/plugins/morris/raphael-2.1.0.min.js',
     config.bower_path + '/inspinia/js/plugins/iCheck/icheck.min.js',
 
+    //CNPJ_CPF
+    config.bower_path + '/cpf_cnpj/build/cpf_cnpj.min.js',
+
     config.bower_path + '/jspanel/source/jquery.jspanel.js',
     config.bower_path + '/angular-translate/angular-translate.min.js',
     config.bower_path + '/angular-ui-router/release/angular-ui-router.min.js',

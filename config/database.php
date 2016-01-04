@@ -66,10 +66,10 @@ return [
 
         'mysql2' => [
             'driver'    => 'mysql',
-            'host'      => '69.64.57.205',//env('DB_HOST', 'localhost'),
+            'host'      => env('DB_HOST', 'localhost'),
             'database'  => env('DB_DATABASE2', 'forge'),
             'username'  => env('DB_USERNAME', 'forge'),
-            'password'  => 'V1p3r_sis',//env('DB_PASSWORD', ''),
+            'password'  => env('DB_PASSWORD', ''),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',

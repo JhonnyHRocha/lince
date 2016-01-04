@@ -1,0 +1,318 @@
+<div class="panel-body">
+    <uib-accordion close-others="oneAtATime">
+        <!-- DADOS DE CADASTRO  -->
+        <uib-accordion-group heading="DADOS CADASTRAIS  " is-open="true" panel-class="panel-busca">
+            <!-- PARA CADASTROS DO TIPO PESSOA FISICA -->
+            <div class="row" ng-show="tipo_cadastro === 0">
+                <div class="col-xs-5">
+                    <dl class="dl-horizontal">
+                        <dt> Nome:</dt>
+                        <dd>{{dadosPessoais.nome | uppercase }}</dd>
+                        <dt>CPF: </dt>
+                        <dd>{{dadosPessoais.cpf_cnpj | removeZero:11 | cpf }}</dd>
+                        <dt>Sexo: </dt>
+                        <dd>{{dadosPessoais.sexo | sexo }}</dd>
+                        <dt>Nome da mãe: </dt>
+                        <dd>{{dadosMae[0].nome_mae }}</dd>
+                        <dt>Situação do CPF: </dt>
+                        <dd>{{dadosPessoais.situacao_cadastral }}</dd>
+                        <dt>Data de inscrição CPF: </dt>
+                        <dd>{{dadosPessoais.data_inscricao | dateBr }}</dd>
+                        <dt>Data da consulta: </dt>
+                        <dd>{{dadosPessoais.data_consulta | date:'dd/MM/yyyy HH:mm:ss' }}</dd>
+                    </dl>
+                </div>
+                <div class="col-xs-7" id="cluster_info">
+                    <dl class="dl-horizontal">
+                        <dt>Data de nascimento: </dt>
+                        <dd>{{dadosPessoais.datanascimento | dateBr}}</dd>
+                        <dt>Idade: </dt>
+                        <dd>{{dadosPessoais.datanascimento | idade | uppercase}}</dd>
+                        <dt>Sígno: </dt>
+                        <dd>{{dadosPessoais.datanascimento | signo}}</dd>
+                        <dt></dt>
+                        <dd><br></dd>
+                        <dt>Dígito verificador: </dt>
+                        <dd>{{dadosPessoais.digito_verificador}}</dd>
+                        <dt>Comprovante: </dt>
+                        <dd>{{dadosPessoais.comprovante}}</dd>
+                    </dl>
+                </div>
+            </div>
+            <!-- VERIFICAÇÃO POR CPF -->
+            <div class="row" style="margin-left: 0px;" ng-show="tipo_cadastro === 0">
+                <div id="botaoSituacaoCPF">
+                    <button class="btn btn-warning btn-xs" ng-click="consultarCPF()"><i class="fa fa-binoculars"></i> CONSULTAR SITUAÇÃO DO CPF</button>
+                </div>
+                <div class="sk-spinner sk-spinner-rotating-plane pull-left" id="carregando" ng-show="carregando" style="background-color: #FFC42E;"></div>
+                <div ng-show="imagem" id="captchaSituacaoCPF">
+                    <img data-ng-src="{{imagem}}">
+                    <a ng-click="atualizaCaptcha()"><i class="fa fa-refresh"></i></a>
+                    <br />Informe os caracteres da imagem no campo abaixo<br />
+                    <input name="captchacpf" id="captcha_cpf" type="text" maxlength="6" required />
+                    <button class="btn btn-warning btn-xs" ng-click="situacaoCPF()"><i class="fa fa-binoculars"></i> CONSULTAR </button>
+                </div>
+            </div>
+
+            <!-- PARA CADASTROS DO TIPO PESSOA JURIDICA -->
+            <div class="row" ng-show="tipo_cadastro === 1">
+                <div class="col-xs-5">
+                    <dl class="dl-horizontal">
+                        <dt> Razão social:</dt>
+                        <dd>{{dadosPessoais.nome | uppercase}}</dd>
+                        <dt>CNPJ: </dt>
+                        <dd>{{dadosPessoais.cpf_cnpj | cnpj}}</dd>
+                    </dl>
+                </div>
+                <div class="col-xs-7" id="cluster_info2">
+                    <dl class="dl-horizontal">
+                        <dt>Data de abertura: </dt>
+                        <dd>{{dadosPessoais.datanascimento | dateBr}}</dd>
+                    </dl>
+                </div>
+            </div>
+            <!-- VERIFICAÇÃO POR CNPJ -->
+            <div class="row" style="margin-left: 0px;" ng-show="tipo_cadastro === 1 && resultadoPesquisa === null">
+                <div id="botaoSituacaoCNPJ">
+                    <button class="btn btn-warning btn-xs" ng-click="consultarCNPJ()"><i class="fa fa-binoculars"></i> CONSULTAR SITUAÇÃO DO CNPJ</button>
+                </div>
+                <div class="sk-spinner sk-spinner-rotating-plane pull-left" id="carregando2" ng-show="carregando2" style="background-color: #FFC42E;"></div>
+                <div ng-show="imagem" id="captchaSituacaoCNPJ">
+                    <img data-ng-src="{{imagem}}">
+                    <a ng-click="atualizaCaptcha()"><i class="fa fa-refresh"></i></a>
+                    <br />Informe os caracteres da imagem no campo abaixo<br />
+                    <input name="captcha_cnpj" id="captcha_cnpj" type="text" maxlength="6" required />
+                    <button class="btn btn-warning btn-xs" ng-click="situacaoCNPJ()"><i class="fa fa-binoculars"></i> CONSULTAR </button>
+                </div>
+            </div>
+
+            <!-- EXIBE RESULTADO SITUACAO CNPJ -->
+            <div ng-show="resultadoPesquisa">
+                <uib-accordion-group heading="SITUAÇÃO CADASTRAL DO CNPJ - CONSULTADO EM {{dataConsultaCNPJ | date:'dd/MM/yyyy HH:mm:ss'}}" is-open="true" panel-class="panel-busca">
+                    <div class="col-xs-5">
+                        <dl class="dl-horizontal">
+                            <dt> Nome Fantasia:</dt>
+                            <dd>{{resultadoPesquisa.nome_fantasia | uppercase}}</dd>
+                            <dt> Razão Social: </dt>
+                            <dd>{{resultadoPesquisa.razao_social | uppercase}}</dd>
+                            <dt> Natureza Juridica: </dt>
+                            <dd>{{resultadoPesquisa.natureza_juridica | uppercase}}</dd>
+                        </dl>
+                    </div>
+                    <div class="col-xs-7">
+                        <dl class="dl-horizontal">
+                            <dt> Situação Cadastral: </dt>
+                            <dd>{{resultadoPesquisa.situacao_cadastral | uppercase}}</dd>
+                            <dt> Situação Data: </dt>
+                            <dd>{{resultadoPesquisa.situacao_cadastral_data | dateBr}}</dd>
+                        </dl>
+                    </div>
+                    <div class="col-xs-10">
+                        <dl class="dl-horizontal">
+                            <dt> Atividade Principal:</dt>
+                            <dd>{{resultadoPesquisa.cnae_principal | uppercase}}</dd>
+                            <dt> Atividade Secundária: </dt>
+                            <dd>{{resultadoPesquisa.cnaes_secundario | uppercase}}</dd>
+                            <dt> Natureza Juridica: </dt>
+                            <dd>{{resultadoPesquisa.natureza_juridica | uppercase}}</dd>
+                        </dl>
+                    </div>
+                    <div class="col-xs-5">
+                        <dl class="dl-horizontal">
+                            <dt> Logradouro:</dt>
+                            <dd>{{resultadoPesquisa.logradouro | uppercase}}, {{resultadoPesquisa.numero | uppercase}}</dd>
+                            <dt> CEP: </dt>
+                            <dd>{{resultadoPesquisa.cep | uppercase}}</dd>
+                            <dt> UF: </dt>
+                            <dd>{{resultadoPesquisa.uf | uppercase}}</dd>
+                        </dl>
+                    </div>
+                    <div class="col-xs-7">
+                        <dl class="dl-horizontal">
+                            <dt> Bairro: </dt>
+                            <dd>{{resultadoPesquisa.bairro | uppercase}}</dd>
+                            <dt> Cidade: </dt>
+                            <dd>{{resultadoPesquisa.cidade | uppercase}}</dd>
+                        </dl>
+                    </div>
+                </uib-accordion-group>
+            </div>
+
+
+        </uib-accordion-group>
+        <br>
+
+        <!-- TELEFONES DO CADASTRO -->
+        <uib-accordion-group heading="TELEFONES" is-open="true" panel-class="panel-busca">
+            <button class="btn btn-warning btn-xs" ng-click="pesquisarOperadora()" ng-show="telefones.length">
+                <i class="fa fa-binoculars"></i> ATUALIZAR OPERADORAS
+            </button>
+            <div class="table-scroll" ng-show="telefones.length" style="height: 100%">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="text-center">Número</th>
+                        <th class="text-center">Operadora</th>
+                        <th class="text-center">Portabilidade</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="telefone in telefones">
+                        <td class="text-center">{{telefone.telefoneddd | telefone}}</td>
+                        <td class="text-center">{{telefone.operadora | uppercase}}</td>
+                        <td class="text-center">{{telefone.portado | uppercase}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div ng-show="!telefones.length" class="text-center">
+                Não existem telefones cadastrados para este CPF!
+            </div>
+        </uib-accordion-group>
+        <br>
+
+        <!-- ENDERECOS DO CADASTRO -->
+        <uib-accordion-group heading="ENDEREÇOS" is-open="true" panel-class="panel-busca">
+            <div class="table-scroll" ng-show="enderecos.length" style="height: 100%">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="text-center">Logradouro</th>
+                        <th class="text-center">Número</th>
+                        <th class="text-center">Complemento</th>
+                        <th class="text-center">Bairro</th>
+                        <th class="text-center">CEP</th>
+                        <th class="text-center">Cidade</th>
+                        <th class="text-center">UF</th>
+                        <th class="text-center">Vizinhos</th>
+                        <th class="text-center">Mapa</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="endereco in enderecos">
+                        <td class="text-center">{{endereco.logradouro | uppercase}}</td>
+                        <td class="text-center">{{endereco.numero | uppercase}}</td>
+                        <td class="text-center">{{endereco.complemento | uppercase}}</td>
+                        <td class="text-center">{{endereco.bairro | uppercase}}</td>
+                        <td class="text-center">{{endereco.cep | uppercase}}</td>
+                        <td class="text-center">{{endereco.cidade | uppercase}}</td>
+                        <td class="text-center">{{endereco.uf | uppercase}}</td>
+                        <td class="text-center">
+                            <button class="btn btn-warning btn-xs" ng-click="pesquisarVizinhos(endereco.cep)">
+                                <i class="fa fa-binoculars"></i> PROCURAR
+                            </button>
+                        </td>
+                        <td class="text-center">
+                            <a target="_blank" href="https://maps.google.com.br/maps?q={{endereco.logradouro}},{{endereco.numero}},{{endereco.cidade}},{{endereco.uf}}&hl=pt-BR&ie=UTF8&t=m&z=17">
+                                <button class="btn btn-warning btn-xs" >
+                                    <i class="fa fa-map-marker"></i> Maps
+                                </button>
+                            </a>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div ng-show="!enderecos.length" class="text-center">
+                Não existem endereços cadastrados para este CPF!
+            </div>
+
+        </uib-accordion-group>
+
+        <!-- POSSIVEIS VIZINHOS DO CADASTRO -->
+        <div ng-show="vizinhos.length || vizinhos.length == 0">
+            <br>
+            <uib-accordion-group  heading="POSSÍVEIS VIZÍNHOS" is-open="true" panel-class="panel-busca">
+                <div class="table-scroll" ng-show="vizinhos.length" style="height: 100%">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="text-center">CPF</th>
+                            <th class="text-center">Nome</th>
+                            <th class="text-center">Visualizar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="vizinho in vizinhos">
+                            <td class="text-center">{{vizinho.cpf_cnpj | uppercase}}</td>
+                            <td class="text-center">{{vizinho.nome | uppercase}}</td>
+                            <td class="text-center">
+                                <button class="btn btn-warning btn-xs" ng-click="vizualizarCadastroTerceiro(vizinho.cpf_cnpj)">
+                                    <i class="fa fa-binoculars"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div ng-show="!vizinhos.length" class="text-center">
+                    Não encontramos vizinhos cadastrados no sistema para este endereço!
+                </div>
+            </uib-accordion-group>
+        </div>
+
+        <br>
+        <!-- EMAILS DO CADASTRO -->
+        <uib-accordion-group heading="E-MAILS" is-open="true" ng-show="emails.length != 0" panel-class="panel-busca">
+            <div class="col-xs-5" ng-show="emails.length" ng-repeat="email in emails">
+                <dl class="dl-horizontal" style="width: 100%;">
+                    <strong>{{email.email}}</strong>
+                </dl>
+            </div>
+
+            <div ng-show="!emails.length" class="text-center">
+                Não existem e-mails cadastrados para este CPF!
+            </div>
+        </uib-accordion-group>
+        <br>
+
+        <!-- VEICULOS DO CADASTRO -->
+        <uib-accordion-group heading="VEÍCULOS" ng-show="veiculos.length != 0" is-open="true" panel-class="panel-busca">
+            <div class="table-scroll" style="height: 100%">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="text-center">PLACA</th>
+                        <th class="text-center">RENAVAN</th>
+                        <th class="text-center">CHASSI</th>
+                        <th class="text-center">ANO FABRI. / ANO MODELO</th>
+                        <th class="text-center">MODELO</th>
+                        <th class="text-center">TIPO</th>
+                        <th class="text-center">ESPÉCIE</th>
+                        <th class="text-center">COMBUSTÍVEL</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="veiculo in veiculos">
+                        <td class="text-center">{{veiculo.placa | uppercase}}</td>
+                        <td class="text-center">{{veiculo.renavan | uppercase}}</td>
+                        <td class="text-center">{{veiculo.chassi | uppercase}}</td>
+                        <td class="text-center">{{veiculo.ano_fab | uppercase}} / {{veiculo.ano_mod | uppercase}}</td>
+                        <td class="text-center">{{veiculo.modelo | uppercase}}</td>
+                        <td class="text-center">{{veiculo.tipo | uppercase}}</td>
+                        <td class="text-center">{{veiculo.especie | uppercase}}</td>
+                        <td class="text-center">{{veiculo.combustivel | uppercase}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </uib-accordion-group>
+        <br>
+
+        <!-- CHEQUES SEM FUNDO VINDOS DO WEB-SERVICE DO CCBUSCA
+        <uib-accordion-group heading="DADOS BANCÁRIOS" ng-show="false" is-open="true" panel-class="panel-busca">
+            Hello
+        </uib-accordion-group>
+        <br>-->
+        <!-- POSSIVEIS PARENTES DO CADASTRO
+        <uib-accordion-group heading="POSSÍVEIS PARENTES" ng-show="parentes.length" is-open="true" panel-class="panel-busca">
+            <button type="button" class="btn btn-warning">Pesquisar</button>
+        </uib-accordion-group>
+        <br>-->
+
+    </uib-accordion>
+</div>

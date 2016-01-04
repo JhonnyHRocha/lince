@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Lince\Http\Requests;
 use Lince\Http\Controllers\Controller;
+use phpDocumentor\Reflection\DocBlock\Tag\ReturnTag;
 
 class RelatoriosController extends Controller
 {
@@ -25,23 +26,28 @@ class RelatoriosController extends Controller
             $query .= " AND data_consulta <= '$dataFinal 23:59:59' ";
         if($usuario)
             $query .= " AND users.name LIKE '$usuario' ";
-        if($cliente)
+        if($cliente >= 0 && $cliente != '' && $cliente != 'null')
             $query .= " AND consultas.id_cliente = '$cliente' ";
-        if($tipo_consulta)
+        if($tipo_consulta >= 0 && $tipo_consulta != '')
             $query .= " AND consultas.tipo_consulta = '$tipo_consulta' ";
-        if($status)
+        if($status >= 0 && $status != '')
             $query .= " AND consultas.status = '$status' ";
 
+
         return DB::select(DB::raw("
-            SELECT  clientes.nome as cliente,
+            SELECT  consultas.id as id,
+                    clientes.nome as cliente,
                     users.name as usuario,
                     users.email as login,
                     consultas.parametros as parametro,
                     DATE_FORMAT(consultas.data_consulta, '%d/%c/%Y %H:%i:%s') as data,
                     CASE
                       WHEN consultas.tipo_consulta = 0 THEN 'CPF / CNPJ'
-                      WHEN consultas.tipo_consulta = 1 THEN 'Endereço'
+                      WHEN consultas.tipo_consulta = 1 THEN 'E-Mail'
                       WHEN consultas.tipo_consulta = 2 THEN 'Telefone'
+                      WHEN consultas.tipo_consulta = 3 THEN 'Veículo'
+                      WHEN consultas.tipo_consulta = 4 THEN 'Nome'
+                      WHEN consultas.tipo_consulta = 5 THEN 'Endereço'
                     END AS tipo,
                     CASE
                       WHEN consultas.status = 0 THEN 'Não Encontrado'

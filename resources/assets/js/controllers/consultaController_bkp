@@ -1,0 +1,271 @@
+angular.module('app.controllers')
+    .controller('ConsultaController', ['$scope','$cookies','$http','$uibModal','ConsultaCPF_CNPJ','$filter',
+    function($scope,$cookies,$http,$uibModal,ConsultaCPF_CNPJ,$filter){
+        $scope.resultado = "";
+        $scope.vizinhos = "";
+        $scope.cpf_cnpj = "";
+        $scope.tabs = [];
+
+        //CONSULTA GERAL POR CPF_CNPJ QUE TRAZ TODAS AS INFORMACOES
+        $scope.consulta_cpf_cnpj = function($cpf_cnpj){
+            $scope.cpf_cnpj = $cpf_cnpj;
+            pegarDadosGeralCadastro($scope.cpf_cnpj);
+            $('#carregando').hide();
+        };
+
+        //CONSULTA VIZINHOS
+        $scope.pesquisarVizinhos = function($cep){
+            possiveisVizinhos($scope.cpf_cnpj, $cep);
+        };
+
+        //VISUALIZA CADASTRO DE UM TERCEIRO ATRAVES DO VIGENTE
+        $scope.vizualizarCadastroTerceiro = function($cpf_cnpj){
+            vizualizarCadastro($cpf_cnpj);
+        };
+
+
+        //CONSULTA OPERADORA
+        $scope.pesquisarOperadora = function(){
+            toastr.options.progressBar = true;
+            toastr.options.closeDuration = 300;
+            toastr.info('Atualizando, favor aguardar...','Atualização das Operadoras');
+            angular.forEach($scope.resultado.dados_telefone, function(value, key) {
+                //this.push(key + ': ' + value);
+                //console.log(value.id, value.telefoneddd);
+                $scope.url = "build/views/consulta/consulta_operadora.php?tel="+value.telefoneddd;
+                $http.get($scope.url).success(function(response) {
+                    $scope.index = response.indexOf("resultado");
+                    $scope.parcial1 = response.substring($scope.index,$scope.index+220);
+                    $scope.operadora = $scope.parcial1.substring($scope.parcial1.indexOf("<p>")+3,$scope.parcial1.indexOf("</p>")).replace('Brt','OI');
+
+                    if($scope.parcial1.indexOf("NÃo portado"))
+                        $scope.portabilidade = 'Não portado';
+                    else if ($scope.parcial1.indexOf("Portado"))
+                        $scope.portabilidade = 'Portado';
+
+                    var request = $http({
+                        method: "post",
+                        url: '/consulta/atualizaOperadora',
+                        data: { cpf_cnpj: ("00000000000000"+CNPJ.strip(value.cpf_cnpj)).slice(-14),
+                                id: value.id,
+                                operadora: $scope.operadora,
+                                portabilidade: $scope.portabilidade},
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                    });
+                });
+            });
+            //CHAMA A FUNÇAO QUE IRA ATUALIZAR A TABELA DE TELEFONES
+            setTimeout(function () {
+                $scope.$apply(function () {
+                    pegarDadosTelefone($scope.cpf_cnpj);
+                });
+            }, 5000);
+        };
+
+        //CONSULTAR CPF NA RECEITA FEDERAL
+        $scope.consultarCPF = function(){
+            getCaptcha();
+            $('#captchaSituacaoCPF').show();
+        };
+
+        //GERA O CAPTCHA
+        function getCaptcha(){
+            captcha_cnpj.value = '';
+            $('#botaoSituacaoCPF').hide();
+            $('#carregando').show();
+            $http.get('build/views/consulta/cadastro_receita_cpf.php').
+                then(function(response) {
+                    if(response.erro){
+                        toastr.options.progressBar = true;
+                        toastr.options.closeDuration = 300;
+                        toastr.error(response.erro+'.\nContate nosso suporte!','Erro na consulta');
+                    } else {
+                        $('#carregando').hide();
+                        $scope.imagem = response.data.captchaBase64;
+                        $scope.cookie = response.data.cookie;
+                    }
+                });
+        }
+
+        //ATUALIZA O CAPTCHA
+        $scope.atualizaCaptcha = function(){
+            $scope.imagem = null;
+            getCaptcha();
+        };
+
+        //ENVIA O CAPTCH JUNTO AO CPF E DATA DE NASCIMENTO PARA CONFERENCIA DOS DADOS
+        $scope.getInformacoes = function (){
+            //FAZ UM POST NO ARQUIVO PHP PARA VERIFICAR O RETORNO DA SITUACAO DO CADASTRO
+            var request = $http({
+                method: "post",
+                url: 'build/views/consulta/cadastro_receita_cpf.php',
+                data: {
+                    cpf: $scope.cpf_cnpj,
+                    data_nascimento: $filter('date')($scope.dadosPessoais.datanascimento, "ddMMyyyy"),
+                    captcha: captcha_cnpj.value,
+                    cookie: $scope.cookie
+                },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            });
+
+            request.success(function (data) {
+
+                //VERIFICA O RETORNO PARA IDENTIFICAR SE ACONTECEU ALGUM ERRO
+                if(data.indexOf('Fatal error') > 0){
+                    $scope.imagem = null;
+                    toastr.options.progressBar = true;
+                    toastr.options.closeDuration = 300;
+                    toastr.error('Captcha digitado incorretamente, preencha o campo com os caracteres da nova imagem!','Erro no cadastro');
+                    getCaptcha();
+                    captcha_cnpj.value = '';
+                } else {
+                    //QUANDO ENCONTRADO, SERIALIZA O QUE FOI RETORNADO PELO SCRIP E ATUALIZA AS INFORMACOES NO BANCO DE DADOS
+                    $scope.situacao = angular.fromJson(data);
+                    var request2 = $http({
+                        method: "post",
+                        url: '/consulta/sitacaoCPF',
+                        data: {
+                            cpf_cnpj: ("00000000000000"+$scope.situacao.cpf).slice(-14),
+                            nome: $scope.situacao.nome,
+                            situacao_cadastral: $scope.situacao.situacao_cadastral,
+                            digito_verificador: $scope.situacao.digito_verificador,
+                            data_inscricao: $filter('dateBD')($scope.situacao.situacao_cadastral_data.replace('anterior a ','')),
+                            comprovante: $scope.situacao.comprovante_codigo,
+                            data_consulta: $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss")
+                        },
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                    });
+
+                    //EXIBE MENSAGEM INFORMANDO QUE A ATUALIZACAO FOI REALIZADA COM SUCESSO
+                    request2.success(function (data2) {
+                        $('#captchaSituacaoCPF').hide();
+                        $('#botaoSituacaoCPF').show();
+                        toastr.options.progressBar = true;
+                        toastr.options.closeDuration = 300;
+                        toastr.success('Telefones atualizados com sucesso','Atualização das Operadoras');
+                        pegarDadosGeralCadastro($scope.cpf_cnpj);
+                    });
+                };
+            });
+        };
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------- FUNCOES -------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+        //PEGA AS INFORMAÇOES COMPLETAS VINDAS DO BANCO DE DADOS
+        function pegarDadosGeralCadastro($cpf_cnpj) {
+            if (!CPF.isValid($cpf_cnpj) && !CNPJ.isValid($cpf_cnpj)) {
+                toastr.options.progressBar = true;
+                toastr.options.closeDuration = 300;
+                toastr.error('CPF / CNPJ inválido!', 'Erro na consulta');
+            } else {
+                var request = $http({
+                    method: "post",
+                    url: '/consulta/cpf_cnpj',
+                    data: {cpf_cnpj: ("00000000000000" + CNPJ.strip($cpf_cnpj)).slice(-14)},
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                });
+
+                request.success(function (data) {
+                    //if(data.dados_pessoais[0].cpf_cnpj.replace(/^(0+)(\d)/g,"$2").length < 14)
+                    //console.log(data.dados_pessoais[0].cpf_cnpj.replace(/^(0+)(\d)/g,"$2"));
+                    if (data.dados_pessoais.length && $filter('removeZero')(data.dados_pessoais[0].cpf_cnpj, 11).length === 11) {
+                        $scope.tipo_cadastro = 0; //CPF
+                    } else if (data.dados_pessoais.length && $filter('removeZero')(data.dados_pessoais[0].cpf_cnpj, 11).length > 11) {
+                        $scope.tipo_cadastro = 1; //CNPJ
+                    }
+
+                    $scope.resultado = data;
+
+                    //FORMATA A DATA DE CONSULTA DA SITUACAO DO CPF PARA PODER SER EXIBIDA NO DISPLAY CORRETAMENTE
+                    data.dados_pessoais[0].data_consulta = new Date(data.dados_pessoais[0].data_consulta);
+                    $scope.dadosPessoais = data.dados_pessoais[0];
+
+                    $scope.enderecos = data.dados_endereco;
+                    $scope.telefones = data.dados_telefone;
+                    $scope.emails = data.dados_email;
+                    $scope.veiculos = data.dados_veiculos;
+                });
+            }
+        }
+
+        //PROCURA POSSIVEIS VIZINHOS
+        function possiveisVizinhos($cpf_cnpj, $cep) {
+            var request = $http({
+                method: "post",
+                url: '/consulta/possiveisVizinhos',
+                data: { cpf_cnpj: (("00000000000000" + CNPJ.strip($cpf_cnpj)).slice(-14)),
+                        cep: $cep },
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            });
+
+            request.success(function (data) {
+                $scope.vizinhos = data;
+            });
+        }
+
+        //PEGA AS INFORMACOES DE TELEFONE VINDAS DO BANCO DE DADOS
+        function pegarDadosTelefone($cpf_cnpj){
+
+            var request = $http({
+                method: "post",
+                url: '/consulta/telefones',
+                data: { cpf_cnpj: ("00000000000000"+CNPJ.strip($cpf_cnpj)).slice(-14) },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            });
+
+            request.success(function (retorno) {
+                $scope.telefones = retorno;
+
+                toastr.options.progressBar = true;
+                toastr.options.closeDuration = 300;
+                toastr.success('Telefones atualizados com sucesso','Atualização das Operadoras');
+            });
+        }
+
+        //PEGA AS INFORMACOES DE TELEFONE VINDAS DO BANCO DE DADOS
+        function vizualizarCadastro($cpf_cnpj){
+            $scope.tabs.push({
+                title: $cpf_cnpj,
+                content: '<h1>$cpf_cnpj</h1>'
+            })
+        }
+
+
+
+        //TABS
+        $scope.removeTab = function (index) {
+            $scope.tabs.splice(index, 1);
+        };
+
+        //MASCARAS DOS CAMPOS DE CONSULTA
+        var SPMask = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+        },
+        spOptions = {
+            onKeyPress: function(val, e, field, options) {
+                field.mask(SPMask.apply({}, arguments), options);
+            }
+        };
+
+        var CPF_CNPJMask = function (val) {
+            return val.replace(/\D/g, '').length > 11 ? '00.000.000/0000-00' : '000.000.000-009999';
+        },
+        spOptions = {
+            onblur: function(val, e, field, options) {
+                field.mask(CPF_CNPJMask.apply({}, arguments), options);
+            }
+        };
+
+
+
+
+        $('#telefone').mask(SPMask, spOptions);
+        $('#cpf_cnpj').mask(CPF_CNPJMask, spOptions);
+        $('#placa').mask('AAA-0000', spOptions);
+        $('#cep').mask('00000-000', spOptions);
+        $('#uf').mask('AA', spOptions);
+        $('#cep2').mask('00000-000', spOptions);
+        $('#uf2').mask('AA', spOptions);
+    }]);

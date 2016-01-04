@@ -95,7 +95,21 @@ Route::group(['middleware'=>'oauth'], function(){
     });
 
     Route::group(['prefix' => 'consulta'], function() {
+        Route::post('consultaDados', 'ConsultasController@consultaDados'); //CONSULTA CBUSCA
+        Route::post('consultaCPFCNPJ', 'ConsultasController@consultaCPFCNPJ');
         Route::post('cpf_cnpj', 'ConsultasController@cpf_cnpj');
+        Route::post('atualizaOperadora', 'ConsultasController@atualizaOperadora');
+        Route::post('telefones', 'ConsultasController@telefones');
+        Route::post('sitacaoCPF', 'ConsultasController@sitacaoCPF');
+        Route::post('sitacaoCNPJ', 'ConsultasController@sitacaoCNPJ');
+        Route::post('possiveisVizinhos', 'ConsultasController@possiveisVizinhos');
+        Route::post('verificaConsultaDados', 'ConsultasController@verificaConsultaDados');
+        Route::post('consultaEmail', 'ConsultasController@consultaEmail');
+        Route::post('consultaTelefone', 'ConsultasController@consultaTelefone');
+        Route::post('consultaVeiculo', 'ConsultasController@consultaVeiculo');
+        Route::post('consultaNome', 'ConsultasController@consultaNome');
+        Route::post('consultaEndereco', 'ConsultasController@consultaEndereco');
+
         Route::get('email', 'ConsultasController@email');
     });
 

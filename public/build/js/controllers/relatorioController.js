@@ -21,15 +21,19 @@ angular.module('app.controllers')
             var s = document.getElementById("status");
             var status = s.options[s.selectedIndex].value;
 
+            console.log(tipoConsulta);
+
             var query = "inicio="+i[2] +'-'+ i[1] +'-'+ ("00"+i[0]).slice(-2) + "&fim=" + f[2] +'-'+ f[1] +'-'+ ("00"+f[0]).slice(-2);
             if($scope.parametroUsuario)
                 query = query + "&usuario=" + $scope.parametroUsuario;
-            if($scope.parametroCliente)
+            if($scope.parametroCliente >= 0)
                 query = query + "&cliente=" + $scope.parametroCliente;
-            if(tipoConsulta !== "? object:31 ?" & tipoConsulta !== "")
+            if(tipoConsulta >= 0)
                 query = query + "&tipo_consulta=" + tipoConsulta;
             if(status !== "? object:31 ?" & status !== "")
                 query = query + "&status=" + status;
+
+            console.log(query);
 
             $http.get("/relatorio/consultas?" + query).success(function(response) {
                 $scope.relatorios = response;
@@ -64,11 +68,6 @@ angular.module('app.controllers')
             $(selector).chosen(config[selector]);
         }
 
-        //CHECKBOX
-        $('.i-checks').iCheck({
-            checkboxClass: 'icheckbox_square-green',
-            radioClass: 'iradio_square-green',
-        });
     }]);
 
 
@@ -137,11 +136,6 @@ angular.module('app.controllers')
                 $(selector).chosen(config[selector]);
             }
 
-            //CHECKBOX
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
-            });
         }]);
 
 
@@ -177,7 +171,7 @@ angular.module('app.controllers')
                 var query = "inicio="+i[2] +'-'+ i[1] +'-'+ ("00"+i[0]).slice(-2) + "&fim=" + f[2] +'-'+ f[1] +'-'+ ("00"+f[0]).slice(-2) + "&cliente=" + $scope.user.id_cliente;
                 if($scope.parametroUsuario)
                     query = query + "&usuario=" + $scope.parametroUsuario;
-                if(tipoConsulta !== "? object:35 ?" & tipoConsulta !== "")
+                if(tipoConsulta >= 0)
                     query = query + "&tipo_consulta=" + tipoConsulta;
                 if(status !== "? object:35 ?" & status !== "")
                     query = query + "&status=" + status;
@@ -216,9 +210,4 @@ angular.module('app.controllers')
                 $(selector).chosen(config[selector]);
             }
 
-            //CHECKBOX
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
-            });
         }]);

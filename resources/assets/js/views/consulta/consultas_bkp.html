@@ -1,0 +1,437 @@
+<div class="col-xs-7 col-xs-offset-3">
+    <div class="tabs-container">
+
+        <uib-tabset>
+            <uib-tab>
+                <tab-heading>
+                    <i class="fa fa-credit-card" style="color: #3B3B3B;"> CPF - CNPJ</i>
+                </tab-heading>
+                <div class="panel-body">
+                    <div >
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="cpf_cnpj">CPF / CNPJ</label>
+                                    <input type="text" id="cpf_cnpj" name="cpf_cnpj" ng-model="cpf_cnpj" placeholder="CPF ou CNPJ" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="button" ng-click="consulta_cpf_cnpj(cpf_cnpj)" class="btn btn-outline btn-warning pull-right">Consultar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </uib-tab>
+
+            <uib-tab>
+                <tab-heading>
+                    <i class="fa fa-at" style="color: #3B3B3B;"> E-MAIL</i>
+                </tab-heading>
+                <div class="panel-body">
+                    <div >
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="telefone">E-MAIL</label>
+                                    <input type="text" id="email" name="email" placeholder="E-Mail" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline btn-warning pull-right">Consultar</button>
+                    </div>
+                </div>
+            </uib-tab>
+
+            <uib-tab>
+                <tab-heading>
+                    <i class="fa fa-phone" style="color: #3B3B3B;"> TELEFONE</i>
+                </tab-heading>
+                <div class="panel-body">
+                    <div >
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="telefone">TELEFONE</label>
+                                    <input type="text" id="telefone" name="telefone" value="" placeholder="Telefone" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline btn-warning pull-right">Consultar</button>
+                    </div>
+                </div>
+            </uib-tab>
+
+            <uib-tab>
+                <tab-heading>
+                    <i class="fa fa-car" style="color: #3B3B3B;"> VEÍCULO</i>
+                </tab-heading>
+                <div class="panel-body">
+                    <div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label" for="placa">PLACA</label>
+                                <input type="text" id="placa" name="placa" value="" placeholder="Placa do carro" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="telefone">RENAVAN</label>
+                                    <input type="text" id="renavan" name="renavan" value="" placeholder="Renavan" maxlength="9" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="alert alert-warning pull-left">
+                                <i class="fa fa-info-circle" style="color: #3B3B3B;"> Para consulta do veículo, existem as seguintes opções de consulta: <li>Apenas pela Placa</li> <li>Apenas pelo Renavan</li> <li>Placa + Renavan</li></i>
+                            </div>
+                            <button type="button" class="btn pull-right" style="background: #FBCA24; color: #ffffff;">LOCALIZAR</button>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+
+
+            <uib-tab>
+                <tab-heading>
+                    <i class="fa fa-globe" style="color: #3B3B3B;"> NOME</i>
+                </tab-heading>
+                <div class="panel-body">
+                    <div >
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="cpf_cnpj">NOME</label>
+                                    <input type="text" id="nome" name="nome" value="" placeholder="Nome" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="cpf_cnpj">CIDADE</label>
+                                    <input type="text" id="cidade" name="cidade" value="" placeholder="Cidade" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <label class="control-label" for="cpf_cnpj">UF</label>
+                                    <input type="text" id="uf" name="uf" value="" placeholder="UF" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="cpf_cnpj">CEP</label>
+                                    <input type="text" id="cep" name="cep" value="" placeholder="CEP" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline btn-warning pull-right">Consultar</button>
+                    </div>
+                </div>
+            </uib-tab>
+
+            <uib-tab>
+                <tab-heading>
+                    <i class="fa fa-thumb-tack" style="color: #3B3B3B;"> ENDEREÇO</i>
+                </tab-heading>
+                <div class="panel-body">
+                    <div >
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="cpf_cnpj">LOGRADOURO</label>
+                                    <input type="text" id="logradouro" name="logradouro" value="" placeholder="Logradouro" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="cpf_cnpj">CIDADE</label>
+                                    <input type="text" id="cidade2" name="cidade" value="" placeholder="Cidade" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <label class="control-label" for="cpf_cnpj">UF</label>
+                                    <input type="text" id="uf2" name="uf" value="" placeholder="UF" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="cpf_cnpj">CEP</label>
+                                    <input type="text" id="cep2" name="cep" value="" placeholder="CEP" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline btn-warning pull-right">Consultar</button>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>
+
+
+<div class="col-xs-12"><br></div>
+<div class="row" ng-show="resultado != '' && resultado.dados_pessoais.length " id="teste"> <!--ng-show="tipo_consulta === 0"-->
+    <div class="col-xs-12">
+        <div class="ibox">
+            <div class="ibox-content">
+
+                <div ng-show="resultado.dados_pessoais.length">
+                    <uib-tabset>
+                        <!--<uib-tab ng-repeat="t in tabs">
+                            <tab-heading style="color: #3B3B3B;">{{t.title}} <a ng-click="removeTab($index)" href=''><i class="fa-remove"></i></a></tab-heading>
+                            <div ng-bind-html-unsafe='t.content'></div>
+                        </uib-tab>-->
+                        <uib-tab>
+                            <tab-heading>
+                                <h4 style="color: #3B3B3B;"> RESULTADO</h4>
+                            </tab-heading>
+                            <div class="panel-body">
+                                <uib-accordion close-others="oneAtATime">
+                                    <!-- DADOS DE CADASTRO  -->
+                                    <uib-accordion-group heading="DADOS PESSOAIS" is-open="true" panel-class="panel-busca">
+                                        <!-- PARA CADASTROS DO TIPO PESSOA FISICA -->
+                                        <div class="row" ng-show="tipo_cadastro === 0">
+                                            <div class="col-xs-5">
+                                                <dl class="dl-horizontal">
+                                                    <dt> Nome:</dt>
+                                                    <dd>{{dadosPessoais.nome | uppercase }}</dd>
+                                                    <dt>CPF: </dt>
+                                                    <dd>{{dadosPessoais.cpf_cnpj | removeZero:11 | cpf }}</dd>
+                                                    <dt>Sexo: </dt>
+                                                    <dd>{{dadosPessoais.sexo | sexo }}</dd>
+                                                    <dt>Nome da mãe: </dt>
+                                                    <dd>{{dadosPessoais.nome_mae }}</dd>
+                                                    <dt>Situação do CPF: </dt>
+                                                    <dd>{{dadosPessoais.situacao_cadastral }}</dd>
+                                                    <dt>Data de inscrição CPF: </dt>
+                                                    <dd>{{dadosPessoais.data_inscricao | dateBr }}</dd>
+                                                    <dt>Data da consulta: </dt>
+                                                    <dd>{{dadosPessoais.data_consulta | date:'dd/MM/yyyy HH:mm:ss' }}</dd>
+                                                </dl>
+                                            </div>
+                                            <div class="col-xs-7" id="cluster_info">
+                                                <dl class="dl-horizontal">
+                                                    <dt>Data de nascimento: </dt>
+                                                    <dd>{{dadosPessoais.datanascimento | dateBr}}</dd>
+                                                    <dt>Idade: </dt>
+                                                    <dd>{{dadosPessoais.datanascimento | idade | uppercase}}</dd>
+                                                    <dt>Sígno: </dt>
+                                                    <dd>{{dadosPessoais.datanascimento | signo}}</dd>
+                                                    <dt></dt>
+                                                    <dd><br></dd>
+                                                    <dt>Dígito verificador: </dt>
+                                                    <dd>{{dadosPessoais.digito_verificador}}</dd>
+                                                    <dt>Comprovante: </dt>
+                                                    <dd>{{dadosPessoais.comprovante}}</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-left: 0px;" ng-show="tipo_cadastro === 0">
+                                            <div id="botaoSituacaoCPF">
+                                                <button class="btn btn-warning btn-xs" ng-click="consultarCPF()"><i class="fa fa-binoculars"></i> CONSULTAR SITUAÇÃO DO CPF</button>
+                                            </div>
+                                            <div class="sk-spinner sk-spinner-rotating-plane pull-left" id="carregando" style="background-color: #FFC42E;"></div>
+                                            <div ng-show="imagem" id="captchaSituacaoCPF">
+                                                <img data-ng-src="{{imagem}}">
+                                                <a ng-click="atualizaCaptcha()"><i class="fa fa-refresh"></i></a>
+                                                <br />Informe os caracteres da imagem no campo abaixo<br />
+                                                <input name="captcha_cnpj" id="captcha_cnpj" type="text" maxlength="6" required />
+                                                <button class="btn btn-warning btn-xs" ng-click="getInformacoes()"><i class="fa fa-binoculars"></i> CONSULTAR </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- PARA CADASTROS DO TIPO PESSOA JURIDICA -->
+                                        <div class="row" ng-show="tipo_cadastro === 1">
+                                            <div class="col-xs-5">
+                                                <dl class="dl-horizontal">
+                                                    <dt> Razão social:</dt>
+                                                    <dd>{{dadosPessoais.nome}}</dd>
+                                                    <dt>CNPJ: </dt>
+                                                    <dd>{{dadosPessoais.cpf_cnpj | cnpj}}</dd>
+                                                </dl>
+                                            </div>
+                                            <div class="col-xs-7" id="cluster_info2">
+                                                <dl class="dl-horizontal">
+                                                    <dt>Data de abertura: </dt>
+                                                    <dd>{{dadosPessoais.datanascimento | dateBr}}</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </uib-accordion-group>
+                                    <br>
+
+                                    <!-- TELEFONES DO CADASTRO -->
+                                    <uib-accordion-group heading="TELEFONES" is-open="true" panel-class="panel-busca">
+                                        <button class="btn btn-warning btn-xs" ng-click="pesquisarOperadora()" ng-show="telefones.length">
+                                            <i class="fa fa-binoculars"></i> ATUALIZAR OPERADORAS
+                                        </button>
+                                        <div class="table-scroll" ng-show="telefones.length" style="height: 100%">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">Número</th>
+                                                        <th class="text-center">Operadora</th>
+                                                        <th class="text-center">Portabilidade</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="telefone in telefones">
+                                                        <td class="text-center">{{telefone.telefoneddd | telefone}}</td>
+                                                        <td class="text-center">{{telefone.operadora | uppercase}}</td>
+                                                        <td class="text-center">{{telefone.portado | uppercase}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div ng-show="!telefones.length" class="text-center">
+                                            Não existem telefones cadastrados para este CPF!
+                                        </div>
+                                    </uib-accordion-group>
+                                    <br>
+
+                                    <!-- ENDERECOS DO CADASTRO -->
+                                    <uib-accordion-group heading="ENDEREÇOS" is-open="true" panel-class="panel-busca">
+                                        <div class="table-scroll" ng-show="enderecos.length" style="height: 100%">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-center">Logradouro</th>
+                                                    <th class="text-center">Número</th>
+                                                    <th class="text-center">Complemento</th>
+                                                    <th class="text-center">Bairro</th>
+                                                    <th class="text-center">CEP</th>
+                                                    <th class="text-center">Cidade</th>
+                                                    <th class="text-center">UF</th>
+                                                    <th class="text-center">Vizinhos</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="endereco in enderecos">
+                                                    <td class="text-center">{{endereco.logradouro | uppercase}}</td>
+                                                    <td class="text-center">{{endereco.numero | uppercase}}</td>
+                                                    <td class="text-center">{{endereco.complemento | uppercase}}</td>
+                                                    <td class="text-center">{{endereco.bairro | uppercase}}</td>
+                                                    <td class="text-center">{{endereco.cep | uppercase}}</td>
+                                                    <td class="text-center">{{endereco.cidade | uppercase}}</td>
+                                                    <td class="text-center">{{endereco.uf | uppercase}}</td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-warning btn-xs" ng-click="pesquisarVizinhos(endereco.cep)">
+                                                            <i class="fa fa-binoculars"></i> PROCURAR
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div ng-show="!enderecos.length" class="text-center">
+                                            Não existem endereços cadastrados para este CPF!
+                                        </div>
+                                    </uib-accordion-group>
+
+                                    <!-- POSSIVEIS VIZINHOS DO CADASTRO -->
+                                    <div ng-show="vizinhos.length">
+                                        <br>
+                                        <uib-accordion-group  heading="POSSÍVEIS VIZÍNHOS" is-open="true" panel-class="panel-busca">
+                                            <div class="table-scroll" ng-show="vizinhos.length" style="height: 100%">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="text-center">CPF</th>
+                                                        <th class="text-center">Nome</th>
+                                                        <th class="text-center">Visualizar</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="vizinho in vizinhos">
+                                                        <td class="text-center">{{vizinho.cpf_cnpj | uppercase}}</td>
+                                                        <td class="text-center">{{vizinho.nome | uppercase}}</td>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-warning btn-xs" ng-click="vizualizarCadastroTerceiro(vizinho.cpf_cnpj)">
+                                                                <i class="fa fa-binoculars"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div ng-show="!vizinhos.length" class="text-center">
+                                                Não encontramos vizinhos cadastrados no sistema para este endereço!
+                                            </div>
+                                        </uib-accordion-group>
+                                    </div>
+
+                                    <br>
+                                    <!-- EMAILS DO CADASTRO -->
+                                    <uib-accordion-group heading="E-MAILS" is-open="true" panel-class="panel-busca">
+                                        <div class="col-xs-5" ng-show="emails.length" ng-repeat="email in emails">
+                                            <dl class="dl-horizontal" style="width: 100%;">
+                                                <strong>{{email.email}}</strong>
+                                            </dl>
+                                        </div>
+
+                                        <div ng-show="!emails.length" class="text-center">
+                                            Não existem e-mails cadastrados para este CPF!
+                                        </div>
+                                    </uib-accordion-group>
+                                    <br>
+
+                                    <!-- VEICULOS DO CADASTRO -->
+                                    <uib-accordion-group heading="VEÍCULOS" ng-show="veiculos.length" is-open="true" panel-class="panel-busca">
+                                        <div class="col-xs-5"  ng-repeat="veiculo in veiculos">
+                                            <dl class="dl-horizontal" style="width: 100%;">
+                                                <strong>{{veiculo.placa}}</strong>
+                                            </dl>
+                                        </div>
+                                    </uib-accordion-group>
+                                    <br>
+
+                                    <!-- CHEQUES SEM FUNDO VINDOS DO WEB-SERVICE DO CCBUSCA -->
+                                    <uib-accordion-group heading="CHEQUES SEM FUNDO" ng-show="cheques.length" is-open="true" panel-class="panel-busca">
+                                        Hello
+                                    </uib-accordion-group>
+                                    <br>
+                                    <!-- POSSIVEIS PARENTES DO CADASTRO -->
+                                    <uib-accordion-group heading="POSSÍVEIS PARENTES" ng-show="parentes.length" is-open="true" panel-class="panel-busca">
+                                        <button type="button" class="btn btn-warning">Pesquisar</button>
+                                    </uib-accordion-group>
+                                    <br>
+
+
+                                </uib-accordion>
+                            </div>
+                        </uib-tab>
+
+                        <!-- ADICIONA NOVA ABA CONTENDO AS INFORMACOES DO CADASTRO SELECIONADO -->
+                        <uib-tab ng-repeat="t in tabs" active="true">
+                            <tab-heading>
+                                <h4 style="color: #3B3B3B;"> {{t.title}} <a ng-click="removeTab($index)" href=''><i class="fa fa-times"></i></a></h4>
+                            </tab-heading>
+                            <!--<div ng-include src='"consultas_secundario.html"' ng-controller='ConsultaController' onload="hi()"></div>-->
+                            <div ng-include="'build/views/templates/consultas_secundario.html'" onload="consulta_cpf_cnpj(t.title)"></div>
+
+                        </uib-tab>
+
+                    </uib-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-show="resultado != '' && !resultado.dados_pessoais.length ">
+    <div class="col-xs-7 col-xs-offset-3">
+        <div class="panel panel-danger">
+            <div class="panel-heading text-center">
+                Retorno da consulta
+            </div>
+            <div class="panel-body text-center">
+                <b>Não foi encontrado nenhum registro para esta consulta!</b>
+            </div>
+        </div>
+    </div>
+</div>

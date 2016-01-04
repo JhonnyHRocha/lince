@@ -3269,6 +3269,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  *   version 2.3
  *
 */
+
+.corLogin{
+  background: #3B3B3B;
+}
+
+.corSistema{
+  background: #F3F3F4;
+}
+
+
 upper {
     text-transform: uppercase;
     font-size: 15px;
@@ -3465,7 +3475,7 @@ h5 {
 }
 .nav-header {
   padding: 33px 25px;
-  background: url("../images/header.png") no-repeat;
+  background: url("../../images/header.png") no-repeat;
 }
 .pace-done .nav-header {
   transition: all 0.5s;
@@ -6991,6 +7001,21 @@ code {
   border-style: solid solid none;
   border-width: 1px 0px;
 }
+.ibox-content2 {
+  background-color: #F3F3F4;
+  color: inherit;
+  padding: 15px 20px 20px 20px;
+  border-color: #e7eaec;
+  border-image: none;
+  border-style: solid solid none;
+  border-width: 1px 0px;
+  border-radius: 0px 30px;
+  top:50%;
+  left:50%;
+  margin-left:-150px;
+  margin-top:-150px;
+  text-align:center;
+}
 .ibox-footer {
   color: inherit;
   border-top: 1px solid #e7eaec;
@@ -7658,12 +7683,29 @@ body.mini-navbar.fixed-sidebar .logo-element {
   margin: 0 auto;
   padding-top: 40px;
 }
+.middle-box2 {
+  max-width: 700px;
+  z-index: 100;
+  left: 48%;
+  margin-top: -50px;
+  margin-left: -100px;
+  padding-top: 40px;
+  border-radius: 0px 30px;
+}
 .lockscreen.middle-box {
   width: 200px;
   padding-top: 110px;
 }
 .loginscreen.middle-box {
   width: 300px;
+  position: fixed;
+  top: 10%;
+  left: 48%;
+  margin-top: -50px;
+  margin-left: -100px;
+}
+.confirmarEmail {
+  width: 500px;
   position: fixed;
   top: 10%;
   left: 48%;
@@ -11897,8 +11939,8 @@ body.md-skin {
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url('../fonts/fontawesome-webfont.eot?v=4.3.0');
-  src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.3.0') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.3.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.3.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');
+  src: url('../../fonts/fontawesome-webfont.eot?v=4.3.0');
+  src: url('../../fonts/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'), url('../../fonts/fontawesome-webfont.woff2?v=4.3.0') format('woff2'), url('../../fonts/fontawesome-webfont.woff?v=4.3.0') format('woff'), url('../../fonts/fontawesome-webfont.ttf?v=4.3.0') format('truetype'), url('../../fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');
   font-weight: normal;
   font-style: normal;
 }

@@ -134,7 +134,7 @@ class InicioController extends Controller
             return DB::select(DB::raw("
                 SELECT	revendedores.nome,
                         COUNT(*) AS quantidade,
-                        CONCAT(ROUND(( (COUNT(*)/(SELECT COUNT(*) FROM vendas where status_pagamento = 1)) * 100),2),'%') AS porcentagem,
+                        CONCAT(ROUND(( (COUNT(*)/(SELECT COUNT(*) FROM vendas where status_pagamento = 1 and MONTH(data_venda) = MONTH(NOW()))) * 100),2),'%') AS porcentagem,
                         SUM(valor) as valor,
                         (SELECT SUM(valor) FROM vendas WHERE vendas.status_pagamento = 1 AND MONTH(data_venda) = MONTH(NOW())) AS total_geral,
                         IFNULL((SELECT SUM(valor) FROM vendas WHERE vendas.status_pagamento = 2 ), 0) AS total_vendas_nao

@@ -35,19 +35,22 @@
                 </div>
 
                 <div class="col-xs-2">
-                    <label class="font-noraml"><input type="checkbox" class="i-checks">Tipo de Consulta</label>
+                    <label class="font-noraml">Tipo de Consulta</label>
                     <div class="form-group">
                         <select class="selecionarFiltro form-control" id="tipoConsulta" data-placeholder="Tipo de Consulta" style="width:200px" ng-model="parametroTipoConsulta">
                             <option value="">Todos</option>
                             <option value="0">CPF / CNPJ</option>
-                            <option value="1">Endereço</option>
+                            <option value="1">E-Mail</option>
                             <option value="2">Telefone</option>
+                            <option value="3">Veículo</option>
+                            <option value="4">Nome</option>
+                            <option value="5">Endereço</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="col-xs-2">
-                    <label class="font-noraml"><input type="checkbox" class="i-checks">Status</label>
+                    <label class="font-noraml">Status</label>
                     <div class="form-group">
                         <select class="selecionarFiltro form-control" id="status" data-placeholder="Status de Consulta" style="width:200px" ng-model="parametroStatus">
                             <option value="">Todos</option>
@@ -78,6 +81,7 @@
                                         <table class="table table-striped table-hover">
                                             <thead>
                                             <tr>
+                                                <th class="text-center">ID</th>
                                                 <th class="text-center">Cliente</th>
                                                 <th class="text-center">Usuário</th>
                                                 <th class="text-center">Parâmetros</th>
@@ -88,6 +92,7 @@
                                             </thead>
                                             <tbody>
                                             <tr ng-repeat="relatorio in relatorios" >
+                                                <td class="text-center">{{relatorio.id}}</td>
                                                 <td class="text-center">{{relatorio.cliente}}</td>
                                                 <td class="text-center">{{relatorio.usuario}}</td>
                                                 <td class="text-center">{{relatorio.parametro}}</td>

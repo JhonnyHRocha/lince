@@ -129,7 +129,7 @@ class ClienteController extends Controller
 
     //VERIFICA O TIPO DE USUARIO E RETORNA O SELECT DE ACORDO COM O TIPO DE USUARIO DELE
     public function selecionaClientesDashboard($idUsuario, Request $request){
-        return $this->repository->skipPresenter()->clienteDashboard($idUsuario,$request->query->get('limit'));
+        return $this->repository->skipPresenter()->clienteDashboard($idUsuario);
     }
 
 

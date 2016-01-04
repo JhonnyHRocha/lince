@@ -32,6 +32,13 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
+
+
+		<style type="text/css">
+			html, body { height: 100%; margin: 0; padding: 0; }
+			#map { height: 100%; }
+		</style>
+
 </head>
 <body ng-controller="MenuController" ng-class="{corLogin: ($location.path() == '/login') || ($location.path() == '/cadastro')
 	|| ($location.path() == '/confirmar_cadastro') || ($location.path() == '/redefinir_senha') }">
@@ -99,6 +106,8 @@
 		<script src="{{asset('build/js/vendor/morris.js')}}"></script>
 		<script src="{{asset('build/js/vendor/raphael-2.1.0.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/icheck.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/cpf_cnpj.min.js')}}"></script>
+
 		<script src="{{asset('build/js/app.js')}}"></script>
 
 		<!-- CONTROLLERS -->
@@ -131,8 +140,7 @@
 		<script src="{{asset('build/js/directives/geral.js')}}"></script>
 
 		<!-- FILTROS -->
-		<script src="{{asset('build/js/filters/date-br.js')}}"></script>
-		<script src="{{asset('build/js/filters/price.js')}}"></script>
+		<script src="{{asset('build/js/filters/filtros.js')}}"></script>
 
 		<!-- SERVICES -->
 		<script src="{{asset('build/js/services/oauthFixInterceptor.js')}}"></script>
@@ -144,6 +152,7 @@
 		<script src="{{asset('build/js/services/financeiroService.js')}}"></script>
 		<script src="{{asset('build/js/services/vendedorService.js')}}"></script>
 		<script src="{{asset('build/js/services/inicioService.js')}}"></script>
+		<script src="{{asset('build/js/services/consultaService.js')}}"></script>
 
 
 		<script>
@@ -159,5 +168,5 @@
 	@else
 		<script src="{{elixir('js/all.js')}}"></script>
 	@endif
-</>
+</body>
 </html>

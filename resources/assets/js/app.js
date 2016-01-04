@@ -27,10 +27,10 @@ app.provider('appConfig', ['$httpParamSerializerProvider', function($httpParamSe
                 {value: 2, label: 'Depósito em Conta'}
             ],
             status_pagamento:[
-                {value: 0, label: 'Aguardando Compensação'},
+                //{value: 0, label: 'Aguardando Compensação'},
                 {value: 1, label: 'Pago'},
                 {value: 2, label: 'Não'},
-                {value: 3, label: 'Não Compensado'},
+                //{value: 3, label: 'Não Compensado'},
             ]
         },
         usuario: {
@@ -231,15 +231,18 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
                 title: 'Relatório - Consultas'
             })
 
-
-
-
             //CONSULTAS
             .when('/consultas',{
                 templateUrl: 'build/views/consulta/consultas.html',
                 controller: 'ConsultaController',
                 title: 'Consultas'
             })
+            .when('/consultas/secundario',{
+                templateUrl: 'build/views/usuario/novo.html',
+                //controller: 'ConsultaController',
+                //title: 'Consultas'
+            })
+
 
             //REVENDEDORES
             .when('/revendedores',{

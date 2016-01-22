@@ -159,7 +159,7 @@ function minimalizaSidebar($timeout) {
                         function () {
                             $('#side-menu').fadeIn(500);
                         }, 300);
-                    console.log("teste");
+                    //console.log("teste");
                 } else {
                     // Remove all inline style from jquery fadeIn function to reset menu state
                     $('#side-menu').removeAttr('style');
@@ -452,6 +452,28 @@ function fitHeight(){
     };
 }
 
+function onReadFile($parse){
+    return {
+        restrict: 'A',
+        scope: false,
+        link: function(scope, element, attrs) {
+            var fn = $parse(attrs.onReadFile);
+
+            element.on('change', function(onChangeEvent) {
+                var reader = new FileReader();
+
+                reader.onload = function(onLoadEvent) {
+                    scope.$apply(function() {
+                        fn(scope, {$fileContent:onLoadEvent.target.result});
+                    });
+                };
+
+                reader.readAsText((onChangeEvent.srcElement || onChangeEvent.target).files[0]);
+            });
+        }
+    };
+}
+
 /**
  *
  * Pass all functions into module
@@ -475,4 +497,5 @@ angular
     .directive('landingScrollspy', landingScrollspy)
     .directive('fitHeight', fitHeight)
     .directive('iboxToolsFullScreen', iboxToolsFullScreen)
-    .directive('slimScroll', slimScroll);
+    .directive('slimScroll', slimScroll)
+    .directive('onReadFile', onReadFile);

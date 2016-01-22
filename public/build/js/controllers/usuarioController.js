@@ -284,6 +284,7 @@ angular.module('app.controllers')
             modalInstance.result.then(function(selectedItem) {
             }, function() {
                 $scope.usuarios = Usuarios.query({id: $cookies.getObject('user').id_cliente});
+                $scope.quantidadeUsuariosDisponiveis = UsuariosDisponiveis.query({id: $cookies.getObject('user').id_cliente});
             });
         };
 
@@ -329,6 +330,14 @@ angular.module('app.controllers')
     .controller('ModalEditarUsuario', function ($scope,$window,$modalInstance,UsuariosEditar,appConfig) {
         $scope.status = appConfig.usuario.status;
 
+        //REMOVE A OPCAO DE CONFIRMAR EMAIL
+        var indexConfE = $scope.status.map(function(d) { return d['label']; }).indexOf('Confirmar E-Mail');
+        if(indexConfE != -1)
+            $scope.status.splice(indexConfE,1);
+
+
+        //CASO A QUANTIDADE DE USUARIOS CONTRATADOS E DISPONIVEIS PARA USO
+        //TENHA EXCEDIDO O LIMITE, REMOVE TAMBEM A OPÇÃO DE USUARIO ATIVO
         $scope.ok = function () {
             $modalInstance.close($scope.usuarioEditar.id);
         };
@@ -340,15 +349,22 @@ angular.module('app.controllers')
 
         $scope.save = function(){
             if($scope.form.$valid){
-                if($scope.usuarioEditar.teste === false)
-                    $scope.usuarioEditar.limite_consultas = 0;
-
-                UsuariosEditar.update({id: $scope.usuarioEditar.id}, $scope.usuarioEditar, function(){
+                if($scope.usuarioEditar.status === 1 && $scope.quantidadeUsuariosDisponiveis[0].usuarios_disponiveis === 0){
                     $modalInstance.dismiss();
                     toastr.options.progressBar = true;
                     toastr.options.closeDuration = 300;
-                    toastr.success('Usuário atualizado com sucesso.', 'Mensagem do Sistema');
-                });
+                    toastr.error('Não existem mais usuários disponíveis para este cliente.', 'Mensagem do Sistema');
+                } else {
+                    if($scope.usuarioEditar.teste === false)
+                        $scope.usuarioEditar.limite_consultas = 0;
+
+                    UsuariosEditar.update({id: $scope.usuarioEditar.id}, $scope.usuarioEditar, function(){
+                        $modalInstance.dismiss();
+                        toastr.options.progressBar = true;
+                        toastr.options.closeDuration = 300;
+                        toastr.success('Usuário atualizado com sucesso.', 'Mensagem do Sistema');
+                    });
+                }
             }
         };
     });
@@ -418,7 +434,7 @@ angular.module('app.controllers')
                         $scope.usuarioExistente = 'form-group has-error';
                     } else {
                         $scope.usuarios.id_cliente = $cookies.getObject('user').id_cliente;
-                        $scope.usuarios.status = 1;
+                        $scope.usuarios.status = 2;
 
                         $scope.usuarios.$save().then(function(){
                             $modalInstance.dismiss();

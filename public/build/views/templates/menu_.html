@@ -24,7 +24,6 @@
                 </div>
             </li>
 
-
             <!-- BOTAO PARA A TELA DE INICIO QUE E EXIBIDA DE ACORDO COM O TIPO DE USUARIO LOGADO NO SISTEMA -->
             <li ng-click="desabilitaRelatorio()" ng-class="{active: $location.path() == '/inicio'}" ng-show="isAdmin()">
                 <a href="#/inicio">
@@ -62,6 +61,14 @@
                 <a href="#/clientes">
                     <i class="fa fa-users"></i>
                     <span class="nav-label">CLIENTES</span>
+                </a>
+            </li>
+
+            <!-- CLIENTES -->
+            <li ng-click="desabilitaRelatorio()" ng-class="{active: $location.path() == '/clientes_bkp'}" ng-show="isAdmin() || isDealer()">
+                <a href="#/clientes_bkp">
+                    <i class="fa fa-users"></i>
+                    <span class="nav-label">CLIENTES_BKP</span>
                 </a>
             </li>
 

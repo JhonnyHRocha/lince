@@ -22,6 +22,7 @@ Route::post('oauth/access_token', function() {
 });
 
 Route::get('boleto/{id}/', 'BoletoController@index');
+Route::post('user/checkSession', 'UserController@checkSession');
 
 
 Route::group(['prefix' => 'email'], function() {
@@ -45,11 +46,11 @@ Route::group(['prefix' => 'cliente'], function() {
 });
 
 
-
-
 Route::group(['middleware'=>'oauth'], function(){
 
     Route::get('user/authenticated', 'UserController@authenticated');
+    Route::get('user/logout', 'UserController@logout');
+
     Route::resource('cliente', 'ClienteController', ['except'=> ['create', 'edit']]);
     Route::resource('revendedor', 'RevendedoresController', ['except'=> ['create', 'edit']]);
     Route::resource('venda', 'VendasController', ['except'=> ['create', 'edit']]);
@@ -87,6 +88,7 @@ Route::group(['middleware'=>'oauth'], function(){
         Route::get('vendas_cliente/{idCliente}', 'VendasController@selecionaVendasCliente');
         Route::get('soma_valores/geral', 'VendasController@somaValores');
         Route::put('credito/{idCliente}', 'VendasController@creditoCliente');
+        Route::post('baixa', 'VendasController@baixa');
     });
 
     Route::group(['prefix' => 'relatorio'], function() {
@@ -109,10 +111,10 @@ Route::group(['middleware'=>'oauth'], function(){
         Route::post('consultaVeiculo', 'ConsultasController@consultaVeiculo');
         Route::post('consultaNome', 'ConsultasController@consultaNome');
         Route::post('consultaEndereco', 'ConsultasController@consultaEndereco');
+        Route::post('consultaWhats', 'ConsultasController@consultaWhats');
 
         Route::get('email', 'ConsultasController@email');
     });
-
 
     //EXEMPLO DE CHECAGEM PELO middleware
     /*Route::group(['middleware' => 'CheckVendaOwner'], function(){

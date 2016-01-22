@@ -8,7 +8,7 @@ use Goutte\Client;
 
 if(isset($_POST['captcha']) && isset($_POST['cookie']) && isset($_POST['cnpj'])){
     $dados = CnpjGratis::consulta($_POST['cnpj'], $_POST['captcha'], $_POST['cookie']);
-
+    //var_dump($dados);
     header('Content-Type: application/json');
     echo json_encode($dados);
     die;

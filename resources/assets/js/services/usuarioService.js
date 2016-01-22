@@ -86,7 +86,7 @@ angular.module('app.services')
         function transformData(data){
             if(angular.isObject(data) && data.hasOwnProperty('password')){
                 var o = angular.copy(data);
-                if(angular.isObject(data) && data.hasOwnProperty('data_validade')){
+                if(angular.isObject(data) && data.hasOwnProperty('data_validade') && data.data_validade != null){
                     var dateArray = data.data_validade.split('/'),
                         month = dateArray[1] - 1;
                     o.data_validade = new Date(dateArray[2],month,dateArray[0]);

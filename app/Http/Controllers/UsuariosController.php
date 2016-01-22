@@ -100,7 +100,7 @@ class UsuariosController extends Controller
         return DB::select(DB::raw("
             SELECT  clientes.numero_usuarios,
                     (SELECT COUNT(*) FROM users WHERE users.id_cliente = $idCliente ) AS quantidade_usuarios,
-                    (clientes.numero_usuarios - (SELECT COUNT(*) FROM users WHERE users.id_cliente = $idCliente)) AS usuarios_disponiveis
+                    (clientes.numero_usuarios - (SELECT COUNT(*) FROM users WHERE users.id_cliente = $idCliente AND status = 1)) AS usuarios_disponiveis
             FROM clientes
             WHERE clientes.id = $idCliente
         "));

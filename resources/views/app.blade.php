@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="app">
 <head>
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -107,14 +108,22 @@
 		<script src="{{asset('build/js/vendor/raphael-2.1.0.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/icheck.min.js')}}"></script>
 		<script src="{{asset('build/js/vendor/cpf_cnpj.min.js')}}"></script>
+		<script src="{{asset('build/js/vendor/alasql.min.js')}}"></script>
+
+		<script src="{{asset('build/js/vendor/jszip.js')}}"></script>
+		<script src="{{asset('build/js/vendor/xlsx.js')}}"></script>
+		<script src="{{asset('build/js/vendor/jszip-inflate.js')}}"></script>
+		<script src="{{asset('build/js/vendor/jszip-load.js')}}"></script>
+		<script src="{{asset('build/js/vendor/jszip-deflate.js')}}"></script>
+
+
 
 		<script src="{{asset('build/js/app.js')}}"></script>
 
 		<!-- CONTROLLERS -->
-		<script src="{{asset('build/js/controllers/menu.js')}}"></script>
-		<script src="{{asset('build/js/controllers/login.js')}}"></script>
-		<script src="{{asset('build/js/controllers/loginModal.js')}}"></script>
-
+		<script src="{{asset('build/js/controllers/menuController.js')}}"></script>
+		<script src="{{asset('build/js/controllers/loginController.js')}}"></script>
+		<script src="{{asset('build/js/controllers/loginModalController.js')}}"></script>
 		<script src="{{asset('build/js/controllers/inicioController.js')}}"></script>
 		<script src="{{asset('build/js/controllers/cadastroController.js')}}"></script>
 		<script src="{{asset('build/js/controllers/clienteController.js')}}"></script>

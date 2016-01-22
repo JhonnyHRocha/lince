@@ -12,9 +12,9 @@ use Lince\Http\Requests;
 use Lince\Http\Controllers\Controller;
 use OpenBoleto\Banco\BancoDoBrasil;
 use OpenBoleto\Agente;
-use OpenBoleto\Dias_uteis;
 use JansenFelipe\Utils\Utils as Utils;
 use JansenFelipe\Utils\Mask as Mask;
+use OpenBoleto\Dias_uteis;
 
 /**
  * @property  load

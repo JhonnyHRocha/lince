@@ -3,10 +3,12 @@
 namespace Lince\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Lince\Repositories\RevendedoresRepository;
 use Lince\Repositories\VendasRepository;
 use Lince\Services\VendasService;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
+use phpDocumentor\Reflection\DocBlock\Tag\ReturnTag;
 
 class VendasController extends Controller
 {
@@ -111,5 +113,62 @@ class VendasController extends Controller
 
     public function creditoCliente(Request $request, $idCliente){
         return $this->repository->adicionaCredito($request->all(), \Authorizer::getResourceOwnerId(), $idCliente);
+    }
+
+    public function baixa(Request $request){
+        $boletos = $request['boletos'];
+
+        $arrayVariaveis = array();
+        $variavel = DB::select(DB::raw("
+            SELECT id_venda
+            FROM boleto
+            JOIN vendas ON vendas.id = boleto.id_venda
+            WHERE boleto.id IN ($boletos) AND vendas.data_confirm_pgto IS NULL
+        "));
+
+        if($variavel == [])
+            return array('length' => 0);
+
+        foreach ($variavel as $i => $value) {
+            array_push($arrayVariaveis, $variavel[$i]->id_venda);
+        }
+
+        $bindingsString = trim( str_repeat('?,', count($arrayVariaveis)), ',');
+
+        $sql = " UPDATE vendas
+            SET status_pagamento = 1,
+                tipo_pagamento = 1,
+                data_confirm_pgto = NOW()
+            WHERE id IN ( {$bindingsString} ) ";
+        $resultado = DB::select($sql, $arrayVariaveis);
+
+
+        //ADICIONA O CREDITO AOS DEVIDOS CLIENTES
+        $sql2 = " SELECT * FROM vendas WHERE id IN ( {$bindingsString} ) ";
+        $resultado2 = DB::select($sql2, $arrayVariaveis);
+        foreach ($resultado2 as $i => $value) {
+            if($resultado2[$i]->id_pacote == 1){
+                DB::select(DB::raw("
+                    UPDATE clientes
+                    SET numero_usuarios = " .$resultado2[$i]->quantidade_usuarios. ",
+                        data_contratacao = NOW(),
+                        data_expiracao = DATE_ADD(NOW(),INTERVAL 30 DAY),
+                        consultas_contratado = " .$resultado2[$i]->quantidade_consultas. ",
+                        valor_mensal = " .$resultado2[$i]->valor. ",
+                        status = 1
+                    WHERE clientes.id = " .$resultado2[$i]->id_cliente. "
+                "));
+            } else if($resultado2[$i]->id_pacote == 2) {
+                DB::select(DB::raw("
+                    UPDATE clientes
+                    SET numero_usuarios = numero_usuarios + " .$resultado2[$i]->quantidade_usuarios. ",
+                        valor_mensal = valor_mensal + " .$resultado2[$i]->valor. ",
+                        status = 1
+                    WHERE clientes.id = " .$resultado2[$i]->id_cliente. "
+                "));
+            }
+        }
+
+        //return $resultado2;
     }
 }

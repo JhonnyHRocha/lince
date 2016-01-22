@@ -7,7 +7,10 @@ angular.module('app.controllers')
 
         //SETAR DATA PARA O PARAMETRO DE INICIO E FIM DE PERIODO
         var data = new Date();
-        $scope.parametroDataInicial = data.getDate()+'/'+data.getMonth()+'/'+data.getFullYear();
+        if(data.getMonth() === 0)
+            $scope.parametroDataInicial = data.getDate()+'/12/'+(data.getFullYear()-1);
+        else
+            $scope.parametroDataInicial = data.getDate()+'/'+data.getMonth()+'/'+data.getFullYear();
         $scope.parametroDataFinal = data.getDate()+'/'+(data.getMonth()+1)+'/'+data.getFullYear();
 
 
@@ -21,7 +24,7 @@ angular.module('app.controllers')
             var s = document.getElementById("status");
             var status = s.options[s.selectedIndex].value;
 
-            console.log(tipoConsulta);
+            //console.log(tipoConsulta);
 
             var query = "inicio="+i[2] +'-'+ i[1] +'-'+ ("00"+i[0]).slice(-2) + "&fim=" + f[2] +'-'+ f[1] +'-'+ ("00"+f[0]).slice(-2);
             if($scope.parametroUsuario)
@@ -33,7 +36,7 @@ angular.module('app.controllers')
             if(status !== "? object:31 ?" & status !== "")
                 query = query + "&status=" + status;
 
-            console.log(query);
+            //console.log(query);
 
             $http.get("/relatorio/consultas?" + query).success(function(response) {
                 $scope.relatorios = response;
@@ -86,7 +89,10 @@ angular.module('app.controllers')
 
             //SETAR DATA PARA O PARAMETRO DE INICIO E FIM DE PERIODO
             var data = new Date();
-            $scope.parametroDataInicial = data.getDate()+'/'+data.getMonth()+'/'+data.getFullYear();
+            if(data.getMonth() === 0)
+                $scope.parametroDataInicial = data.getDate()+'/12/'+(data.getFullYear()-1);
+            else
+                $scope.parametroDataInicial = data.getDate()+'/'+data.getMonth()+'/'+data.getFullYear();
             $scope.parametroDataFinal = data.getDate()+'/'+(data.getMonth()+1)+'/'+data.getFullYear();
 
 
@@ -154,7 +160,10 @@ angular.module('app.controllers')
 
             //SETAR DATA PARA O PARAMETRO DE INICIO E FIM DE PERIODO
             var data = new Date();
-            $scope.parametroDataInicial = data.getDate()+'/'+data.getMonth()+'/'+data.getFullYear();
+            if(data.getMonth() === 0)
+                $scope.parametroDataInicial = data.getDate()+'/12/'+(data.getFullYear()-1);
+            else
+                $scope.parametroDataInicial = data.getDate()+'/'+data.getMonth()+'/'+data.getFullYear();
             $scope.parametroDataFinal = data.getDate()+'/'+(data.getMonth()+1)+'/'+data.getFullYear();
 
 

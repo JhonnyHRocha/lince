@@ -113,9 +113,11 @@ app.config(['$routeProvider', '$httpProvider' ,'OAuthProvider','OAuthTokenProvid
             })
             .when('/logout',{
                 resolve: {
-                    logout: ['$location', 'OAuthToken', function($location, OAuthToken){
-                        OAuthToken.removeToken();
-                        return $location.path('/login');
+                    logout: ['$location', 'OAuthToken', '$http', function($location, OAuthToken, $http){
+                        $http.get('/user/logout').success(function(response) {
+                            OAuthToken.removeToken();
+                            return $location.path('/login');
+                        });
                     }]
                 }
             })

@@ -4,6 +4,10 @@ angular.module('app.services')
             authenticated: {
                 url: appConfig.baseUrl + '/user/authenticated',
                 method: 'GET'
+            },
+            checkSession: {
+                url: appConfig.baseUrl + '/user/checkSession',
+                method: 'POST'
             }
         });
     }]);

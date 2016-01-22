@@ -1,71 +1,72 @@
-</br>
-<div class="col-xs-12">
-    <div class="ibox float-e-margins">
-        <div class="ibox-title">
-            <h5>Filtros do relatório</h5>
-        </div>
-        <div class="ibox-content">
-            <div class="row">
-                <div class="col-xs-2">
-                    <div class="form-group" id="data_5" >
-                        <label class="font-noraml">Período</label>
-                        <div class="input-daterange input-group" id="datepicker">
-                            <input type="text" class="input-sm form-control" name="inicio" ng-model="parametroDataInicial" value="{{parametroDataInicial}}"/>
-                            <span class="input-group-addon">à</span>
-                            <input type="text" class="input-sm form-control" name="fim" ng-model="parametroDataFinal" value="{{dataFinal}}"/>
+<div class="wrapper wrapper-content  animated fadeInRight">
+    </br>
+    <div class="col-xs-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Filtros do relatório</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="form-group" id="data_5" >
+                            <label class="font-noraml">Período</label>
+                            <div class="input-daterange input-group" id="datepicker">
+                                <input type="text" class="input-sm form-control" name="inicio" ng-model="parametroDataInicial" value="{{parametroDataInicial}}"/>
+                                <span class="input-group-addon">à</span>
+                                <input type="text" class="input-sm form-control" name="fim" ng-model="parametroDataFinal" value="{{dataFinal}}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-3">
+                        <label class="font-noraml">Cliente</label>
+                        <div class="form-group">
+                            <select class="selecionarFiltro form-control" id="selectFiltroCliente" data-placeholder="CLIENTE" style="width:300px"
+                                    ng-model="parametroCliente" ng-options="cliente.id as cliente.nome for cliente in clientes">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-3">
+                        <label class="font-noraml">Usuário</label>
+                        <div class="form-group">
+                            <input type="text" placeholder="Usuário" class="input form-control" ng-model="parametroUsuario" style="width:300px">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-2">
+                        <label class="font-noraml">Tipo de Consulta</label>
+                        <div class="form-group">
+                            <select class="selecionarFiltro form-control" id="tipoConsulta" data-placeholder="Tipo de Consulta" style="width:200px" ng-model="parametroTipoConsulta">
+                                <option value="">Todos</option>
+                                <option value="0">CPF / CNPJ</option>
+                                <option value="1">E-Mail</option>
+                                <option value="2">Telefone</option>
+                                <option value="3">Veículo</option>
+                                <option value="4">Nome</option>
+                                <option value="5">Endereço</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-2">
+                        <label class="font-noraml">Status</label>
+                        <div class="form-group">
+                            <select class="selecionarFiltro form-control" id="status" data-placeholder="Status de Consulta" style="width:200px" ng-model="parametroStatus">
+                                <option value="">Todos</option>
+                                <option value="1">Encontrado</option>
+                                <option value="0">Não Encontrado</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-xs-3">
-                    <label class="font-noraml">Cliente</label>
-                    <div class="form-group">
-                        <select class="selecionarFiltro form-control" id="selectFiltroCliente" data-placeholder="CLIENTE" style="width:300px"
-                                ng-model="parametroCliente" ng-options="cliente.id as cliente.nome for cliente in clientes">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="col-xs-3">
-                    <label class="font-noraml">Usuário</label>
-                    <div class="form-group">
-                        <input type="text" placeholder="Usuário" class="input form-control" ng-model="parametroUsuario" style="width:300px">
-                    </div>
-                </div>
-
-                <div class="col-xs-2">
-                    <label class="font-noraml">Tipo de Consulta</label>
-                    <div class="form-group">
-                        <select class="selecionarFiltro form-control" id="tipoConsulta" data-placeholder="Tipo de Consulta" style="width:200px" ng-model="parametroTipoConsulta">
-                            <option value="">Todos</option>
-                            <option value="0">CPF / CNPJ</option>
-                            <option value="1">E-Mail</option>
-                            <option value="2">Telefone</option>
-                            <option value="3">Veículo</option>
-                            <option value="4">Nome</option>
-                            <option value="5">Endereço</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="col-xs-2">
-                    <label class="font-noraml">Status</label>
-                    <div class="form-group">
-                        <select class="selecionarFiltro form-control" id="status" data-placeholder="Status de Consulta" style="width:200px" ng-model="parametroStatus">
-                            <option value="">Todos</option>
-                            <option value="1">Encontrado</option>
-                            <option value="0">Não Encontrado</option>
-                        </select>
-                    </div>
-                </div>
+            </div>
+            <div class="ibox-footer">
+                <button ng-click="gerarRelatorio()" class="btn btn-success"> GERAR RELATÓRIO </button>
             </div>
         </div>
-        <div class="ibox-footer">
-            <button ng-click="gerarRelatorio()" class="btn btn-success"> GERAR RELATÓRIO </button>
-        </div>
     </div>
-</div>
 
 
     <div class="col-xs-12">
@@ -112,5 +113,11 @@
                     </div>
                 </div>
             </div>
+            <div class="ibox-footer" ng-show="relatorios.length">
+                <div>
+                    <h4 class="text-center">TOTAL DE CONSULTAS NO PERÍODO: {{relatorios.length}}</h4>
+                </div>
+            </div>
         </div>
     </div>
+</div>

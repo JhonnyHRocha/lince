@@ -8,6 +8,11 @@ angular.module('app.controllers')
             $scope.vizinhos = null;
             $('#carregando').hide();
 
+            $scope.limparResultado = function () {
+                $scope.resultados = null;
+                $scope.resultadoPesquisa = null;
+            };
+
             $scope.consultaCPFCNPJ = function($cpf_cnpj) {
                 $scope.tabs = [];
                 $scope.resultados = null;
@@ -46,7 +51,6 @@ angular.module('app.controllers')
 
                                 request.success(function (data) {
                                     //ESPERA CONSULTA NO CCBUSCA PARA TRAZER AS INFORMACOES DO CPF / CNPJ
-                                    console.log(data);
                                     var request = $http({
                                         method: "post",
                                         url: '/consulta/consultaCPFCNPJ',
@@ -62,7 +66,11 @@ angular.module('app.controllers')
                                             $scope.sem_retorno = 1;
                                             $scope.resultados = "";
                                         } else{
-                                            $scope.resultados = data;
+                                            if(data.length >= 2)
+                                                $scope.resultado = alasql('SELECT TOP 1 FROM ?',[data]);
+                                            else
+                                                $scope.resultados = data;
+                                            console.log($scope.resultado);
                                             $scope.sem_retorno = 0;
                                         }
                                     });
@@ -84,7 +92,10 @@ angular.module('app.controllers')
                                     $scope.sem_retorno = 1;
                                     $scope.resultados = "";
                                 } else{
-                                    $scope.resultados = data;
+                                    if(data.length >= 2)
+                                        $scope.resultados = alasql('SELECT TOP 1 * FROM ?',[data]);
+                                    else
+                                        $scope.resultados = data;
                                     $scope.sem_retorno = 0;
                                 }
                             });
@@ -428,6 +439,55 @@ angular.module('app.controllers')
             }, 5000);
         };
 
+        //CONSULTA WHATSAPP
+        $scope.pesquisarWhats = function(){
+            var contador = 0;
+            //APAGA O ESCOPO E GUARDA OS TELEFONES EM UMA VARIAVEL
+            var telefones = $scope.telefones;
+            $scope.telefones = null;
+            //EXIBE O SPINNER DE AGUARDANDO...
+            $scope.carregandoTelefone = true;
+            $('#carregandoTelefone').show();
+
+            angular.forEach(telefones, function(value, key) {
+                $scope.url = "build/views/consulta/consulta_whats.php?number=55"+value.telefoneddd;
+                var request = $http.get($scope.url).success(function(response) {
+
+                    var index = response.indexOf("Result: ");
+                    var resultado = response.substring(index+8,index+220);
+                    var possuiWhats = null;
+
+                    if(resultado === 'yes')
+                        possuiWhats = 'SIM';
+                    else if (resultado === 'no')
+                        possuiWhats = 'NÃO';
+                    else if (resultado === 'timeout'){
+                        toastr.options.progressBar = true;
+                        toastr.options.closeDuration = 300;
+                        toastr.error('Falha ao consultar','Verificando WhatsAPP');
+                    }
+
+                    $http({
+                        method: "post",
+                        url: '/consulta/consultaWhats',
+                        data: { cpf_cnpj: ("00000000000000"+CNPJ.strip(value.cpf_cnpj)).slice(-14),
+                            telefone: value.telefoneddd,
+                            retorno: possuiWhats},
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                    });
+                });
+
+                request.success(function (data) {
+                    contador ++;
+                    if ($scope.resultado.dados_telefone.length === contador){
+                        $scope.carregandoTelefone = false;
+                        $('#carregandoTelefone').hide();
+                        pegarDadosTelefone($scope.cpf_cnpj);
+                    }
+                });
+            });
+        };
+
         //CONSULTAR CPF NA RECEITA FEDERAL
         $scope.consultarCPF = function(){
             $scope.imagem = null;
@@ -467,6 +527,11 @@ angular.module('app.controllers')
         $scope.consultarCNPJ = function(){
             getCaptchaCNPJ();
             $('#captchaSituacaoCNPJ').show();
+        };
+
+        //ATUALIZA O CAPTCHA DO CNPJÍ
+        $scope.atualizaCaptchaCNPJ = function(){
+            getCaptcha();
         };
 
         //GERA O CAPTCHA
@@ -519,7 +584,7 @@ angular.module('app.controllers')
                     $scope.imagem = null;
                     toastr.options.progressBar = true;
                     toastr.options.closeDuration = 300;
-                    toastr.error('Captcha digitado incorretamente, preencha o campo com os caracteres da nova imagem!','Erro no cadastro');
+                    toastr.error('Houve um erro na consulta, tente novamente!','Erro no cadastro');
                     getCaptcha();
                     captcha_cpf.value = '';
                 } else {
@@ -555,6 +620,9 @@ angular.module('app.controllers')
 
         //ENVIA O CAPTCHA JUNTO AO CPF E DATA DE NASCIMENTO PARA CONFERENCIA DOS DADOS
         $scope.situacaoCNPJ = function (){
+            $scope.imagem = null;
+            $scope.carregando2 = true;
+            $('#carregando2').show();
             //FAZ UM POST NO ARQUIVO PHP PARA VERIFICAR O RETORNO DA SITUACAO DO CADASTRO
             var request = $http({
                 method: "post",
@@ -568,13 +636,15 @@ angular.module('app.controllers')
             });
 
             request.success(function (data) {
+                $('#carregando2').hide();
+                $scope.carregando2 = false;
                 if(data != ""){
                     $scope.dataConsultaCNPJ = new Date();
                     $scope.resultadoPesquisa = data;
                 } else {
                     toastr.options.progressBar = true;
                     toastr.options.closeDuration = 300;
-                    toastr.error('Captcha digitado incorretamente, preencha o campo com os caracteres da nova imagem!','Erro no cadastro');
+                    toastr.error('Houve um erro na consulta, tente novamente!','Erro no cadastro');
                     getCaptchaCNPJ();
                     captcha_cnpj.value = '';
                 }

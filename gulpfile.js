@@ -53,6 +53,14 @@ config.vendor_path_js = [
     //CNPJ_CPF
     config.bower_path + '/cpf_cnpj/build/cpf_cnpj.min.js',
 
+    //XLSX - ALASQL
+    config.bower_path + '/alasql/dist/alasql.min.js',
+    config.bower_path + '/xlsx/xlsx.js',
+    config.bower_path + '/xlsx/jszip-deflate.js',
+    config.bower_path + '/xlsx/jszip-inflate.js',
+    config.bower_path + '/xlsx/jszip-load.js',
+    config.bower_path + '/xlsx/jszip.js',
+
     config.bower_path + '/jspanel/source/jquery.jspanel.js',
     config.bower_path + '/angular-translate/angular-translate.min.js',
     config.bower_path + '/angular-ui-router/release/angular-ui-router.min.js',

@@ -9,7 +9,7 @@
                             <i class="fa fa-users fa-5x"></i>
                         </div>
                         <div class="col-xs-8 text-right">
-                            <span> QUANTIDADE DE USUÁRIOS </span>
+                            <span> USUÁRIOS CONTRATADOS </span>
                             <h2 class="font-bold">{{dadosGeral[0].numero_usuarios}}</h2>
                         </div>
                     </div>
@@ -59,28 +59,28 @@
                 </div>
             </div>
 
-            <div class="col-xs-12" ng-show="(dadosGeral[0].pacote === 'Não Possui')">
+            <div class="col-lg-12" ng-show="(dadosGeral[0].pacote === 'Não Possui')">
                 <div class="alert alert-danger">
                     IDENTIFICAMOS QUE AINDA NÃO POSSUI UM PLANO DE CONSULTAS, ADQUIRA JÁ CLICANDO NO BOTÃO AO LADO
                     <a ng-click="novaCompra()"><button class="btn btn-danger btn-xs "><i class="fa fa-plus"></i> ADQUIRIR UM PLANO</button></a>
                 </div>
             </div>
 
-            <div class="col-xs-12" ng-show="(!dadosGeral[0].dias_expiracao == '' && dadosGeral[0].dias_expiracao <=3 )">
+            <div class="col-lg-12" ng-show="(!dadosGeral[0].dias_expiracao == '' && dadosGeral[0].dias_expiracao <=3 )">
                 <div class="alert alert-danger">
                     SEU PLANO IRÁ ENCERRAR EM <b>{{dadosGeral[0].dias_expiracao}} DIA(S)</b>. RENOVE AGORA CLICANDO NO BOTÃO AO LADO E EVITE FICAR SEM CONSULTAR!
-                    <a ng-click="novaCompra()"><button class="btn btn-danger btn-xs "><i class="fa fa-plus"></i> RENOVAR PLANO</button></a>
+                    <a ng-click="novaCompra()"><button class="btn btn-danger btn-xs ">RENOVAR PLANO</button></a>
                 </div>
             </div>
 
 
             <div class="row">
                 <!-- RANKING DE VENDAS -->
-                <div class="col-xs-6 col-xs-offset-0">
+                <div class="col-lg-6 col-lg-offset-0">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>HISTÓRICO FINANCEIRO</h5>
-
+                            <button ng-show="dadosGeral[0].dias_expiracao >= 1" ng-click="usuarioAdicional()" class="btn btn-outline btn-success btn-xs pull-right"><i class="fa fa-plus"></i> Usuárido Adicional</button>
                         </div>
                         <div class="ibox-content">
                             <div class="tab-content"  style="height: 300px">
@@ -124,7 +124,7 @@
                 </div>
 
                 <!-- VENDAS NAO LIBERADAS -->
-                <div class="col-xs-6  col-xs-offset-0">
+                <div class="col-lg-6  col-lg-offset-0">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>HISTÓRICO DE CONSULTAS</h5> <h6 class="pull-right" >Últimas 100 consultas</h6>
@@ -182,7 +182,6 @@
                     </div>
                     <div class="table-scroll" style="height: 300px" >
                         <div class="panel-body" >
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>

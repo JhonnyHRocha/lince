@@ -116,10 +116,12 @@ class InicioController extends Controller
 
         if($tipo_usuario[0]->tipo_usuario === 1) {
             return DB::select(DB::raw("
-                SELECT  (SELECT COUNT(*) FROM clientes WHERE status = 0) AS inativo,
-                        (SELECT COUNT(*) FROM clientes WHERE status = 1) AS ativo,
-                        (SELECT COUNT(*) FROM clientes WHERE status = 2) AS bloqueado,
-                        (SELECT COUNT(*)-1 FROM revendedores) AS revendedores
+                SELECT  (SELECT IFNULL(COUNT(*), 0) FROM clientes WHERE status = 0) AS inativo,
+                        (SELECT IFNULL(COUNT(*), 0) FROM clientes WHERE status = 1) AS ativo,
+                        (SELECT IFNULL(COUNT(*), 0) FROM clientes WHERE status = 2) AS bloqueado,
+                        (SELECT IFNULL(COUNT(*)-1, 0) FROM revendedores) AS revendedores,
+                        (SELECT IFNULL(COUNT(*), 0) FROM oauth_sessions) AS logado,
+                        (SELECT IFNULL(COUNT(*), 0) FROM consultas WHERE DATE(data_consulta) = DATE(NOW())) AS consultas
             "));
         } else {
             return response()->json(['error' => 'Acesso Inválido']);
@@ -210,15 +212,19 @@ class InicioController extends Controller
         return DB::select(DB::raw("
             SELECT	users.name as nome,
                     CASE
-                        WHEN consultas.tipo_consulta = 1 THEN 'CPF / CNPJ'
-                        WHEN consultas.tipo_consulta = 2 THEN 'ENDEREÇO'
+                      WHEN consultas.tipo_consulta = 0 THEN 'CPF / CNPJ'
+                      WHEN consultas.tipo_consulta = 1 THEN 'E-Mail'
+                      WHEN consultas.tipo_consulta = 2 THEN 'Telefone'
+                      WHEN consultas.tipo_consulta = 3 THEN 'Veículo'
+                      WHEN consultas.tipo_consulta = 4 THEN 'Nome'
+                      WHEN consultas.tipo_consulta = 5 THEN 'Endereço'
                     END AS tipo_consulta,
                     parametros,
 		            DATE_FORMAT(data_consulta, '%d/%m/%Y %h:%m:%s') AS data_consulta
             FROM consultas
             JOIN users ON users.id = consultas.id_usuario
             WHERE consultas.id_cliente = $idCliente
-            ORDER BY data_consulta DESC
+            ORDER BY consultas.id DESC
             LIMIT 100
         "));
     }

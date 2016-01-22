@@ -1,0 +1,46 @@
+<form class="form-horizontal" name="form" role="form" method="POST" ng-submit="salvarCompra()">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">USUÁRIO ADICIONAL</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert alert-warning">
+                    <i class="fa fa-info-circle" style="color: #3B3B3B;"></i>
+                    ATENÇÃO! O VALOR COBRADO PELO USUÁRIO ADICIONAL É PROPORCIONAL A QUANTIDADE DE DIAS RESTANTES DO PLANO ATIVO NO MOMENTO.
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{'has-error': !form.pacote.$valid && form.pacote.$touched}">
+            <label class="col-md-4 control-label">Pacote</label>
+            <div class="col-md-6">
+                <select class="form-control" name="pacote" id="pacote" required>
+                    <option value="2" selected>Usuário Adicional</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{'has-error': !form.usuarios.$valid && form.usuarios.$touched}">
+            <label class="col-md-4 control-label">Quantidade de Usuários</label>
+            <div class="col-md-6">
+                <input type="text" ng-model="quantidade_usuarios" class="form-control" name="usuarios" id="usuarios" required>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{'has-error': !form.valor.$valid && form.valor.$touched}">
+            <label class="col-md-4 control-label">Valor total</label>
+            <div class="col-md-6">
+                <input type="text" ng-model="totalVenda" class="form-control" name="valor" id="valor" readonly="true">
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-6">
+                <a class="btn btn-outline btn-default" ng-click="cancel()">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Adicionar Usuários</button>
+            </div>
+        </div>
+    </div>
+</form>

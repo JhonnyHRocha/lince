@@ -1,6 +1,6 @@
 angular.module('app.controllers')
-    .controller('FinanceiroController', ['$scope','$cookies','$window','$uibModal','$location','Venda','ClienteListagem','Vendedor','Valores',
-    function($scope,$cookies,$window,$uibModal,$location,Venda,ClienteListagem,Vendedor,Valores){
+    .controller('FinanceiroController', ['$scope','$cookies','$window','$uibModal','$location','$http','Venda','ClienteListagem','Vendedor','Valores',
+    function($scope,$cookies,$window,$uibModal,$location,$http,Venda,ClienteListagem,Vendedor,Valores){
         $scope.vendas = Venda.get();
         $scope.clientes = ClienteListagem.get();
         $scope.vendedores = Vendedor.get();
@@ -84,6 +84,42 @@ angular.module('app.controllers')
             $location.url("/financeiro/editar/"+id);
         };
 
+        //ATUALIZAR BOLETOS VIA ARQUIVO
+        $scope.carregarArquivo = function () {
+            document.getElementById("upfile").click();
+        };
+
+        $scope.showContent = function($fileContent){
+            $scope.content = $fileContent;
+
+            //PEGA TODOS OS NUMEROS DE BOLETO E SALVA NA VARIAVEL PARA DAR BAIXA
+            var res = alasql('SELECT [21]+""+[22]+""+[23]+""+[24]+""+[25]+""+[26] AS boleto FROM ? WHERE CAST([21]+""+[22]+""+[23]+""+[24]+""+[25]+""+[26] AS NUMBER) > 0', [$scope.content]);
+            var a = JSON.parse(JSON.stringify(res));
+            var boletos = null;
+
+            for(i in a) {
+                var item = a[i];
+                boletos = boletos+','+item.boleto;
+            }
+            boletos = boletos.replace('null,','');
+
+            var request = $http({
+                method: "post",
+                url: 'venda/baixa',
+                data: {
+                    boletos:boletos
+                },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            });
+            request.success(function (data) {
+                $scope.vendas = Venda.get();
+                toastr.options.progressBar = true;
+                toastr.options.closeDuration = 300;
+                toastr.success('Baixa nos boletos completa!','Notificação de sistema');
+            });
+        };
+
+
     }]);
 
 //  -------------------------------------------------------------------------------------------------------------------------------------------
@@ -107,38 +143,62 @@ angular.module('app.controllers')
         $scope.refresh = function(){
             $scope.vendas = Venda.get();
             $scope.valores = Valores.query();
-        }
+        };
 
         //FUNÇAO DE SALVAR O CLIENTE E APOS CONCLUIDO FECHA O MODAL
         $scope.salvarVenda = function(){
             if($scope.form.$valid){
+                $scope.vendaEditar.data_confirm_pgto = new Date();
                 Venda.update({id: $scope.vendaEditar.id_venda}, $scope.vendaEditar, function(){
                     $modalInstance.dismiss();
                     toastr.options.progressBar = true;
                     toastr.options.closeDuration = 300;
                     toastr.success('A venda foi atualizada com êxito!','Notificação de sistema');
 
-                    if($scope.vendaEditar.status_pagamento === 1 ){
-                        var data = new Date();
-                        var request = $http({
-                            method: "put",
-                            url: 'venda/credito/'+ $scope.vendaEditar.id_cliente,
-                            data: {
-                                data_liberacao: data,
-                                data_expiracao: data.addDays(30),
-                                quantidade_usuarios: $scope.vendaEditar.quantidade_usuarios,
-                                quantidade_consultas: 10000,
-                                valor: $scope.vendaEditar.valor
-                            },
-                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                        });
-                        request.success(function (data) {
+                    if($scope.vendaEditar.id_pacote === 1){
+                        if($scope.vendaEditar.status_pagamento === 1 ){
+                            var data = new Date();
+                            var request = $http({
+                                method: "put",
+                                url: 'venda/credito/'+ $scope.vendaEditar.id_cliente,
+                                data: {
+                                    id_pacote: 1,
+                                    data_liberacao: data,
+                                    data_expiracao: data.addDays(30),
+                                    quantidade_usuarios: $scope.vendaEditar.quantidade_usuarios,
+                                    quantidade_consultas: 10000,
+                                    valor: $scope.vendaEditar.valor
+                                },
+                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                            });
+                            request.success(function (data) {
 
-                        });
+                            });
+                        }
+                    } else if($scope.vendaEditar.id_pacote === 2){
+                        if($scope.vendaEditar.status_pagamento === 1 ){
+                            var data = new Date();
+                            var request = $http({
+                                method: "put",
+                                url: 'venda/credito/'+ $scope.vendaEditar.id_cliente,
+                                data: {
+                                    id_pacote: 2,
+                                    data_liberacao: data,
+                                    data_expiracao: data.addDays(30),
+                                    quantidade_usuarios: $scope.vendaEditar.quantidade_usuarios,
+                                    quantidade_consultas: 10000,
+                                    valor: $scope.vendaEditar.valor
+                                },
+                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                            });
+                            request.success(function (data) {
+
+                            });
+                        }
                     }
                 });
             }
-        }
+        };
 
         Date.prototype.addDays = function(days)
         {

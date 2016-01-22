@@ -238,7 +238,8 @@ class ConsultasController extends Controller
                         WHEN temp_operadora.operadora LIKE 'Numero nÃo encontrad' THEN 'Não encontrado'
                         ELSE temp_operadora.operadora
                     END AS operadora,
-                    temp_operadora.portado
+                    temp_operadora.portado,
+                    temp_operadora.whatsapp
             FROM t_dadostelefone
             LEFT JOIN temp_operadora ON t_dadostelefone.telefoneddd = temp_operadora.telefone
             WHERE t_dadostelefone.cpf_cnpj = $cpf_cnpj
@@ -253,7 +254,8 @@ class ConsultasController extends Controller
                         WHEN temp_operadora.operadora LIKE 'Numero nÃo encontrad' THEN 'Não encontrado'
                         ELSE temp_operadora.operadora
                     END AS operadora,
-                    temp_operadora.portado
+                    temp_operadora.portado,
+                    temp_operadora.whatsapp
             FROM temp_dadostelefone
             LEFT JOIN temp_operadora ON temp_dadostelefone.telefoneddd = temp_operadora.telefone
             WHERE temp_dadostelefone.cpf_cnpj = $cpf_cnpj
@@ -380,7 +382,8 @@ class ConsultasController extends Controller
                         WHEN temp_operadora.operadora LIKE 'Numero nÃo encontrad' THEN 'Não encontrado'
                         ELSE temp_operadora.operadora
                     END AS operadora,
-                    temp_operadora.portado
+                    temp_operadora.portado,
+                    temp_operadora.whatsapp
             FROM t_dadostelefone
             LEFT JOIN temp_operadora ON t_dadostelefone.telefoneddd = temp_operadora.telefone
             WHERE t_dadostelefone.cpf_cnpj = $cpf_cnpj
@@ -395,7 +398,8 @@ class ConsultasController extends Controller
                         WHEN temp_operadora.operadora LIKE 'Numero nÃo encontrad' THEN 'Não encontrado'
                         ELSE temp_operadora.operadora
                     END AS operadora,
-                    temp_operadora.portado
+                    temp_operadora.portado,
+                    temp_operadora.whatsapp
             FROM temp_dadostelefone
             LEFT JOIN temp_operadora ON temp_dadostelefone.telefoneddd = temp_operadora.telefone
             WHERE temp_dadostelefone.cpf_cnpj = $cpf_cnpj
@@ -736,6 +740,18 @@ class ConsultasController extends Controller
             }
         }
         return $arrayRewrite;
+    }
+
+    public function consultaWhats(Request $request){
+        $telefone = $request['telefone'];
+        $cpf_cnpj = $request['cpf_cnpj'];
+        $possuiWhats = $request['retorno'];
+
+        DB::connection('mysql2')->select(DB::raw("
+            INSERT INTO temp_operadora (telefone,cpf_cnpj,whatsapp)
+            VALUES ('$telefone','$cpf_cnpj','$possuiWhats')
+              ON DUPLICATE KEY UPDATE whatsapp = '$possuiWhats';
+        "));
     }
 
     /*

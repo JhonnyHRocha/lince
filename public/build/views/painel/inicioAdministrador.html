@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-12">
             <!-- CLIENTES ATIVOS -->
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <div class="widget style1 navy-bg">
                     <div class="row">
                         <div class="col-xs-4">
@@ -16,21 +16,21 @@
                 </div>
             </div>
             <!-- CLIENTES BLOQUEADOS -->
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <div class="widget style1 red-bg">
                     <div class="row">
                         <div class="col-xs-4">
                             <i class="fa fa-users fa-5x"></i>
                         </div>
                         <div class="col-xs-8 text-right">
-                            <span> Clientes Bloqueados </span>
+                            <span>Clientes Bloqueados</span>
                             <h2 class="font-bold">{{clienteStatus[0].bloqueado}}</h2>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- CLIENTES INATIVOS -->
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <div class="widget style1 lazur-bg">
                     <div class="row">
                         <div class="col-xs-4">
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <!-- REVENDEDORES -->
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <div class="widget style1 yellow-bg">
                     <div class="row">
                         <div class="col-xs-4">
@@ -57,11 +57,40 @@
                     </div>
                 </div>
             </div>
-
+            <!-- CLIENTES LOGADOS NO SISTEMA -->
+            <div class="col-lg-2">
+                <div class="widget style1 navy-bg">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <i class="fa fa-laptop fa-5x"></i>
+                        </div>
+                        <div class="col-xs-8 text-right">
+                            <span> Usuários Logados </span>
+                            <h2 class="font-bold">{{clienteStatus[0].logado}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CONSULTAS NO DIA ATUAL -->
+            <div class="col-lg-2">
+                <div class="widget style1">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <i class="fa fa-binoculars fa-5x"></i>
+                        </div>
+                        <div class="col-xs-8 text-right">
+                            <span> Consultas Hoje </span>
+                            <h2 class="font-bold">{{clienteStatus[0].consultas}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
             <div class="row">
                 <!-- RANKING DE VENDAS -->
-                <div class="col-xs-6 col-xs-offset-0">
+                <div class="col-lg-6 col-lg-offset-0">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>RANKING DE VENDAS</h5> <h6 class="pull-right" >Total de vendas: {{ranking[0].total_geral | currency:"R$ "}}</h6>
@@ -102,7 +131,7 @@
                 </div>
 
                 <!-- VENDAS NAO LIBERADAS -->
-                <div class="col-xs-6  col-xs-offset-0">
+                <div class="col-lg-6  col-lg-offset-0">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>VENDAS A LIBERAR</h5> <h6 class="pull-right" >Total de vendas: {{ranking[0].total_vendas_nao | currency:"R$ "}}</h6>

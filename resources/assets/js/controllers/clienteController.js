@@ -1,50 +1,14 @@
 angular.module('app.controllers')
     .controller('ClienteDashboardController', ['$scope','$uibModal','$cookies','$route', '$location', '$routeParams', '$http', '$filter', 'Cliente', 'ClienteDashboard','VendasCliente'
         ,function($scope,$uibModal,$cookies,$route,$location,$routeParams,$http,$filter,Cliente,ClienteDashboard,VendasCliente){
+            $scope.tipo_usuario = $cookies.getObject('user');
+            $scope.clientes = ClienteDashboard.query({id: $scope.tipo_usuario.id});
 
             //DECLARACAO DA VARIAVEL QUE IRA GUARDAR A INSTANCIA DO MODAL DE EXIBICAO
             var modalInstance = [];
 
             //DADOS DE USUÁRIO
             $scope.usuarios = [];
-
-            //DADOS E CONFIGURACOES PARA EXIBICAO DO CLIENTE
-            $scope.cliente = [];
-            $scope.totalClientes = 0;
-            $scope.clientesPerPage = 13;
-            $scope.maxSize = 5;
-            $scope.bigTotalItems = 100000;
-
-            //INICIA A VIEW COM A PAGINA 1 SENDO A PRINCIPAL
-            $scope.pagination = {
-                current: 1
-            };
-
-            $scope.pageChanged = function(newPage){
-                getResultsPage(newPage);
-            };
-
-            //PEGO O USUARIO QUE ESTA CONECTADO NO SISTEMA E PASSO COMO PARAMETRO O ID PARA IDENTIFICAR O TIPO DE USUARIO E TRAZER A QUERY
-            //DE ACORDO COM O SEU TIPO
-            function getResultsPage(pageNumber){
-                $scope.tipo_usuario = $cookies.getObject('user');
-                ClienteDashboard.query({
-                    id: $scope.tipo_usuario.id,
-                    page: pageNumber,
-                    orderBy: 'nome',
-                    sortedBy: 'desc',
-                    limit: $scope.clientesPerPage
-                }, function (response) {
-                    $scope.clientes = response.data;
-                    $scope.totalClientes = response.total;
-                });
-            }
-            getResultsPage(1);
-
-            $scope.filtro = function(pagina){
-                console.log($scope.filtered.length);
-            }
-
 
             //MODAL COM A OPCAO DE CONFIRMAR A EXCLUSAO DO CLIENTE OU CANCELAR A MESMA
             $scope.excluirCliente = function(cliente){
@@ -85,7 +49,7 @@ angular.module('app.controllers')
 
                 modalInstance.result.then(function(selectedItem) {
                 }, function() {
-                    getResultsPage(1);
+                    $scope.clientes = ClienteDashboard.query({id: $scope.tipo_usuario.id});
                 });
             };
 
